@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Interests</title>
+</head>
+<body>
+    <div class="container">
+        <form id="interestsForm">
+            <h2>Choose Your Interests</h2>
+            <!-- Add a hidden input field to store the username -->
+            <input type="hidden" id="username" name="username" value="user1">
+
+            <label for="interests">Type or choose from existing interests:</label>
+            <input type="text" id="interests" name="interests" placeholder="e.g., Programming, Travel, Cooking">
+
+            <!-- Dummy interests as bubbles -->
+            <div class="interest-bubbles" id="interestBubbles">
+                <!-- Interests will be added here dynamically -->
+            </div>
+
+            <button type="button" onclick="updateInterests()">Continue</button>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
