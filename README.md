@@ -24,14 +24,8 @@ Make sure you have the following installed on your machine:
     ```bash
     cd CSE210-Project
     ```
-
-3. **Checkout to dcInit branch:**
-
-    ```bash
-    git checkout dcInit
-    ```
-
-4. **Install Dependencies:**
+    
+3. **Install Dependencies:**
 
     Run the following command to install the project dependencies.
 
@@ -39,17 +33,17 @@ Make sure you have the following installed on your machine:
     npm install express body-parser cors
     ```
 
-5. **Start the Server:**
+4. **Start the Server:**
 
     Launch the Node.js server using the following command.
 
     ```bash
-    node server.js
+    node src/server.js
     ```
 
     The server will start running at `http://localhost:3000`.
 
-6. **Launch the Website:**
+5. **Launch the Website:**
 
     Open the project in Visual Studio Code and use the Live Server extension to launch the website.
 
