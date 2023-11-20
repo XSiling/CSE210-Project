@@ -74,4 +74,68 @@ a {
     background-color: #3498db;
 }
 
+
+#main{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    margin-top:50px;
+    margin-bottom:50px;
+    margin-left:50px;
+    margin-right:50px;
+    gap:40px;
+}
+
+#headChoosePage{
+    text-align:center;
+    flex-grow:2;
+    flex-basis:20px;
+}
+
+#formDiv{
+    flex-grow:5;
+    flex-basis:20px;
+}
+
+#informationForm{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+#nextPage{
+    flex-grow:1;
+    flex-basis:20px;
+    text-align:right;
+}
+
+#interestsButtons{
+    text-align:center;
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.interestsRadio{
+    padding:20px;
+    text-align:center;
+}
+
+.interestsContainer{
+    border: 3px solid #000;
+    border-radius: 5px;
+    display:inline;
+    /* padding: 10px; */
+    margin: 10px;
+}
+
+#account{
+    text-align:center;
+}
+
+#nextPageButton{
+    font-size:20px;
+    border-radius: 5px;
+}
 /* Add media queries for responsiveness if needed */

@@ -30,6 +30,8 @@ async function login() {
 // Function to update user interests
 async function updateInterests() {
     const username = document.getElementById('username').value;
+
+    // need to modify here
     const interestsInput = document.getElementById('interests');
     const interests = interestsInput.value.split(',');
 
@@ -79,3 +81,45 @@ async function loadRecommendations() {
 if (window.location.href.includes('recommendations.html')) {
     loadRecommendations();
 }
+
+
+function createInterestsButtons(){
+    const container = document.getElementById("interestsButtons");
+
+    // fetch from the database
+
+
+
+    // if not, predefined.
+    const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
+
+    radiosData.forEach(radioText => {
+        var container1 = document.createElement("div");
+        container1.className = "interestsContainer";
+
+        var radio = document.createElement("input");
+        
+        radio.type="checkbox";
+        radio.value=radioText;
+        radio.id=radioText;
+        radio.className = "interestsRadio";
+        radio.setAttribute('name', 'interests');
+        container1.appendChild(radio);
+
+        var radioLabel = document.createElement("label")
+        radioLabel.setAttribute('for', radioText);
+        radioLabel.innerText = radioText;
+        container1.appendChild(radioLabel);
+
+        container.appendChild(container1);
+    });
+
+}
+
+
+// Call when the interests page is loaded
+if (window.location.href.includes('interests.html')) {
+    createInterestsButtons();
+}
+
+
