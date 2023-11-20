@@ -8,21 +8,51 @@
 </head>
 <body>
     <div class="container">
-        <form id="interestsForm">
-            <h2>Choose Your Interests</h2>
+        <!-- <form id="interestsForm"> -->
+            <!-- <h2>Choose Your Interests</h2> -->
             <!-- Add a hidden input field to store the username -->
-            <input type="hidden" id="username" name="username" value="user1">
+            <!-- <input type="hidden" id="username" name="username" value="user1"> -->
 
-            <label for="interests">Type or choose from existing interests:</label>
-            <input type="text" id="interests" name="interests" placeholder="e.g., Programming, Travel, Cooking">
+            <!-- <label for="interests">Type or choose from existing interests:</label> -->
+            <!-- <input type="text" id="interests" name="interests" placeholder="e.g., Programming, Travel, Cooking"> -->
 
             <!-- Dummy interests as bubbles -->
-            <div class="interest-bubbles" id="interestBubbles">
+            <!-- <div class="interest-bubbles" id="interestBubbles"> -->
                 <!-- Interests will be added here dynamically -->
-            </div>
+            <!-- </div> -->
 
-            <button type="button" onclick="updateInterests()">Continue</button>
-        </form>
+            <!-- <button type="button" onclick="updateInterests()">Continue</button> -->
+        <!-- </form> -->
+        
+        <div id="main">
+            <div id="headChoosePage">
+                CHOOSE YOUR INTERESTS
+            </div>
+            <div id="formDiv">
+                <form id="interestsForm">
+                    <input type="hidden" id="username" name="username" value="user1">
+                    <div id="interests">
+                        <div id="interestsButtons">
+                            
+                        </div>
+                    </div>
+                    <div id="account">
+                        (Optional) Link with your ActivityPub account:
+                        <input type="text" value="Example: xxx@mastodon.social">
+                    </div>
+                </form>
+            </div>
+    
+            <div id="nextPage">
+                <button id="nextPageButton" onclick="updateInterests()">
+                    Next
+                </button>
+            </div>
+        </div>
+
+
+
+
     </div>
 
     <script src="script.js"></script>
