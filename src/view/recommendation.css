@@ -1,0 +1,19 @@
+@import url('../styles.css');
+
+.header-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.recommendation-bubbles {
+    display: flex;
+    flex-direction: column;
+}
+
+.recommendation-bubbles div {
+    border: 1px solid var(--clr-black);
+    padding: 10px;
+    margin: 10px;
+} 
