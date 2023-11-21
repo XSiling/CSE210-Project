@@ -212,7 +212,7 @@ a {
     white-space:nowrap;
     overflow-y:auto;
     scrollbar-width: none; /* firefox */
-    max-width: 400px;
+    max-width: 300px;
 }
 
 .interestsContainerLine::-webkit-scrollbar {
@@ -227,7 +227,7 @@ a {
 
 #interestsText{
     /* float:left; */
-    max-width: 60%;
+    max-width: 50%;
     padding:10px;
     margin:10px;
 }
