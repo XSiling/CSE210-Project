@@ -1,5 +1,6 @@
 body {
-    font-family: 'Helvetica Neue', sans-serif;
+    /* font-family: 'Helvetica Neue', sans-serif; */
+    font-family: 'Ubuntu', sans-serif;
     background-color: #fff;
     color: #333;
     margin: 0;
@@ -24,6 +25,10 @@ form {
 h2 {
     color: #333;
     text-align: center;
+}
+
+span{
+    text-align:center;
 }
 
 label {
@@ -118,16 +123,51 @@ a {
 }
 
 .interestsRadio{
-    padding:20px;
+    padding:5px;
     text-align:center;
+    display:inline-block;
+    width:auto;
 }
 
-.interestsContainer{
+
+
+.container .interestsContainer{
     border: 3px solid #000;
     border-radius: 5px;
-    display:inline;
-    /* padding: 10px; */
+    display:inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
     margin: 10px;
+}
+
+.interestsContainerLine{
+    white-space:nowrap;
+    overflow-y:auto;
+    scrollbar-width: none; /* firefox */
+    max-width: 400px;
+}
+
+.interestsContainerLine::-webkit-scrollbar {
+    display: none; /* Chrome Safari */
+  }
+
+.interestsLabel{
+    word-wrap:break-word;
+    display:inline-block;
+}
+
+
+#interestsText{
+    /* float:left; */
+    max-width: 60%;
+    padding:10px;
+    margin:10px;
+}
+
+#interestsTextButton{
+    font-size: 14px;
+    border-radius: 5px;
+    margin:10px;
 }
 
 #account{
@@ -138,4 +178,6 @@ a {
     font-size:20px;
     border-radius: 5px;
 }
+
+
 /* Add media queries for responsiveness if needed */

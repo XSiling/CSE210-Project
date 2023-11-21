@@ -77,6 +77,19 @@ async function loadRecommendations() {
     }
 }
 
+function addInterest(){
+    const interest = document.getElementById("interestsText").value;
+    const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
+    const idx = radiosData.indexOf(interest);
+    if (idx==-1){
+        alert("No such existed interests.");
+    }else{
+        const checkboxItem = document.getElementById(interest);
+        checkboxItem.checked=true;
+    }
+
+}
+
 // Call loadRecommendations when the recommendations page is loaded
 if (window.location.href.includes('recommendations.html')) {
     loadRecommendations();
@@ -92,27 +105,31 @@ function createInterestsButtons(){
 
     // if not, predefined.
     const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
-
-    radiosData.forEach(radioText => {
+    const lineNumber = 6;
+    const eachLineNumber = radiosData.length/6;
+    
+    var line=0;
+    
+    for(line; line<lineNumber; ++line){
         var container1 = document.createElement("div");
-        container1.className = "interestsContainer";
+        container1.setAttribute('class', 'interestsContainerLine')
+        // container1.className = "interestsContainer";
 
-        var radio = document.createElement("input");
-        
-        radio.type="checkbox";
-        radio.value=radioText;
-        radio.id=radioText;
-        radio.className = "interestsRadio";
-        radio.setAttribute('name', 'interests');
-        container1.appendChild(radio);
+        radiosData.slice(line*eachLineNumber,(line+1)*eachLineNumber).forEach(radioText=>{
+            var container2 = document.createElement("div");
+            container2.setAttribute("class", "interestsContainer");
 
-        var radioLabel = document.createElement("label")
-        radioLabel.setAttribute('for', radioText);
-        radioLabel.innerText = radioText;
-        container1.appendChild(radioLabel);
+            var radioLabel = document.createElement("label");
+            radioLabel.setAttribute("for", radioText);
+            radioLabel.setAttribute("class", "interestsLabel");
+            radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText + 
+            '" name="interests" class="interestsRadio">' + radioText;
+            container2.appendChild(radioLabel);
+            container1.appendChild(container2);
+        })
 
         container.appendChild(container1);
-    });
+    }
 
 }
 

@@ -4,31 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
     <title>Interests</title>
 </head>
 <body>
     <div class="container">
-        <!-- <form id="interestsForm"> -->
-            <!-- <h2>Choose Your Interests</h2> -->
-            <!-- Add a hidden input field to store the username -->
-            <!-- <input type="hidden" id="username" name="username" value="user1"> -->
-
-            <!-- <label for="interests">Type or choose from existing interests:</label> -->
-            <!-- <input type="text" id="interests" name="interests" placeholder="e.g., Programming, Travel, Cooking"> -->
-
-            <!-- Dummy interests as bubbles -->
-            <!-- <div class="interest-bubbles" id="interestBubbles"> -->
-                <!-- Interests will be added here dynamically -->
-            <!-- </div> -->
-
-            <!-- <button type="button" onclick="updateInterests()">Continue</button> -->
-        <!-- </form> -->
-        
         <div id="main">
             <div id="headChoosePage">
-                CHOOSE YOUR INTERESTS
+                <h2>CHOOSE YOUR INTERESTS</h2>
             </div>
             <div id="formDiv">
+                <span>
+                    <input type="text" id="interestsText">
+                    <button id="interestsTextButton" onclick="addInterest()">Select</button>
+                </span>
                 <form id="interestsForm">
                     <input type="hidden" id="username" name="username" value="user1">
                     <div id="interests">
@@ -36,9 +27,12 @@
                             
                         </div>
                     </div>
+
+                    <br>
+
                     <div id="account">
-                        (Optional) Link with your ActivityPub account:
-                        <input type="text" value="Example: xxx@mastodon.social">
+                        <h2>(Optional) Link with your ActivityPub account:</h2>
+                        <input type="email" placeholder="xxx@mastodon.social">
                     </div>
                 </form>
             </div>
