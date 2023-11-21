@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap');
+
 body {
-    font-family: 'Helvetica Neue', sans-serif;
-    background-color: #fff;
-    color: #333;
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #CCCCCC;
+    color: #666666;
     margin: 0;
     padding: 0;
 }
@@ -36,7 +38,7 @@ input {
     width: 100%;
     box-sizing: border-box;
 }
-
+/* 
 button {
     margin-top: 20px;
     padding: 12px;
@@ -45,13 +47,40 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+} */
+
+button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #6699CC; /* 蓝色背景 */
+    color: white; /* 白色文本 */
+    border: none; /* 无边框 */
+    padding: 10px 20px; /* 内边距 */
+    border-radius: 5px;
+    cursor: pointer; /* 鼠标样式 */
+}
+
+button:hover {
+    background-color: #5577AA; /* 深一点的蓝色背景 */
+}
+
+button:hover {
+    background-color: #5577AA; /* 深一点的蓝色背景 */
 }
 
 a {
-    color: #3498db;
+    color: #6699CC;
     text-decoration: none;
     margin-top: 15px;
     font-weight: bold;
+}
+
+form {
+    /* 设定表单样式 */
+    background: white; /* 白色背景 */
+    padding: 20px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 盒子阴影 */
 }
 
 .interest-bubbles, .recommendation-bubbles {
