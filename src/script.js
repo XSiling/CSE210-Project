@@ -32,8 +32,15 @@ async function updateInterests() {
     const username = document.getElementById('username').value;
 
     // need to modify here
-    const interestsInput = document.getElementById('interests');
-    const interests = interestsInput.value.split(',');
+    const interestsList = document.getElementsByClassName("interestsRadio");
+    const interests = [];
+
+    for(var i=0; i<interestsList.length; ++i){
+        interests.push(interestsList[i].checked);
+    }
+    
+    // const interestsInput = document.getElementById('interests');
+    // const interests = interestsInput.value.split(',');
 
     try {
         const response = await fetch('http://localhost:3000/interests', {
