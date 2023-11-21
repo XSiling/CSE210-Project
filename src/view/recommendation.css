@@ -4,16 +4,16 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
-.recommendation-bubbles {
+.recommendation-section {
     display: flex;
     flex-direction: column;
 }
 
-.recommendation-bubbles div {
+.recommendation-section div {
     border: 1px solid var(--clr-black);
+    border-radius: .25rem;
     padding: 10px;
     margin: 10px;
 } 

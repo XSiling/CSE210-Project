@@ -1,0 +1,23 @@
+{
+  "name": "cse210-project",
+  "version": "1.0.0",
+  "description": "CSE-210 Project",
+  "source": "/src/login.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/XSiling/CSE210-Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/XSiling/CSE210-Project/issues"
+  },
+  "homepage": "https://github.com/XSiling/CSE210-Project#readme",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "bootstrap": "^5.3.2"
+  }
+}
