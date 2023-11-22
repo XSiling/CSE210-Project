@@ -17,8 +17,8 @@ async function login() {
         const data = await response.json();
 
         if (data.success) {
-            // Redirect to interests page on successful login
-            window.location.href = 'interests.html';
+            // Redirect to recommendations page on successful login
+            window.location.href = 'recommendations.html';
         } else {
             alert(data.message);
         }
@@ -26,6 +26,42 @@ async function login() {
         console.error('Error during login:', error);
     }
 }
+
+// Function to handle registration
+async function register() {
+    const username = document.getElementById('newUsername').value;
+    const password = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const email = document.getElementById('email').value;
+
+    // make sure the passward matches
+    if (password !== confirmPassword) {
+        alert("Passwords do not match");
+        return;
+    }
+
+    try {
+        const response = await fetch('http://localhost:3000/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password, email }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            //After successful registration, process accordingly, such as redirecting to the login page
+            window.location.href = 'login.html';
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error during registration:', error);
+    }
+}
+
 
 // Function to update user interests
 async function updateInterests() {

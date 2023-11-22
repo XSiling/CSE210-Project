@@ -1,78 +1,10 @@
-/* google font */
-/* TODO */
-/* Need Modify */
-@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Righteous&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap");
-
-/* constant */
-:root {
-  --clr-white: #fff;
-  --clr-black: #000;
-  --clr-dark: #04020e;
-  --clr-primary: #cccccc;
-  --clr-secondary: #6699cc;
-  --clr-component: #666666;
-  --font-family-barlow: "Barlow", sans-serif;
-  --font-family-poppins: "Poppins", sans-serif;
-  --font-family-right: "Righteous", cursive;
-  --transition-default: all 300ms ease-in-out;
-}
-
-/* default style */
-*,
-*::after,
-*::before {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  scroll-behavior: smooth;
-}
-
-html {
-  font-size: 10px;
-}
-
 body {
-  font-size: 1.6rem;
-  line-height: 1.6;
-  font-family:'Ubuntu', sans-serif;
-  color: #333;
+    font-family: 'Helvetica Neue', sans-serif;
+    background-color: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
 }
-
-ul {
-  list-style-type: none;
-}
-
-a,
-.nav-link {
-  text-decoration: none;
-  color: var(--clr-dark);
-}
-
-button {
-  cursor: pointer;
-  outline: 0;
-  border: none;
-  background-color: transparent;
-  font-family: inherit;
-  transition: var(--transition-default);
-}
-
-input,
-textarea,
-select {
-  outline: 0;
-  border: none;
-  resize: none;
-  font-family: inherit;
-  font-size: 1.6rem;
-}
-
-/* body {
-  font-family: "Helvetica Neue", sans-serif;
-  background-color: #fff;
-  color: #333;
-} */
 
 .container {
   max-width: 400px;
@@ -108,22 +40,38 @@ input {
   width: 100%;
   box-sizing: border-box;
 }
-
+/* 
 button {
-  margin-top: 20px;
-  padding: 12px;
-  background-color: #1db954;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #1db954;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 a {
-  color: #3498db;
-  text-decoration: none;
-  margin-top: 15px;
-  font-weight: bold;
+    color: #3498db;
+    text-decoration: none;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+form {
+    /* 设定表单样式 */
+    background: white; /* 白色背景 */
+    padding: 20px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 盒子阴影 */
+}
+
+form {
+    /* 设定表单样式 */
+    background: white; /* 白色背景 */
+    padding: 20px; /* 内边距 */
+    border-radius: 5px; /* 边角圆滑 */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 盒子阴影 */
 }
 
 .interest-bubbles,
