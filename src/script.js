@@ -148,7 +148,7 @@ function createInterestsButtons(){
 
     // if not, predefined.
     const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
-    const lineNumber = 6;
+    const lineNumber = 5;
     const eachLineNumber = radiosData.length/6;
     
     var line=0;

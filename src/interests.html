@@ -12,36 +12,42 @@
 <body>
     <div class="container">
         <div id="main">
-            <div id="headChoosePage">
-                <h2>CHOOSE YOUR INTERESTS</h2>
-            </div>
-            <div id="formDiv">
-                <span>
-                    <input type="text" id="interestsText">
-                    <button id="interestsTextButton" onclick="addInterest()">Select</button>
-                </span>
-                <form id="interestsForm">
-                    <input type="hidden" id="username" name="username" value="user1">
-                    <div id="interests">
-                        <div id="interestsButtons">
-                            
+            
+            <form id="interestsForm">
+
+                <div id="headChoosePage">
+                    <h2>CHOOSE YOUR INTERESTS</h2>
+                </div>
+                <div id="formDiv">
+                    <div id="interestsDiv">
+                        <input type="text" id="interestsText">
+                        <button id="interestsTextButton" type="button" onclick="addInterest()">Select</button>
+                    </div>
+
+
+
+                        <input type="hidden" id="username" name="username" value="user1">
+                        <div id="interests">
+                            <div id="interestsButtons">
+                                
+                            </div>
                         </div>
-                    </div>
 
-                    <br>
+                        <br>
 
-                    <div id="account">
-                        <h2>(Optional) Link with your ActivityPub account:</h2>
-                        <input type="email" placeholder="xxx@mastodon.social">
-                    </div>
-                </form>
-            </div>
-    
-            <div id="nextPage">
-                <button id="nextPageButton" onclick="updateInterests()">
-                    Next
-                </button>
-            </div>
+                        <div id="account">
+                            <h2>(Optional) Link with your ActivityPub account:</h2>
+                            <input type="email" placeholder="xxx@mastodon.social">
+                        </div>
+
+                </div>
+
+                <div id="nextPage">
+                    <button id="nextPageButton" onclick="updateInterests()">
+                        Next
+                    </button>
+                </div>
+            </form>
         </div>
 
 
