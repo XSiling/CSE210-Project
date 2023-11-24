@@ -166,7 +166,7 @@ function createInterestsButtons(){
             radioLabel.setAttribute("for", radioText);
             radioLabel.setAttribute("class", "interestsLabel");
             radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText + 
-            '" name="interests" class="interestsRadio">' + radioText;
+            '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
         })
