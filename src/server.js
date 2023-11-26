@@ -8,10 +8,21 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+
 let users = [];
 
 app.post('/register', async (req, res) => {
-    const { username, password } = req.body;
+    const { username, password, confirmPassword } = req.body;
+
+    // Check if either username, password, or confirmPassword is missing
+    if (!username || !password || !confirmPassword) {
+        return res.status(400).json({ success: false, message: 'Username and password are required' });
+    }
+
+    // Check if the password and confirmPassword match
+    if (password !== confirmPassword) {
+        return res.status(400).json({ success: false, message: 'Passwords do not match' });
+    }
 
     // Check if the username is already taken
     if (users.some(u => u.username === username)) {
@@ -26,6 +37,7 @@ app.post('/register', async (req, res) => {
 
     res.json({ success: true, message: 'Registration successful' });
 });
+
 
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
@@ -70,6 +82,8 @@ app.get('/recommendations/:username', (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+module.exports = { app, users, server };

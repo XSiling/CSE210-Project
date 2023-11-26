@@ -46,13 +46,13 @@ async function register() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password}),
+            body: JSON.stringify({ username, password, confirmPassword}),
         });
 
         const data = await response.json();
 
         if (data.success) {
-            //After successful registration, process accordingly, such as redirecting to the login page
+            alert(data.message);
             window.location.href = 'interests.html';
         } else {
             alert(data.message);
