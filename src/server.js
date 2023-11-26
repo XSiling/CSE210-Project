@@ -1,24 +1,45 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors'); 
+const cors = require('cors');
+const bcrypt = require('bcrypt');
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
 
-// Dummy user data for testing
-let users = [
-    { username: 'user1', password: 'pass1', interests: ['Programming', 'Music'] },
-    { username: 'user2', password: 'pass2', interests: ['Travel', 'Cooking'] },
-];
+let users = [];
 
-app.post('/login', (req, res) => {
+app.post('/register', async (req, res) => {
     const { username, password } = req.body;
-    const user = users.find(u => u.username === username && u.password === password);
+
+    // Check if the username is already taken
+    if (users.some(u => u.username === username)) {
+        return res.status(400).json({ success: false, message: 'Username already exists' });
+    }
+
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Add the new user
+    users.push({ username, hashedPassword, interests: [] });
+
+    res.json({ success: true, message: 'Registration successful' });
+});
+
+app.post('/login', async (req, res) => {
+    const { username, password } = req.body;
+    const user = users.find(u => u.username === username);
 
     if (user) {
-        res.json({ success: true, message: 'Login successful' });
+        // Compare hashed password
+        const match = await bcrypt.compare(password, user.hashedPassword);
+
+        if (match) {
+            res.json({ success: true, message: 'Login successful' });
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
     } else {
         res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
