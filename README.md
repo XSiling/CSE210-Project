@@ -55,3 +55,8 @@ Make sure you have the following installed on your machine:
     Login using `{user1: pass1}`.
 
 
+
+
+
+For Recommendation system:
+pip3 install Mastodon.py
