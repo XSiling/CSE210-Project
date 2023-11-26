@@ -53,7 +53,7 @@ async function register() {
 
         if (data.success) {
             //After successful registration, process accordingly, such as redirecting to the login page
-            window.location.href = 'login.html';
+            window.location.href = 'interests.html';
         } else {
             alert(data.message);
         }
