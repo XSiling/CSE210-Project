@@ -27,3 +27,15 @@ document.addEventListener("DOMContentLoaded", function () {
   createList(items, "listContainer2");
   createList(items, "listContainer3");
 });
+
+
+
+async function editProfile(){
+  const smallWindow = document.getElementById("container-profile");
+  smallWindow.style.display = 'block';
+}
+
+async function closeProfile(){
+  const smallWindow = document.getElementById('container-profile');
+  smallWindow.style.display = 'none';
+}

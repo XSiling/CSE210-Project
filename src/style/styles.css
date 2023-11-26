@@ -15,6 +15,23 @@ body {
   border-radius: 10px;
 }
 
+#container-profile{
+  display:none;
+  max-width: 50%;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  box-shadow: 0 0 10px rgba(0,0,0);
+  border-radius:10px;
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+
+#container-profile #interestsTextButton{
+  float:center;
+}
+
 form {
   display: flex;
   flex-direction: column;
@@ -134,7 +151,12 @@ form {
   /* height:200px; */
   display: flex;
   margin:0 auto;
+  justify-content: center;
 }
+
+div#interestsDiv {}
+
+div#interestsDiv {}
 
 input[type="checkbox"]:checked+i {
   background-color: #666666;
@@ -171,6 +193,10 @@ i{
   flex-wrap: wrap;
   width: 95%;
   justify-content: center;
+}
+
+#container-profile #interestsButtons {
+    max-width: 60%;
 }
 
 

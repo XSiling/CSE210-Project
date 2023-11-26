@@ -120,6 +120,8 @@ async function loadRecommendations() {
     }
 }
 
+
+
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
     const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
@@ -136,6 +138,7 @@ function addInterest(){
 // Call loadRecommendations when the recommendations page is loaded
 if (window.location.href.includes('recommendations.html')) {
     loadRecommendations();
+    createInterestsButtons();
 }
 
 
@@ -181,5 +184,4 @@ function createInterestsButtons(){
 if (window.location.href.includes('interests.html')) {
     createInterestsButtons();
 }
-
 

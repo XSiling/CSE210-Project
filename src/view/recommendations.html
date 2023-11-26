@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../style/styles.css" />
     <link rel="stylesheet" href="../style/main.css" />
     <link rel="stylesheet" href="../style/main.css.map" />
     <link rel="stylesheet" href="./recommendation.css" />
@@ -11,12 +11,34 @@
   </head>
   <body>
     <div class="container">
+      <div id="container-profile">
+        <div id="main">
+            <form id="interestsForm">
+                <div id="formDiv">
+                    <div id="interestsDiv">
+                        <button id="interestsTextButton" type="button" onclick="closeProfile()">Close</button>
+                    </div>
+                        <input type="hidden" id="username" name="username" value="user1">
+                        <div id="interests">
+                            <div id="interestsButtons">
+                                
+                            </div>
+                        </div>
+                        
+                </div>
+            </form>
+        </div>
+      </div>
+
+
+
+
       <div class="d-flex text-center">
         <section
           class="profile-section col-3 d-flex flex-column justify-content-center align-items-center"
         >
           <img width="300" height="300" />
-          <button class="edit-profile-btn">Edit Profile</button>
+          <button class="edit-profile-btn" onclick="editProfile()">Edit Profile</button>
         </section>
         <div class="col-9">
           <section class="header-section">
@@ -33,5 +55,6 @@
     </div>
 
     <script src="../components/recommendation.js"></script>
+    <script src="../script.js"></script>
   </body>
 </html>
