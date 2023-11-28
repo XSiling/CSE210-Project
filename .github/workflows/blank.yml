@@ -32,10 +32,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Navigate to the project directory
-      - name: Navigate to project directory
-        run: cd CSE210-Project
-
       # Install dependencies
       - name: Install dependencies
         run: npm install
