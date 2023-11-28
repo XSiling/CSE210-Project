@@ -27,4 +27,19 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '21.2.0'
-      - run: npm test
+
+      # Checkout the repository
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Navigate to the project directory
+      - name: Navigate to project directory
+        run: cd CSE210-Project
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Run tests
+      - name: Run tests
+        run: npm test
