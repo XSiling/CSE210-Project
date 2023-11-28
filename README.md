@@ -60,3 +60,19 @@ Make sure you have the following installed on your machine:
 
 For Recommendation system:
 pip3 install Mastodon.py
+python -m pip install mysql-connector-python
+
+
+Create an env.py file as follows:
+
+
+"""
+import os
+
+# Set environment variables
+os.environ['Mastodon_username'] = 'Your mastodon email'
+os.environ['Mastodon_password'] = 'Your mastodon password'
+"""
+
+
+
