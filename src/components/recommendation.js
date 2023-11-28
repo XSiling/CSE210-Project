@@ -20,7 +20,9 @@ function createList(items, containerId) {
   container.appendChild(list);
 }
 
+
 const items = ["Apple", "Banana", "Cherry"];
+
 
 document.addEventListener("DOMContentLoaded", function () {
   createList(items, "listContainer1");

@@ -53,7 +53,7 @@ async function register() {
 
         if (data.success) {
             alert(data.message);
-            window.location.href = 'interests.html';
+            window.location.href = '../view/interests.html';
         } else {
             alert(data.message);
         }
