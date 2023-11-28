@@ -1,8 +1,13 @@
-# CSE210-Recommend-Project
+# CSE210-Recommender-Project
 
-# Project Title
+**CSE-210 Project**
 
-CSE-210 Project
+## Table of Contents
+
+1. [Prerequisites](#prerequisites)
+2. [Getting Started](#getting-started)
+3. [Additional Setup](#additional-setup)
+4. [Detailed Documentation](#documentation-references)
 
 ## Prerequisites
 
@@ -52,11 +57,31 @@ Make sure you have the following installed on your machine:
 
     This will open your website in a new browser window/tab.
 
-    Login using `{user1: pass1}`.
+## Additional Setup
 
+For the recommendation system, you need to install the following:
 
-
-
-
-For Recommendation system:
+```bash
 pip3 install Mastodon.py
+python -m pip install mysql-connector-python
+```
+
+
+### Set environment variables
+Create an env.py file as follows:
+
+
+```python
+import os
+os.environ['Mastodon_username'] = 'Your mastodon email'
+os.environ['Mastodon_password'] = 'Your mastodon password'
+```
+
+## Documentation References
+
+For more details on implementational functionality and tests, refer to individual function and API pages.
+
+- [Login Functionality](docs/backend/login.md)
+- [Registration Functionality](docs/backend/register.md)
+
+
