@@ -1,6 +1,6 @@
 const request = require('supertest');
 const bcrypt = require('bcrypt');
-const { app, users, server } = require('../server');
+const { app, users, server } = require('../src/server');
 
 describe('POST /register', () => {
     afterAll(done => {
