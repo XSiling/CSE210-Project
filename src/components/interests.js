@@ -33,6 +33,13 @@ function addInterest(){
 
 }
 
+
+function fetchUsername(){
+    const url = window.location.href;
+    const username = url.split('=')[1];
+    document.getElementById("username").setAttribute("value", username);
+}
+
 function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
@@ -131,10 +138,51 @@ function createInterestsButtons(){
 
 }
 
+var maxChoices = 5;
+var flag = 0;
+ 
+function onCheckBox(checkbox)
+{
+    console.log("oncheckbox");
+	var items = document.getElementsByName("interestsRadio");
+	if(checkbox.checked)
+	{
+		flag ++;
+	}
+	else
+	{
+		flag --;
+	}
+	
+	if(flag < maxChoices)
+	{
+		for(var i=0; i<items.length; i++)
+		{
+			if(!items[i].checked)
+			{
+				items[i].disabled = false;
+			}
+		}
+	}
+	else
+	{
+		for(var i=0; i<items.length; i++)
+		{
+			if(!items[i].checked)
+			{
+				items[i].disabled = true;
+			}
+		}
+	}
+	
+	
+}
+
 
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {
     createInterestsButtons();
+    fetchUsername();
 }
 

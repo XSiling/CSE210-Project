@@ -62,6 +62,8 @@ app.post('/login', async (req, res) => {
 });
 
 app.post('/interests', (req, res) => {
+    debugger
+    console.log(users);
     const { username, interests } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
@@ -69,7 +71,9 @@ app.post('/interests', (req, res) => {
         users[userIndex].interests = interests;
         res.json({ success: true, message: 'Interests updated successfully' });
     } else {
-        res.status(404).json({ success: false, message: 'User not found' });
+        users.push({ username, hashedPassword, interests: interests });
+        res.json({ success: true, message: 'Interests updated successfully' });
+        // res.status(404).json({ success: false, message: 'User not found' });
     }
 });
 
