@@ -11,6 +11,8 @@ function fetchRecommendations(interests) {
     })
     .then((data) => {
     //   console.log(data);
+      const container = document.getElementById("postContainer");
+      container.innerHTML = "";
       if (Array.isArray(interests)) {
         interests.forEach((interest) => {
           if(data.hasOwnProperty(interest)) {
