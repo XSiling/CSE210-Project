@@ -15,5 +15,4 @@ def log_in():
         os.environ.get('Mastodon_password'),
         to_file = 'pytooter_usercred.secret'
     )
-
     return mastodon

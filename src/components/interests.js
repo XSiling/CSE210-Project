@@ -1,7 +1,28 @@
 
+
+const interestsData = [
+    ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
+    ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
+    ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
+    ["Digital","Data", "Innovation","Gadgets","Software", "Internet", "Cybersecurity", "Programming"],
+    ["Finance", "Business", "Investment", "Banking", "Markets", "Stocks", "Wealth", "Budgeting"],
+    ["Home", "Pet", "Family", "Domestic", "Decor", "Garden", "Housing", "Comfort"],
+    ["Book", "School", "Library", "Learning", "Knowledge", "Study", "Research", "Literature"],
+    ["Sport", "Athletics", "Exercise", "Fitness", "Competition", "Games", "Outdoor", "Adventure"],
+    ["Emotion", "Relationship", "Charity", "Love", "Empathy", "Advocacy", "Philanthropy", "Volunteer"],
+]
+const interestsCategory = [
+    'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
+]
+const category = 9;
+
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
-    const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
+
+    let radiosData = [];
+    for (var i=0; i< interestsData.length; ++i){
+        radiosData = radiosData.concat(interestsData[i]);
+    }
     const idx = radiosData.indexOf(interest);
     if (idx==-1){
         alert("No such existed interests.");
@@ -10,6 +31,33 @@ function addInterest(){
         checkboxItem.checked=true;
     }
 
+}
+
+
+function fetchUsername(){
+    const url = window.location.href;
+    const username = url.split('=')[1];
+    document.getElementById("username").setAttribute("value", username);
+}
+
+function expand(){
+    var elements = document.getElementsByClassName("interestsContainerLine");
+    for(var i=5; i<category;++i){
+        elements[i].style.display = 'block';
+    }
+    document.getElementById("expandButton").style.display = 'none';
+    document.getElementById("closeButton").style.display = 'block';
+}
+
+function close(){
+    console.log("close");
+    var elements = document.getElementsByClassName("interestsContainerLine");
+    for(var i=5;i<category;++i){
+        elements[i].style.display = 'none';
+    }
+    document.getElementById("expandButton").style.display = 'block';
+    document.getElementById("closeButton").style.display = 'none';
+    console.log("close!");
 }
 
 
@@ -22,17 +70,31 @@ function createInterestsButtons(){
 
     // if not, predefined.
     const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
-    const lineNumber = 5;
-    const eachLineNumber = radiosData.length/6;
-    
+
     var line=0;
     
-    for(line; line<lineNumber; ++line){
+    for(line; line<category; ++line){
+
+        //expand button
+        if(line==5){
+            var expandButton = document.createElement("button");
+            expandButton.setAttribute("onclick", "expand()");
+            expandButton.setAttribute("type", "button");
+            expandButton.setAttribute("id", "expandButton");
+            expandButton.innerHTML="EXPAND";
+            container.appendChild(expandButton);
+        }
+
         var container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
         // container1.className = "interestsContainer";
 
-        radiosData.slice(line*eachLineNumber,(line+1)*eachLineNumber).forEach(radioText=>{
+        var containerLabel = document.createElement("div");
+        containerLabel.setAttribute("class", "interestsContainerLabel");
+        containerLabel.innerHTML = interestsCategory[line] + "<hr>";
+        container1.appendChild(containerLabel);
+
+        interestsData[line].forEach(radioText=>{
             var container2 = document.createElement("div");
             container2.setAttribute("class", "interestsContainer");
 
@@ -48,11 +110,79 @@ function createInterestsButtons(){
         container.appendChild(container1);
     }
 
+    // close button
+    var closeButton = document.createElement("button");
+    closeButton.setAttribute("onclick", "close()");
+    closeButton.setAttribute("type", "button");
+    closeButton.setAttribute("id", "closeButton");
+    closeButton.innerHTML = "CLOSE";
+    container.appendChild(closeButton);
+
+    console.log("here");
+    close();
+
+
+    document.onclick = function(event) {
+        var el = event.target;
+        if (el.id == "expandButton") {
+            expand();
+        }
+    };
+
+    document.onclick = function(event) {
+        var el = event.target;
+        if (el.id == "closeButton") {
+            close();
+        }
+    };
+
 }
+
+var maxChoices = 5;
+var flag = 0;
+ 
+function onCheckBox(checkbox)
+{
+    console.log("oncheckbox");
+	var items = document.getElementsByName("interestsRadio");
+	if(checkbox.checked)
+	{
+		flag ++;
+	}
+	else
+	{
+		flag --;
+	}
+	
+	if(flag < maxChoices)
+	{
+		for(var i=0; i<items.length; i++)
+		{
+			if(!items[i].checked)
+			{
+				items[i].disabled = false;
+			}
+		}
+	}
+	else
+	{
+		for(var i=0; i<items.length; i++)
+		{
+			if(!items[i].checked)
+			{
+				items[i].disabled = true;
+			}
+		}
+	}
+	
+	
+}
+
 
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {
     createInterestsButtons();
+    fetchUsername();
 }
 
