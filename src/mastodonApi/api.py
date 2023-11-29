@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/get_recommendations', methods=['GET'])
 def get_recommendations():
-    with open('./recommendations.json', 'r') as file:
+    with open('./recommendations_ref.json', 'r') as file:
         data = json.load(file)
     return jsonify(data)
 
@@ -22,4 +22,3 @@ if __name__ == '__main__':
     recThread = threading.Thread(target=updateRecs)
     recThread.start()
     app.run(port=5000)
-    

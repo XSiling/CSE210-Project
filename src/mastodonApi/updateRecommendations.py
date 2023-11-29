@@ -13,6 +13,8 @@ userInterests = [
     'Comic', 'Recreation', 'Heritage', 'Programming', 'Budgeting', 'Comfort', 'Literature', 'Adventure', 'Volunteering'
 ]
 
+
+
 def updateRecs():
     while True:
         recommendations = {}
@@ -20,9 +22,14 @@ def updateRecs():
         for interest in userInterests:
             recommendations[interest]={}
             recommendations[interest]['top2FollowedAccounts'], recommendations[interest]['top2Posts'] = searchInterest(interest)
-            time.sleep(5*60)
+            
 
         json_object = json.dumps(recommendations, default=str, indent=4)
         
         with open("recommendations.json", "w") as outfile:
             outfile.write(json_object)
+    
+        time.sleep(6*60*60) # Refresh recommendations every 6 hours
+
+
+# updateRecs()
