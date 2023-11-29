@@ -57,10 +57,12 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
     const { username, interests } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
+    // Update user interests in backend if user is located
     if (userIndex !== -1) {
         users[userIndex].interests = interests;
         res.json({ success: true, message: 'Interests updated successfully' });
