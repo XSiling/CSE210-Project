@@ -121,6 +121,7 @@ async function loadRecommendations() {
     }
 }
 
+// Add an interest selection through the textbox instead of clicking on it
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
     const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];

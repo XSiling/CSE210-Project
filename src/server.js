@@ -1,3 +1,4 @@
+// Express.js Initializations
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,6 +12,7 @@ app.use(cors());
 
 let users = [];
 
+// Registration function
 app.post('/register', async (req, res) => {
     const { username, password, confirmPassword } = req.body;
 
@@ -39,6 +41,7 @@ app.post('/register', async (req, res) => {
 });
 
 
+// Login function
 app.post('/login', async (req, res) => {
     const { username, password } = req.body;
     const user = users.find(u => u.username === username);
@@ -71,6 +74,7 @@ app.post('/interests', (req, res) => {
     }
 });
 
+// GET user recommendations from endpoint
 app.get('/recommendations/:username', (req, res) => {
     const { username } = req.params;
     const user = users.find(u => u.username === username);
