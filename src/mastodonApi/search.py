@@ -9,8 +9,8 @@ def searchInterest(interest):
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
     searchResults = client.search(interest)
-
     searchResults['accounts'].sort(key=lambda account: account['followers_count'], reverse = True)
+
     top2FollowedAccounts = random.sample(searchResults['accounts'][:int(0.1*len(searchResults['accounts']))], 2) 
     top10FollowedAccounts = searchResults['accounts'][:10]
     top5Hastags = searchResults['hashtags'][:5]
