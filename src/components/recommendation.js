@@ -20,10 +20,24 @@ function createList(items, containerId) {
   container.appendChild(list);
 }
 
+
 const items = ["Apple", "Banana", "Cherry"];
+
 
 document.addEventListener("DOMContentLoaded", function () {
   createList(items, "listContainer1");
   createList(items, "listContainer2");
   createList(items, "listContainer3");
 });
+
+
+
+async function editProfile(){
+  const smallWindow = document.getElementById("container-profile");
+  smallWindow.style.display = 'block';
+}
+
+async function closeProfile(){
+  const smallWindow = document.getElementById('container-profile');
+  smallWindow.style.display = 'none';
+}
