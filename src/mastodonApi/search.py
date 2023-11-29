@@ -1,6 +1,5 @@
 from login import log_in
 import random
-import json
 
 client = log_in()
 
@@ -18,19 +17,19 @@ def searchInterest(interest):
 
     top2FollowedAccounts = random.sample(searchResults['accounts'][:int(0.1*len(searchResults['accounts']))], 2) 
     top10FollowedAccounts = searchResults['accounts'][:10]
-    topHastags = searchResults['hashtags']
+    top5Hastags = searchResults['hashtags'][:5]
 
     topPosts = []
     for account in top10FollowedAccounts:
         account_statuses = client.account_statuses(account['id'])
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)
-        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], 2)
+        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], min(len(account_statuses), 2))
 
     
-    for hashtag in topHastags:
+    for hashtag in top5Hastags:
         account_statuses = client.timeline_hashtag(hashtag['name'])
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)
-        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], 2)
+        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], min(len(account_statuses), 2))
 
     top2Posts = random.sample(topPosts, 2)
 
@@ -65,4 +64,4 @@ def recommendPeople(userMastodonURL):
     
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
 
-    return json.dumps(recommendedPeople, default=str)
+    return recommendedPeople
