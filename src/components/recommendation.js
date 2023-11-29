@@ -19,7 +19,7 @@ function fetchRecommendations() {
 
 // Fetch recommendation list (5) from flask backend
 function fetchRecommendedPeople(userMastodonURL) {
-  const url = `http://localhost:5000/get_recommendedpeople?userMastodonURL=${encodeURIComponent(userMastodonURL)}`;
+  const url = `http://localhost:3000/get_recommendedpeople?userMastodonURL=${encodeURIComponent(userMastodonURL)}`;
 
   fetch(url)
       .then(response => {

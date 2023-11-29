@@ -50,8 +50,8 @@ span{
 label {
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+  margin-left: 0px;
+  margin-right: 0px;
 }
 
 input {
@@ -144,6 +144,7 @@ form {
 #interests{
   display:flex;
   justify-content: center;
+  margin: 10px;
 }
 
 #interestsDiv{
@@ -153,10 +154,6 @@ form {
   margin:0 auto;
   justify-content: center;
 }
-
-div#interestsDiv {}
-
-div#interestsDiv {}
 
 input[type="checkbox"]:checked+i {
   background-color: #666666;
@@ -170,7 +167,7 @@ i:hover{
 i{
   border: 3px solid #000;
   border-radius: 15px;
-  padding: 10px;
+  padding: 6px;
 }
 
 #informationForm {
@@ -186,13 +183,14 @@ i{
 }
 
 #interestsButtons {
-  text-align: center;
+  text-align: left;
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  /* align-items: center; */
   flex-wrap: wrap;
   width: 95%;
-  justify-content: center;
+  justify-content: left;
+  font-size: 15px;
 }
 
 #container-profile #interestsButtons {
@@ -216,7 +214,10 @@ i{
     display:inline-block;
     /* padding-left: 5px; */
     /* padding-right: 5px; */
-    margin: 10px;
+    margin-left: 5px;
+    margin-right:  5px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .interestsContainerLine{
@@ -224,6 +225,7 @@ i{
     overflow-y:auto;
     scrollbar-width: none;
     max-width: 95%;
+    font-size: 12px;
 }
 
 .interestsContainerLine::-webkit-scrollbar {
@@ -260,5 +262,11 @@ i{
   border-radius: 5px;
 }
 
+#expandButton{
+  display:block;
+}
 
+#closeButton {
+  display:none;
+}
 /* Add media queries for responsiveness if needed */
