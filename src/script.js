@@ -101,32 +101,32 @@ async function updateInterests() {
 }
 
 // Function to load recommendations
-async function loadRecommendations() {
-    const username = 'user1'; // replace with the actual username
-    try {
-        const response = await fetch(`http://localhost:3000/recommendations/${username}`);
-        const data = await response.json();
+// async function loadRecommendations() {
+//     const username = 'user1'; // replace with the actual username
+//     try {
+//         const response = await fetch(`http://localhost:3000/recommendations/${username}`);
+//         const data = await response.json();
 
-        if (data.success) {
-            const recommendationBubbles = document.getElementById('recommendationBubbles');
-            recommendationBubbles.innerHTML = data.recommendations.map(recommendation => (
-                `<div class="bubble">${recommendation}</div>`
-            )).join('');
-        } else {
-            alert(data.message);
-        }
-    } catch (error) {
-        console.error('Error loading recommendations:', error);
-    }
-}
-
-
+//         if (data.success) {
+//             const recommendationBubbles = document.getElementById('recommendationBubbles');
+//             recommendationBubbles.innerHTML = data.recommendations.map(recommendation => (
+//                 `<div class="bubble">${recommendation}</div>`
+//             )).join('');
+//         } else {
+//             alert(data.message);
+//         }
+//     } catch (error) {
+//         console.error('Error loading recommendations:', error);
+//     }
+// }
 
 
 
+
+// TODO
 // Call loadRecommendations when the recommendations page is loaded
-if (window.location.href.includes('recommendations.html')) {
-    loadRecommendations();
-    createInterestsButtons();
-}
+// if (window.location.href.includes('recommendations.html')) {
+//     loadRecommendations();
+//     createInterestsButtons(); This cause bug
+// }
 

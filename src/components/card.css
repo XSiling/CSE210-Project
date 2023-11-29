@@ -1,0 +1,46 @@
+@import url('../style/styles.css');
+
+.user-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 0px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.upper-section {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    align-items: center;
+}
+
+.upper-section .info-section {
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 10px;
+}
+
+.name-username-container {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.followers-following-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.upper-section .img-section img {
+    width: 10em;
+    height: auto;
+}
+
+.lower-section {
+    display: flex;
+    justify-content: flex-end;
+}
