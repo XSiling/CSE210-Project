@@ -127,6 +127,6 @@ async function loadRecommendations() {
 // Call loadRecommendations when the recommendations page is loaded
 if (window.location.href.includes('recommendations.html')) {
     loadRecommendations();
-    createInterestsButtons();
+
 }
 
