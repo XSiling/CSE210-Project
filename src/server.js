@@ -43,20 +43,24 @@ app.post('/register', async (req, res) => {
 
 // Login function
 app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    const user = users.find(u => u.username === username);
+    try {
+        const { username, password } = req.body;
+        const user = users.find(u => u.username === username);
 
-    if (user) {
-        // Compare hashed password
-        const match = await bcrypt.compare(password, user.hashedPassword);
+        if (user) {
+            // Compare hashed password
+            const match = await bcrypt.compare(password, user.hashedPassword);
 
-        if (match) {
-            res.json({ success: true, message: 'Login successful' });
+            if (match) {
+                res.json({ success: true, message: 'Login successful' });
+            } else {
+                res.status(401).json({ success: false, message: 'Invalid credentials' });
+            }
         } else {
             res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
-    } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
 
