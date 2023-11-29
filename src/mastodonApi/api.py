@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/get_recommendations', methods=['GET'])
 def get_recommendations():
-    with open('./recommendations_ref.json', 'r') as file:
+    with open('./recommendations.json', 'r') as file:
         data = json.load(file)
     return jsonify(data)
 
