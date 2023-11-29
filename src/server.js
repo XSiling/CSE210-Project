@@ -1,3 +1,4 @@
+// Express.js Initializations
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,6 +12,7 @@ app.use(cors());
 
 let users = [];
 
+// Registration function
 app.post('/register', async (req, res) => {
     const { username, password, confirmPassword } = req.body;
 
@@ -39,6 +41,7 @@ app.post('/register', async (req, res) => {
 });
 
 
+// Login function
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -61,12 +64,14 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
     debugger
     console.log(users);
     const { username, interests } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
+    // Update user interests in backend if user is located
     if (userIndex !== -1) {
         users[userIndex].interests = interests;
         res.json({ success: true, message: 'Interests updated successfully' });
@@ -77,6 +82,7 @@ app.post('/interests', (req, res) => {
     }
 });
 
+// GET user recommendations from endpoint
 app.get('/recommendations/:username', (req, res) => {
     const { username } = req.params;
     const user = users.find(u => u.username === username);

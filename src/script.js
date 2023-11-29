@@ -85,6 +85,7 @@ async function updateInterests() {
 
     console.log("!");
     try {
+        // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
             method: 'POST',
             headers: {
