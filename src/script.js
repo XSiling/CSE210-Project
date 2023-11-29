@@ -79,6 +79,7 @@ async function updateInterests() {
     // const interests = interestsInput.value.split(',');
 
     try {
+        // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
             method: 'POST',
             headers: {
