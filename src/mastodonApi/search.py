@@ -96,6 +96,3 @@ def recommendPeople(userMastodonURL):
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
 
     return recommendedPeople    # Return recommended people
-
-
-print('COMPLETE')
