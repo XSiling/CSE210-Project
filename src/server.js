@@ -64,6 +64,21 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// GET endpoint to receive user data
+
+app.get('/users', (req, res) => {
+    // Create a new array that contains user information without hashed passwords
+    const safeUserData = users.map(user => {
+        return {
+            username: user.username,
+            interests: user.interests,
+            mastodonAccount: user.mastodonAccount
+        };
+    });
+
+    res.json({ success: true, users: safeUserData });
+});
+
 // POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
     console.log(users);
@@ -80,6 +95,8 @@ app.post('/interests', (req, res) => {
         // res.json({ success: true, message: 'Interests updated successfully' });
         res.status(404).json({ success: false, message: 'User not found' });
     }
+
+    // console.log(users)
 });
 
 // GET user recommendations from endpoint
