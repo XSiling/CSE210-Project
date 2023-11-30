@@ -1,79 +1,69 @@
 const request = require('supertest');
 const bcrypt = require('bcrypt');
-const { app, server, db } = require('../src/server');
-const mongoose = require('mongoose');
-
-// Define a test user for login tests
-const testUser = {
-  username: 'testuser',
-  hashedPassword: bcrypt.hashSync('testpassword', 10),
-};
+const { app, users, server } = require('../src/server');
 
 describe('POST /login', () => {
-    beforeAll(async () => {
-      // Create the test user in the database
-      await db.collection('users').insertOne(testUser);
-    });
-  
-    afterAll(async () => {
-      await db.dropDatabase();
-      await db.close();
-      server.close();
+    afterAll(done => {
+        server.close(done);
     });
 
-  it('should login a user with correct credentials', async () => {
-    const response = await request(server)
-      .post('/login')
-      .send({ username: testUser.username, password: 'testpassword' });
+    it('should login a user with correct credentials', async () => {
+        const existingUser = { username: 'testuser', hashedPassword: await bcrypt.hash('testpassword', 10) };
+        users.push(existingUser);
 
-    expect(response.status).toBe(200);
-    expect(response.body.success).toBe(true);
-    expect(response.body.message).toBe('Login successful');
-  });
+        const response = await request(server)
+            .post('/login')
+            .send({ username: 'testuser', password: 'testpassword' });
 
-  it('should handle login with incorrect password', async () => {
-    const response = await request(server)
-      .post('/login')
-      .send({ username: testUser.username, password: 'wrongpassword' });
+        expect(response.status).toBe(200);
+        expect(response.body.success).toBe(true);
+        expect(response.body.message).toBe('Login successful');
+    });
 
-    expect(response.status).toBe(401);
-    expect(response.body.success).toBe(false);
-    expect(response.body.message).toBe('Invalid credentials');
-  });
+    it('should handle login with incorrect password', async () => {
+        const existingUser = { username: 'testuser', hashedPassword: await bcrypt.hash('testpassword', 10) };
+        users.push(existingUser);
 
-  it('should handle login with non-existent username', async () => {
-    const response = await request(server)
-      .post('/login')
-      .send({ username: 'nonexistentuser', password: 'somepassword' });
+        const response = await request(server)
+            .post('/login')
+            .send({ username: 'testuser', password: 'wrongpassword' });
 
-    expect(response.status).toBe(401);
-    expect(response.body.success).toBe(false);
-    expect(response.body.message).toBe('Invalid credentials');
-  });
+        expect(response.status).toBe(401);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Invalid credentials');
+    });
 
-  it('should handle missing username or password', async () => {
-    const response = await request(server)
-      .post('/login')
-      .send({}); // Sending an empty request
+    it('should handle login with non-existent username', async () => {
+        const response = await request(server)
+            .post('/login')
+            .send({ username: 'nonexistentuser', password: 'somepassword' });
 
-    expect(response.status).toBe(401);
-    expect(response.body.success).toBe(false);
-    expect(response.body.message).toBe('Invalid credentials');
-  });
+        expect(response.status).toBe(401);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Invalid credentials');
+    });
 
-  it('should handle bcrypt.compare() throwing an error', async () => {
-    // Mock bcrypt.compare to throw an error
-    jest.spyOn(bcrypt, 'compare').mockRejectedValue(new Error('bcrypt error'));
+    it('should handle missing username or password', async () => {
+        const response = await request(server)
+            .post('/login')
+            .send({}); // Sending an empty request
 
-    const response = await request(server)
-      .post('/login')
-      .send({ username: testUser.username, password: 'testpassword' });
+        expect(response.status).toBe(401);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Invalid credentials');
+    });
 
-    expect(response.status).toBe(500);
-    expect(response.body.success).toBe(false);
-    expect(response.body.message).toBe('Internal Server Error');
+    it('should handle bcrypt.compare() throwing an error', async () => {
+        const spy = jest.spyOn(bcrypt, 'compare').mockRejectedValue(new Error('bcrypt error'));
 
-    // Restore the original implementation after the test
-    bcrypt.compare.mockRestore();
-  });
+        const response = await request(server)
+            .post('/login')
+            .send({ username: 'testuser', password: 'testpassword' });
+
+        expect(response.status).toBe(500);
+        expect(response.body.success).toBe(false);
+        expect(response.body.message).toBe('Internal Server Error');
+
+        spy.mockRestore(); // Restore the original implementation after the test
+    });
 });
