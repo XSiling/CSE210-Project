@@ -38,12 +38,12 @@ async function login() {
         if (data.success) {
             // Redirect to recommendations page on successful login
             var url = 'recommendations.html?username=' + data.userName;
-            // Array.from(data.interests).forEach((element)=>{
-            //     url += '&Interests=';
-            //     url += element;
-            // });
-            // url += '&mastodonAccount=';
-            // url += data.mastodonAccount;
+            Array.from(data.interests).forEach((element)=>{
+                url += '&Interests=';
+                url += element;
+            });
+            url += '&mastodonAccount=';
+            url += data.mastodonAccount;
             window.location.href = url;
         } else {
             alert(data.message);
@@ -104,8 +104,8 @@ async function updateInterests() {
     const interests = [];
     let radiosData = [];
 
-    for (var i=0; i<interestsData1.length; ++i){
-        radiosData = radiosData.concat(interestsData1[i]);
+    for (var i=0; i<interestsData.length; ++i){
+        radiosData = radiosData.concat(interestsData[i]);
     }
 
     for(var i=0; i<interestsList.length; ++i){
@@ -114,6 +114,7 @@ async function updateInterests() {
         }
     }
     console.log("!");
+
 
     try {
         // Send a POST request to local server containing user:interests info
@@ -130,12 +131,12 @@ async function updateInterests() {
         if (data.success) {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;
-            // for (var j=0; j<interests.length; ++j){
-            //     url += '&Interests='
-            //     url += interests[j];
-            // }
-            // url += '&mastodonAccount=';
-            // url += mastodonAccount;
+            for (var j=0; j<interests.length; ++j){
+                url += '&Interests='
+                url += interests[j];
+            }
+            url += '&mastodonAccount=';
+            url += mastodonAccount;
            window.location.href = url;
         } else {
             alert(data.message);
@@ -147,6 +148,6 @@ async function updateInterests() {
 
 
 // Call loadRecommendations when the recommendations page is loaded
-// if (window.location.href.includes('recommendations.html')) {
-//     // loadRecommendations();
-// }
+if (window.location.href.includes('recommendations.html')) {
+    // loadRecommendations();
+}
