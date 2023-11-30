@@ -1,120 +1,161 @@
-// Express.js Initializations
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+
 const app = express();
 const PORT = 3000;
 
 app.use(bodyParser.json());
 app.use(cors());
 
+// MongoDB URI for GitHub Actions
+const mongoUri = process.env.GITHUB_ACTIONS
+  ? 'mongodb://localhost:27017/test'
+  : 'mongodb://admin:admin@localhost:27017/userdb';
 
-let users = [];
+// Connect to MongoDB
+mongoose.connect(mongoUri);
+
+// Define a user schema
+const userSchema = new mongoose.Schema({
+  username: String,
+  hashedPassword: String,
+  interests: [String],
+  mastodonAccount: String,
+});
+
+// Create a user model
+const UserModel = mongoose.model('User', userSchema);
 
 // Registration function
 app.post('/register', async (req, res) => {
-    const { username, password, confirmPassword } = req.body;
+  const { username, password, confirmPassword } = req.body;
 
-    // Check if either username, password, or confirmPassword is missing
-    if (!username || !password || !confirmPassword) {
-        return res.status(400).json({ success: false, message: 'Username and password are required' });
-    }
+  // Check if either username, password, or confirmPassword is missing
+  if (!username || !password || !confirmPassword) {
+    return res.status(400).json({ success: false, message: 'Username and password are required' });
+  }
 
-    // Check if the password and confirmPassword match
-    if (password !== confirmPassword) {
-        return res.status(400).json({ success: false, message: 'Passwords do not match' });
-    }
+  // Check if the password and confirmPassword match
+  if (password !== confirmPassword) {
+    return res.status(400).json({ success: false, message: 'Passwords do not match' });
+  }
 
+  try {
     // Check if the username is already taken
-    if (users.some(u => u.username === username)) {
-        return res.status(400).json({ success: false, message: 'Username already exists' });
+    const existingUser = await UserModel.findOne({ username });
+    if (existingUser) {
+      return res.status(400).json({ success: false, message: 'Username already exists' });
     }
 
     // Hash the password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Add the new user
-    users.push({ username, hashedPassword, interests: [], mastodonAccount:'' });
+    // Create a new user document
+    const newUser = new UserModel({
+      username,
+      hashedPassword,
+      interests: [],
+      mastodonAccount: '',
+    });
 
-    res.json({ success: true, message: 'Registration successful', userName: username});
+    // Save the user to the database
+    await newUser.save();
+
+    res.json({ success: true, message: 'Registration successful', userName: username });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
-
 
 // Login function
 app.post('/login', async (req, res) => {
-    try {
-        const { username, password } = req.body;
-        const user = users.find(u => u.username === username);
+  try {
+    const { username, password } = req.body;
+    const user = await UserModel.findOne({ username });
 
-        if (user) {
-            // Compare hashed password
-            const match = await bcrypt.compare(password, user.hashedPassword);
+    if (user) {
+      // Compare hashed password
+      const match = await bcrypt.compare(password, user.hashedPassword);
 
-            if (match) {
-                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
-            } else {
-                res.status(401).json({ success: false, message: 'Invalid credentials' });
-            }
-        } else {
-            res.status(401).json({ success: false, message: 'Invalid credentials' });
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+      if (match) {
+        res.json({
+          success: true,
+          message: 'Login successful',
+          userName: username,
+          interests: user.interests,
+          mastodonAccount: user.mastodonAccount,
+        });
+      } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
+    }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
 });
 
 // GET endpoint to receive user data
+app.get('/users', async (req, res) => {
+  try {
+    // Retrieve all users from the database, excluding hashed passwords
+    const users = await UserModel.find({}, { hashedPassword: 0 });
 
-app.get('/users', (req, res) => {
-    // Create a new array that contains user information without hashed passwords
-    const safeUserData = users.map(user => {
-        return {
-            username: user.username,
-            interests: user.interests,
-            mastodonAccount: user.mastodonAccount
-        };
-    });
-
-    res.json({ success: true, users: safeUserData });
+    res.json({ success: true, users });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
 
 // POST endpoint to receive interest data
-app.post('/interests', (req, res) => {
-    console.log(users);
-    const { username, interests, mastodonAccount } = req.body;
-    const userIndex = users.findIndex(u => u.username === username);
+app.post('/interests', async (req, res) => {
+  const { username, interests, mastodonAccount } = req.body;
 
-    // Update user interests in backend if user is located
-    if (userIndex !== -1) {
-        users[userIndex].interests = interests;
-        users[userIndex].mastodonAccount = mastodonAccount;
-        res.json({ success: true, message: 'Interests updated successfully' });
+  try {
+    // Find the user in the database
+    const user = await UserModel.findOne({ username });
+
+    // Update user interests in the database if user is found
+    if (user) {
+      user.interests = interests;
+      user.mastodonAccount = mastodonAccount;
+      await user.save();
+      res.json({ success: true, message: 'Interests updated successfully' });
     } else {
-        // users.push({ username, hashedPassword, interests: interests });
-        // res.json({ success: true, message: 'Interests updated successfully' });
-        res.status(404).json({ success: false, message: 'User not found' });
+      res.status(404).json({ success: false, message: 'User not found' });
     }
-
-    // console.log(users)
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
 
 // GET user recommendations from endpoint
-app.get('/recommendations/:username', (req, res) => {
-    const { username } = req.params;
-    const user = users.find(u => u.username === username);
+app.get('/recommendations/:username', async (req, res) => {
+  const { username } = req.params;
+
+  try {
+    // Find the user in the database
+    const user = await UserModel.findOne({ username });
 
     if (user) {
-        // Dummy recommendations
-        const recommendations = ['User 3', 'User 4', 'Group B'];
-        res.json({ success: true, recommendations });
+      // Dummy recommendations
+      const recommendations = ['User 3', 'User 4', 'Group B'];
+      res.json({ success: true, recommendations });
     } else {
-        res.status(404).json({ success: false, message: 'User not found' });
+      res.status(404).json({ success: false, message: 'User not found' });
     }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
 
 const server = app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-module.exports = { app, users, server };
+const db = mongoose.connection;
+module.exports = { app, server, db };

@@ -79,6 +79,37 @@ os.environ['Mastodon_username'] = 'Your mastodon email'
 os.environ['Mastodon_password'] = 'Your mastodon password'
 ```
 
+### MongoDB Setup
+
+1. **Install MongoDB:**
+   - Download and install MongoDB from [MongoDB Download Center](https://www.mongodb.com/try/download/community).
+   - Follow the installation instructions based on your operating system.
+
+2. **Start MongoDB:**
+   - Open a terminal or command prompt and start the MongoDB server.
+
+3. **Create a Database:**
+   - Open a new terminal or command prompt and run `mongosh` to open the MongoDB shell.
+   - In the shell, create a new database using `use userdb`.
+
+4. **Add User for DB**
+    - Add an admin user for the db.
+
+        ```bash
+        db.createUser({
+            user: 'admin',
+            pwd: 'admin',
+            roles: [{ role: 'readWrite', db: 'userdb' }]
+        })
+        ```
+
+4. **Set MongoDB URI in your project:**
+   - Update the MongoDB connection URI in your `server.js` file.
+
+      ```javascript
+      mongoose.connect('mongodb://admin:admin@localhost:27017/userdb');
+      ```
+
 ## Documentation References
 
 For more details on implementational functionality and tests, refer to individual function and API pages.
