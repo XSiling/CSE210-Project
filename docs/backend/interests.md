@@ -61,7 +61,7 @@ The testing file contains various test cases to ensure the robustness of the int
    - Validates that an existing user can successfully update/pick their interests.
 
 2. **Invalid Request Bodies:**
-   - Ensure that a POST request in the wrong format (no interests sent) will throw a 500 error code.
+   - Ensure that a POST request in the wrong format (no interests sent) will throw a 404 error code.
 
 3. **Correct Response Format**
    - Ensures that the structure of the response is correct upon receiving a valid interest update request.

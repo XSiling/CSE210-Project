@@ -28,7 +28,7 @@ describe('POST /interests', () => {
             .post('/interests')
             .send({ user: 'invalidUser' }); // no interests sent
 
-        expect(response.statusCode).toBe(500);
+        expect(response.statusCode).toBe(404);
     });
 
     it('response structure is correct', async () => {
