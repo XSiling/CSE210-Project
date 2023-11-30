@@ -22,4 +22,3 @@ if __name__ == '__main__':
     recThread = threading.Thread(target=updateRecs)
     recThread.start()
     app.run(port=5000)
-    
