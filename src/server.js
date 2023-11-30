@@ -10,8 +10,13 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(cors());
 
+// MongoDB URI for GitHub Actions
+const mongoUri = process.env.GITHUB_ACTIONS
+  ? 'mongodb://localhost:27017/test'
+  : 'mongodb://admin:admin@localhost:27017/userdb';
+
 // Connect to MongoDB
-mongoose.connect('mongodb://admin:admin@localhost:27017/userdb');
+mongoose.connect(mongoUri);
 
 // Define a user schema
 const userSchema = new mongoose.Schema({
