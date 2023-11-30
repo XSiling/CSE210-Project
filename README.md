@@ -63,6 +63,8 @@ For the recommendation system, you need to install the following:
 
 ```bash
 pip3 install Mastodon.py
+pip install flask
+pip install flask-cors
 python -m pip install mysql-connector-python
 ```
 
