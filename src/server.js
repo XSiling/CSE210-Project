@@ -100,7 +100,6 @@ app.post('/login', async (req, res) => {
 });
 
 // GET endpoint to receive user data
-
 app.get('/users', async (req, res) => {
   try {
     // Retrieve all users from the database, excluding hashed passwords
