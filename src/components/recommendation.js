@@ -1,4 +1,5 @@
 import { renderRecommendation } from "./card.js";
+import { renderRecommendationPost } from "./post.js";
 // import { apiKey } from './apiKey.js';
 
 function fetchRecommendations(interests) {
@@ -11,11 +12,17 @@ function fetchRecommendations(interests) {
     })
     .then((data) => {
     //   console.log(data);
+      const container = document.getElementById("postContainer");
+      container.innerHTML = "";
       if (Array.isArray(interests)) {
         interests.forEach((interest) => {
           if(data.hasOwnProperty(interest)) {
-            const recommendData = data[interest]
-            console.log(recommendData);
+            const recommendData = data[interest];
+            const top2Posts = recommendData.top2Posts;
+            top2Posts.forEach((post) => {
+                let return_post = renderRecommendationPost(post);
+                container.appendChild(return_post);
+            })
           } else {
             console.log('No data found for:', interest);
           }
@@ -72,5 +79,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial fetch when the page loads
   fetchRecommendations(interests);
-  //   fetchRecommendedPeople('cse210team1@mastodon.social');
+  fetchRecommendedPeople('cse210team1@mastodon.social');
 });
