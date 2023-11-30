@@ -108,7 +108,6 @@ async function updateInterests() {
     }
     console.log("!");
 
-    debugger;
 
     try {
         // Send a POST request to local server containing user:interests info
