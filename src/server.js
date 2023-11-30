@@ -68,6 +68,7 @@ app.post('/login', async (req, res) => {
 
 app.get('/users', (req, res) => {
     // Create a new array that contains user information without hashed passwords
+    
     const safeUserData = users.map(user => {
         return {
             username: user.username,
@@ -95,6 +96,8 @@ app.post('/interests', (req, res) => {
         // res.json({ success: true, message: 'Interests updated successfully' });
         res.status(404).json({ success: false, message: 'User not found' });
     }
+
+    // console.log(users)
 });
 
 // GET user recommendations from endpoint
