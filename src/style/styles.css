@@ -135,13 +135,13 @@ form {
 }
 
 #interests{
-  display:flex;
+  display: flex;
   justify-content: center;
   margin: 10px;
 }
 
 #interestsDiv{
-  width:95%;
+  width: 95%;
   /* height:200px; */
   display: flex;
   margin:0 auto;
