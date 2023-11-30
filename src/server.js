@@ -64,6 +64,21 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// GET endpoint to receive user data
+
+app.get('/users', (req, res) => {
+    // Create a new array that contains user information without hashed passwords
+    const safeUserData = users.map(user => {
+        return {
+            username: user.username,
+            interests: user.interests,
+            mastodonAccount: user.mastodonAccount
+        };
+    });
+
+    res.json({ success: true, users: safeUserData });
+});
+
 // POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
     console.log(users);
