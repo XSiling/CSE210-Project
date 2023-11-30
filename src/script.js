@@ -1,5 +1,22 @@
 // script.js
 
+const interestsData = [
+    ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
+    ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
+    ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
+    ["Digital","Data", "Innovation","Gadgets","Software", "Internet", "Cybersecurity", "Programming"],
+    ["Finance", "Business", "Investment", "Banking", "Markets", "Stocks", "Wealth", "Budgeting"],
+    ["Home", "Pet", "Family", "Domestic", "Decor", "Garden", "Housing", "Comfort"],
+    ["Book", "School", "Library", "Learning", "Knowledge", "Study", "Research", "Literature"],
+    ["Sport", "Athletics", "Exercise", "Fitness", "Competition", "Games", "Outdoor", "Adventure"],
+    ["Emotion", "Relationship", "Charity", "Love", "Empathy", "Advocacy", "Philanthropy", "Volunteer"],
+]
+const interestsCategory = [
+    'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
+]
+const category = 9;
+
+
 // Function to handle login
 async function login() {
     const username = document.getElementById('username').value;
@@ -59,7 +76,6 @@ async function register() {
 
         const data = await response.json();
         console.log(data);
-        debugger;
         if (data.success) {
             var url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
@@ -75,9 +91,8 @@ async function register() {
 
 // Function to update user interests
 async function updateInterests() {
-    const username = document.getElementById('username').value;
+    const username = document.getElementById('username').value.split('&')[0];
 
-    // debugger;
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
@@ -91,8 +106,10 @@ async function updateInterests() {
             interests.push(radiosData[i]);
         }
     }
-    debugger;
     console.log("!");
+
+    debugger;
+
     try {
         // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
@@ -104,7 +121,7 @@ async function updateInterests() {
         });
 
         const data = await response.json();
-        debugger;
+
         if (data.success) {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;

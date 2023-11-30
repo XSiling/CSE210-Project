@@ -80,4 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial fetch when the page loads
   fetchRecommendations(interests);
   fetchRecommendedPeople('cse210team1@mastodon.social');
+
+  
+
+
+
 });
+

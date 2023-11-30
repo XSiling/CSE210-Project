@@ -20,8 +20,7 @@
                 <button
                   id="interestsTextButton"
                   type="button"
-                  onclick="closeProfile()"
-                >
+                  onclick="closeProfile()">
                   Close
                 </button>
               </div>
@@ -44,7 +43,7 @@
           class="profile-section col-3 d-flex flex-column align-items-center"
         >
           <img class="profile-img" src="../images/la+.jpg" />
-          <button class="edit-profile-btn" onclick="editProfile()">
+          <button class="edit-profile-btn" id="openProfileButton" onclick="editProfile()">
             Edit Profile
           </button>
         </section>
@@ -61,7 +60,10 @@
       </div>
     </div>
 
-    <script type="module" src="../components/recommendation.js"></script>
     <script src="../script.js"></script>
+    <script type="module" src="../components/interests.js"></script>
+    <script type="module" src="../components/recommendation.js"></script>
+
+
   </body>
 </html>

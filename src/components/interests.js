@@ -1,5 +1,4 @@
 
-
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
@@ -162,6 +161,20 @@ function checkRadio(el){
 
 }
 
+function checkCurrentInterests(){
+    const url = window.location.href;
+    const interests = url.split('&interests=').splice(1);
+    let radiosData = [];
+    for (var i=0; i< interestsData.length; ++i){
+        radiosData = radiosData.concat(interestsData[i]);
+    }
+
+    Array.from(interests).forEach(interest=>{
+        document.getElementById(interest).checked=true;
+    });
+
+}
+
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {
@@ -169,3 +182,21 @@ if (window.location.href.includes('interests.html')) {
     fetchUsername();
 }
 
+if (window.location.href.includes("recommendations.html")){
+    createInterestsButtons();
+    fetchUsername();
+    checkCurrentInterests();
+    document.getElementById("openProfileButton").onclick = editProfile;
+    document.getElementById("interestsTextButton").onclick = closeProfile;
+    function editProfile(){
+        const smallWindow = document.getElementById("container-profile");
+        smallWindow.style.display = 'block';
+    }
+
+    function closeProfile(){
+        const smallWindow = document.getElementById('container-profile');
+        smallWindow.style.display = 'none';
+        //update the interests
+        updateInterests();
+    }
+}
