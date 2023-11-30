@@ -16,9 +16,17 @@ async function login() {
 
         const data = await response.json();
 
+
+
         if (data.success) {
             // Redirect to recommendations page on successful login
-            window.location.href = 'recommendations.html';
+            var url = 'recommendations.html?=username=' + data.userName;
+            Array.from(data.interests).forEach((element)=>{
+                url += '&Interests=';
+                url += element;
+            });
+
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -50,11 +58,12 @@ async function register() {
         });
 
         const data = await response.json();
-
-
+        console.log(data);
+        debugger;
         if (data.success) {
+            var url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
-            window.location.href = '../view/interests.html?username=' + username;
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -82,7 +91,7 @@ async function updateInterests() {
             interests.push(radiosData[i]);
         }
     }
-
+    debugger;
     console.log("!");
     try {
         // Send a POST request to local server containing user:interests info
@@ -95,7 +104,7 @@ async function updateInterests() {
         });
 
         const data = await response.json();
-        
+        debugger;
         if (data.success) {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;
