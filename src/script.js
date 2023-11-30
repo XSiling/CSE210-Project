@@ -1,6 +1,6 @@
 // script.js
 
-const interestsData = [
+const interestsData1 = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
     ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
@@ -11,10 +11,10 @@ const interestsData = [
     ["Sport", "Athletics", "Exercise", "Fitness", "Competition", "Games", "Outdoor", "Adventure"],
     ["Emotion", "Relationship", "Charity", "Love", "Empathy", "Advocacy", "Philanthropy", "Volunteer"],
 ]
-const interestsCategory = [
+const interestsCategory1 = [
     'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
 ]
-const category = 9;
+const category1 = 9;
 
 
 // Function to handle login
@@ -37,7 +37,7 @@ async function login() {
 
         if (data.success) {
             // Redirect to recommendations page on successful login
-            var url = 'recommendations.html?=username=' + data.userName;
+            var url = 'recommendations.html?username=' + data.userName;
             Array.from(data.interests).forEach((element)=>{
                 url += '&Interests=';
                 url += element;
@@ -97,8 +97,8 @@ async function updateInterests() {
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
     let radiosData = [];
-    for (var i=0; i< interestsData.length; ++i){
-        radiosData = radiosData.concat(interestsData[i]);
+    for (var i=0; i< interestsData1.length; ++i){
+        radiosData = radiosData.concat(interestsData1[i]);
     }
 
     for(var i=0; i<interestsList.length; ++i){
