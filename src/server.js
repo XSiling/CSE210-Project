@@ -37,7 +37,7 @@ app.post('/register', async (req, res) => {
     // Add the new user
     users.push({ username, hashedPassword, interests: [] });
 
-    res.json({ success: true, message: 'Registration successful' });
+    res.json({ success: true, message: 'Registration successful', userName: username});
 });
 
 
@@ -52,7 +52,7 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, user.hashedPassword);
 
             if (match) {
-                res.json({ success: true, message: 'Login successful' });
+                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid credentials' });
             }
@@ -66,7 +66,7 @@ app.post('/login', async (req, res) => {
 
 // POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
-    debugger
+    debugger;
     console.log(users);
     const { username, interests } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
@@ -76,9 +76,9 @@ app.post('/interests', (req, res) => {
         users[userIndex].interests = interests;
         res.json({ success: true, message: 'Interests updated successfully' });
     } else {
-        users.push({ username, hashedPassword, interests: interests });
-        res.json({ success: true, message: 'Interests updated successfully' });
-        // res.status(404).json({ success: false, message: 'User not found' });
+        // users.push({ username, hashedPassword, interests: interests });
+        // res.json({ success: true, message: 'Interests updated successfully' });
+        res.status(404).json({ success: false, message: 'User not found' });
     }
 });
 
