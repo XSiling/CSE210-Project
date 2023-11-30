@@ -23,6 +23,7 @@
                   onclick="closeProfile()">
                   Close
                 </button>
+
               </div>
               <input
                 type="hidden"
@@ -30,6 +31,15 @@
                 name="username"
                 value="user1"
               />
+
+
+              <input
+                type="hidden"
+                id="mastodonInput"
+                name="mastodonInput"
+                value=""
+              />
+
               <div id="interests">
                 <div id="interestsButtons"></div>
               </div>
@@ -42,10 +52,18 @@
         <section
           class="profile-section col-3 d-flex flex-column align-items-center"
         >
-          <img class="profile-img" src="../images/la+.jpg" />
+          <div id="userProfile">
+            PROFILE
+          </div>
+          <!-- <img class="profile-img" src="../images/la+.jpg" /> -->
           <button class="edit-profile-btn" id="openProfileButton" onclick="editProfile()">
             Edit Profile
           </button>
+          <button 
+          id="logOutButton"
+          type="button">
+          LOG OUT
+        </button>
         </section>
         <div class="col-9">
           <section class="header-section">

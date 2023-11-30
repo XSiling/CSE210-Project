@@ -73,6 +73,11 @@ document.addEventListener("DOMContentLoaded", () => {
     //   fetchRecommendedPeople('cse210team1@mastodon.social');
   });
 
+  const logOutButton = document.getElementById("logOutButton");
+  logOutButton.addEventListener("click", ()=>{
+    logOut();
+  })
+
   // dummy variable
   let acc = "cse210team1@mastodon.social";
   let interests = ["Emotion", "Customs"];

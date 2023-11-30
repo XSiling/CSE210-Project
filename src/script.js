@@ -42,7 +42,8 @@ async function login() {
                 url += '&Interests=';
                 url += element;
             });
-
+            url += '&mastodonAccount=';
+            url += data.mastodonAccount;
             window.location.href = url;
         } else {
             alert(data.message);
@@ -88,10 +89,15 @@ async function register() {
     }
 }
 
+async function logOut(){
+    const url = 'register.html';
+    window.location.href = url;
+}
 
 // Function to update user interests
 async function updateInterests() {
     const username = document.getElementById('username').value.split('&')[0];
+    const mastodonAccount = document.getElementById('mastodonInput').value;
 
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
@@ -116,7 +122,7 @@ async function updateInterests() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, interests }),
+            body: JSON.stringify({ username, interests, mastodonAccount }),
         });
 
         const data = await response.json();
@@ -125,9 +131,11 @@ async function updateInterests() {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;
             for (var j=0; j<interests.length; ++j){
-                url += '&interests='
+                url += '&Interests='
                 url += interests[j];
             }
+            url += '&mastodonAccount=';
+            url += mastodonAccount;
            window.location.href = url;
         } else {
             alert(data.message);
