@@ -35,7 +35,7 @@ Make sure you have the following installed on your machine:
     Run the following command to install the project dependencies.
 
     ```bash
-    npm install express body-parser cors bcrypt
+    npm install
     ```
 
 4. **Start the Server:**
