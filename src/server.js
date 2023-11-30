@@ -95,6 +95,8 @@ app.post('/interests', (req, res) => {
         // res.json({ success: true, message: 'Interests updated successfully' });
         res.status(404).json({ success: false, message: 'User not found' });
     }
+
+    // console.log(users)
 });
 
 // GET user recommendations from endpoint
