@@ -114,7 +114,6 @@ async function updateInterests() {
     }
     console.log("!");
 
-
     try {
         // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
@@ -147,6 +146,6 @@ async function updateInterests() {
 
 
 // Call loadRecommendations when the recommendations page is loaded
-if (window.location.href.includes('recommendations.html')) {
-    // loadRecommendations();
-}
+// if (window.location.href.includes('recommendations.html')) {
+//     // loadRecommendations();
+// }
