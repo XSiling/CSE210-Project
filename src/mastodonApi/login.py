@@ -20,7 +20,8 @@ def log_in():
     if not os.path.exists('pytooter_clientcred.secret'):
         register()      # If client credentials file does not exist, register the app
         
-    mastodon = Mastodon(client_id = 'pytooter_clientcred.secret',)  # Create a Mastodon instance using client credentials
+    mastodon = Mastodon(client_id = 'pytooter_clientcred.secret',request_timeout=10*60*60) # Create a Mastadon instance using client credentials with large request timeout
+
     mastodon.log_in(
         os.environ.get('Mastodon_username'),    # Retrieve Mastodon username from environment variables
         os.environ.get('Mastodon_password'),    # Retrieve Mastodon password from environment variables

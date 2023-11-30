@@ -16,9 +16,17 @@ async function login() {
 
         const data = await response.json();
 
+
+
         if (data.success) {
             // Redirect to recommendations page on successful login
-            window.location.href = 'recommendations.html';
+            var url = 'recommendations.html?=username=' + data.userName;
+            Array.from(data.interests).forEach((element)=>{
+                url += '&Interests=';
+                url += element;
+            });
+
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -50,10 +58,12 @@ async function register() {
         });
 
         const data = await response.json();
-
+        console.log(data);
+        debugger;
         if (data.success) {
+            var url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
-            window.location.href = '../view/interests.html';
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -67,18 +77,24 @@ async function register() {
 async function updateInterests() {
     const username = document.getElementById('username').value;
 
+    // debugger;
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
+    let radiosData = [];
+    for (var i=0; i< interestsData.length; ++i){
+        radiosData = radiosData.concat(interestsData[i]);
+    }
 
     for(var i=0; i<interestsList.length; ++i){
-        interests.push(interestsList[i].checked);
+        if (interestsList[i].checked){
+            interests.push(radiosData[i]);
+        }
     }
-    
-    // const interestsInput = document.getElementById('interests');
-    // const interests = interestsInput.value.split(',');
-
+    debugger;
+    console.log("!");
     try {
+        // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
             method: 'POST',
             headers: {
@@ -88,10 +104,15 @@ async function updateInterests() {
         });
 
         const data = await response.json();
-
+        debugger;
         if (data.success) {
-            // Redirect to recommendations page on successful interests update
-            window.location.href = 'recommendations.html';
+            //Redirect to recommendations page on successful interests update
+            var url = 'recommendations.html?username=' + username;
+            for (var j=0; j<interests.length; ++j){
+                url += '&interests='
+                url += interests[j];
+            }
+           window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -100,33 +121,8 @@ async function updateInterests() {
     }
 }
 
-// Function to load recommendations
-// async function loadRecommendations() {
-//     const username = 'user1'; // replace with the actual username
-//     try {
-//         const response = await fetch(`http://localhost:3000/recommendations/${username}`);
-//         const data = await response.json();
 
-//         if (data.success) {
-//             const recommendationBubbles = document.getElementById('recommendationBubbles');
-//             recommendationBubbles.innerHTML = data.recommendations.map(recommendation => (
-//                 `<div class="bubble">${recommendation}</div>`
-//             )).join('');
-//         } else {
-//             alert(data.message);
-//         }
-//     } catch (error) {
-//         console.error('Error loading recommendations:', error);
-//     }
-// }
-
-
-
-
-// TODO
 // Call loadRecommendations when the recommendations page is loaded
-// if (window.location.href.includes('recommendations.html')) {
-//     loadRecommendations();
-//     createInterestsButtons(); This cause bug
-// }
-
+if (window.location.href.includes('recommendations.html')) {
+    // loadRecommendations();
+}

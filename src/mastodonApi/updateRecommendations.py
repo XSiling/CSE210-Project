@@ -32,7 +32,6 @@ def updateRecs():
             # For each interest, retrieve top 2 followed accounts and top 2 posts using searchInterest function
             recommendations[interest]={}
             recommendations[interest]['top2FollowedAccounts'], recommendations[interest]['top2Posts'] = searchInterest(interest)
-            time.sleep(5*60)    # Pause before searching the next interest
 
         # Convert recommendations dictionary to a JSON object
         json_object = json.dumps(recommendations, default=str, indent=4)
@@ -40,4 +39,6 @@ def updateRecs():
         # Write the JSON object to a file named "recommendations.json"
         with open("recommendations.json", "w") as outfile:
             outfile.write(json_object)
+
+        time.sleep(6*60*60) # Refresh recommendations every 6 hours
 

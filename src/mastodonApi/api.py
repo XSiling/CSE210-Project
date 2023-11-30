@@ -26,4 +26,4 @@ if __name__ == '__main__':
     recThread.start()   # Start the thread to continuously update recommendations
 
     app.run(port=5000)  # Run the Flask app on port 5000
-    
+ 

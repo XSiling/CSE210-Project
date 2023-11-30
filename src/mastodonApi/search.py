@@ -4,9 +4,6 @@ import random               # Importing the 'random' module for random operation
 # Logging in the client
 client = log_in()
 
-# List of famous profiles
-famousProfiles = ['@stephenfry@mastodonapp.uk','@jamesgunn@c.im','@gretathunberg@mastodon.nu','@kathygriffin@mstdn.social','@deborahmeaden@toot.community',\
-                  '@georgetakei@universeodon.com','@profbriancox@universeodon.com']
 
  """
     Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
@@ -22,10 +19,12 @@ def searchInterest(interest):
     # Return the top2FollowedAccounts in the form of account dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#account-dicts
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
+
     searchResults = client.search(interest)     # Search for the given interest on Mastodon
     searchResults['accounts'].sort(key=lambda account: account['followers_count'], reverse = True)  # Sort users by follower count
 
     # Selecting top followed accounts and hashtags related to the interest
+
     top2FollowedAccounts = random.sample(searchResults['accounts'][:int(0.1*len(searchResults['accounts']))], 2) 
     top10FollowedAccounts = searchResults['accounts'][:10]
     top5Hastags = searchResults['hashtags'][:5]
@@ -34,14 +33,18 @@ def searchInterest(interest):
      # Retrieve top posts from top followed accounts
     for account in top10FollowedAccounts:
         account_statuses = client.account_statuses(account['id'])
+
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
-        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], min(len(account_statuses), 2))         # Add some random top accounts
+        if account_statuses:
+            topPosts += random.sample(account_statuses[:5], min(len(account_statuses), 2))                                  # Add some random top accounts
 
     # Retrieve top posts from top hashtags
     for hashtag in top5Hastags:
         account_statuses = client.timeline_hashtag(hashtag['name'])
+
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
-        topPosts += random.sample(account_statuses[:int(0.1*len(account_statuses))], min(len(account_statuses), 2))         # Add some random posts to top posts
+        if account_statuses:
+            topPosts += random.sample(account_statuses[:5], min(len(account_statuses), 2))                                  # Add some random posts to top posts
 
     top2Posts = random.sample(topPosts, 2)  # Selecting top 2 posts
 
@@ -60,6 +63,9 @@ def recommendPeople(userMastodonURL):
     # userMastodonURL must be like this @travelleisure@flipboard.com
     # Recommends accounts that are followed by someone that the user follows
     # Returns a list of people in the form of account dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#account-dicts
+
+    famousProfiles = ['@stephenfry@mastodonapp.uk','@jamesgunn@c.im','@gretathunberg@mastodon.nu','@kathygriffin@mstdn.social','@deborahmeaden@toot.community',\
+                  '@georgetakei@universeodon.com','@profbriancox@universeodon.com']
 
     famousProfilesAccounts = [client.account_lookup(famousProfile) for famousProfile in famousProfiles]
 
