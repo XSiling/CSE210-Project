@@ -1,5 +1,22 @@
 // script.js
 
+const interestsData1 = [
+    ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
+    ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
+    ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
+    ["Digital","Data", "Innovation","Gadgets","Software", "Internet", "Cybersecurity", "Programming"],
+    ["Finance", "Business", "Investment", "Banking", "Markets", "Stocks", "Wealth", "Budgeting"],
+    ["Home", "Pet", "Family", "Domestic", "Decor", "Garden", "Housing", "Comfort"],
+    ["Book", "School", "Library", "Learning", "Knowledge", "Study", "Research", "Literature"],
+    ["Sport", "Athletics", "Exercise", "Fitness", "Competition", "Games", "Outdoor", "Adventure"],
+    ["Emotion", "Relationship", "Charity", "Love", "Empathy", "Advocacy", "Philanthropy", "Volunteer"],
+]
+const interestsCategory1 = [
+    'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
+]
+const category1 = 9;
+
+
 // Function to handle login
 async function login() {
     const username = document.getElementById('username').value;
@@ -16,9 +33,18 @@ async function login() {
 
         const data = await response.json();
 
+
+
         if (data.success) {
             // Redirect to recommendations page on successful login
-            window.location.href = 'recommendations.html';
+            var url = 'recommendations.html?username=' + data.userName;
+            Array.from(data.interests).forEach((element)=>{
+                url += '&Interests=';
+                url += element;
+            });
+            url += '&mastodonAccount=';
+            url += data.mastodonAccount;
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -50,10 +76,11 @@ async function register() {
         });
 
         const data = await response.json();
-
+        console.log(data);
         if (data.success) {
+            var url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
-            window.location.href = '../view/interests.html';
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -62,36 +89,54 @@ async function register() {
     }
 }
 
+async function logOut(){
+    const url = 'register.html';
+    window.location.href = url;
+}
 
 // Function to update user interests
 async function updateInterests() {
-    const username = document.getElementById('username').value;
+    const username = document.getElementById('username').value.split('&')[0];
+    const mastodonAccount = document.getElementById('mastodonInput').value;
 
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
+    let radiosData = [];
+    for (var i=0; i< interestsData1.length; ++i){
+        radiosData = radiosData.concat(interestsData1[i]);
+    }
 
     for(var i=0; i<interestsList.length; ++i){
-        interests.push(interestsList[i].checked);
+        if (interestsList[i].checked){
+            interests.push(radiosData[i]);
+        }
     }
-    
-    // const interestsInput = document.getElementById('interests');
-    // const interests = interestsInput.value.split(',');
+    console.log("!");
+
 
     try {
+        // Send a POST request to local server containing user:interests info
         const response = await fetch('http://localhost:3000/interests', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, interests }),
+            body: JSON.stringify({ username, interests, mastodonAccount }),
         });
 
         const data = await response.json();
 
         if (data.success) {
-            // Redirect to recommendations page on successful interests update
-            window.location.href = 'recommendations.html';
+            //Redirect to recommendations page on successful interests update
+            var url = 'recommendations.html?username=' + username;
+            for (var j=0; j<interests.length; ++j){
+                url += '&Interests='
+                url += interests[j];
+            }
+            url += '&mastodonAccount=';
+            url += mastodonAccount;
+           window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -100,33 +145,8 @@ async function updateInterests() {
     }
 }
 
-// Function to load recommendations
-async function loadRecommendations() {
-    const username = 'user1'; // replace with the actual username
-    try {
-        const response = await fetch(`http://localhost:3000/recommendations/${username}`);
-        const data = await response.json();
-
-        if (data.success) {
-            const recommendationBubbles = document.getElementById('recommendationBubbles');
-            recommendationBubbles.innerHTML = data.recommendations.map(recommendation => (
-                `<div class="bubble">${recommendation}</div>`
-            )).join('');
-        } else {
-            alert(data.message);
-        }
-    } catch (error) {
-        console.error('Error loading recommendations:', error);
-    }
-}
-
-
-
-
 
 // Call loadRecommendations when the recommendations page is loaded
 if (window.location.href.includes('recommendations.html')) {
-    loadRecommendations();
-    createInterestsButtons();
+    // loadRecommendations();
 }
-

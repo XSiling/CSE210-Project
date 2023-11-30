@@ -1,3 +1,4 @@
+// Express.js Initializations
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -11,6 +12,7 @@ app.use(cors());
 
 let users = [];
 
+// Registration function
 app.post('/register', async (req, res) => {
     const { username, password, confirmPassword } = req.body;
 
@@ -33,12 +35,13 @@ app.post('/register', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Add the new user
-    users.push({ username, hashedPassword, interests: [] });
+    users.push({ username, hashedPassword, interests: [], mastodonAccount:'' });
 
-    res.json({ success: true, message: 'Registration successful' });
+    res.json({ success: true, message: 'Registration successful', userName: username});
 });
 
 
+// Login function
 app.post('/login', async (req, res) => {
     try {
         const { username, password } = req.body;
@@ -49,7 +52,7 @@ app.post('/login', async (req, res) => {
             const match = await bcrypt.compare(password, user.hashedPassword);
 
             if (match) {
-                res.json({ success: true, message: 'Login successful' });
+                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid credentials' });
             }
@@ -61,18 +64,25 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
-    const { username, interests } = req.body;
+    console.log(users);
+    const { username, interests, mastodonAccount } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
+    // Update user interests in backend if user is located
     if (userIndex !== -1) {
         users[userIndex].interests = interests;
+        users[userIndex].mastodonAccount = mastodonAccount;
         res.json({ success: true, message: 'Interests updated successfully' });
     } else {
+        // users.push({ username, hashedPassword, interests: interests });
+        // res.json({ success: true, message: 'Interests updated successfully' });
         res.status(404).json({ success: false, message: 'User not found' });
     }
 });
 
+// GET user recommendations from endpoint
 app.get('/recommendations/:username', (req, res) => {
     const { username } = req.params;
     const user = users.find(u => u.username === username);

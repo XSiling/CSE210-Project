@@ -21,11 +21,8 @@
                 <div id="formDiv">
                     <div id="interestsDiv">
                         <input type="text" id="interestsText">
-                        <button id="interestsTextButton" type="button" onclick="addInterest()">Select</button>
+                        <button id="interestsTextButton" type="button" onclick="addInterest()">SELECT</button>
                     </div>
-
-
-
                         <input type="hidden" id="username" name="username" value="user1">
                         <div id="interests">
                             <div id="interestsButtons">
@@ -37,14 +34,14 @@
 
                         <div id="account">
                             <h2>(Optional) Link with your ActivityPub account:</h2>
-                            <input type="email" placeholder="xxx@mastodon.social">
+                            <input type="email" placeholder="xxx@mastodon.social" id="mastodonInput">
                         </div>
 
                 </div>
 
                 <div id="nextPage">
                     <button id="nextPageButton" onclick="updateInterests()">
-                        Next
+                        NEXT
                     </button>
                 </div>
             </form>
