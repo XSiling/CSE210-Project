@@ -1,18 +1,4 @@
 // script.js
-// hard-coded interests
-// const interestsData = [
-//     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
-//     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
-//     ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
-//     ["Digital","Data", "Innovation","Gadgets","Software", "Internet", "Cybersecurity", "Programming"],
-//     ["Finance", "Business", "Investment", "Banking", "Markets", "Stocks", "Wealth", "Budgeting"],
-//     ["Home", "Pet", "Family", "Domestic", "Decor", "Garden", "Housing", "Comfort"],
-//     ["Book", "School", "Library", "Learning", "Knowledge", "Study", "Research", "Literature"],
-//     ["Sport", "Athletics", "Exercise", "Fitness", "Competition", "Games", "Outdoor", "Adventure"],
-//     ["Emotion", "Relationship", "Charity", "Love", "Empathy", "Advocacy", "Philanthropy", "Volunteer"],
-// ]
-
-
 
 // Function to handle login
 async function login() {
@@ -30,9 +16,17 @@ async function login() {
 
         const data = await response.json();
 
+
+
         if (data.success) {
             // Redirect to recommendations page on successful login
-            window.location.href = 'recommendations.html';
+            var url = 'recommendations.html?=username=' + data.userName;
+            Array.from(data.interests).forEach((element)=>{
+                url += '&Interests=';
+                url += element;
+            });
+
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -64,11 +58,12 @@ async function register() {
         });
 
         const data = await response.json();
-
-
+        console.log(data);
+        debugger;
         if (data.success) {
+            var url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
-            window.location.href = '../view/interests.html?username=' + username;
+            window.location.href = url;
         } else {
             alert(data.message);
         }
@@ -96,7 +91,7 @@ async function updateInterests() {
             interests.push(radiosData[i]);
         }
     }
-
+    debugger;
     console.log("!");
     try {
         // Send a POST request to local server containing user:interests info
@@ -109,7 +104,7 @@ async function updateInterests() {
         });
 
         const data = await response.json();
-        
+        debugger;
         if (data.success) {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;
@@ -126,25 +121,6 @@ async function updateInterests() {
     }
 }
 
-// Function to load recommendations
-// async function loadRecommendations() {
-//     const username = 'user1'; // replace with the actual username
-//     try {
-//         const response = await fetch(`http://localhost:3000/recommendations/${username}`);
-//         const data = await response.json();
-
-//         if (data.success) {
-//             const recommendationBubbles = document.getElementById('recommendationBubbles');
-//             recommendationBubbles.innerHTML = data.recommendations.map(recommendation => (
-//                 `<div class="bubble">${recommendation}</div>`
-//             )).join('');
-//         } else {
-//             alert(data.message);
-//         }
-//     } catch (error) {
-//         console.error('Error loading recommendations:', error);
-//     }
-// }
 
 // Call loadRecommendations when the recommendations page is loaded
 if (window.location.href.includes('recommendations.html')) {

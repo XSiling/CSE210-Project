@@ -29,7 +29,10 @@ function addInterest(){
     }else{
         const checkboxItem = document.getElementById(interest);
         checkboxItem.checked=true;
+        checkRadio(checkboxItem);
     }
+
+    
 
 }
 
@@ -124,60 +127,40 @@ function createInterestsButtons(){
 
     document.onclick = function(event) {
         var el = event.target;
+        
         if (el.id == "expandButton") {
             expand();
         }
-    };
 
-    document.onclick = function(event) {
-        var el = event.target;
-        if (el.id == "closeButton") {
+        if (el.id == "closeButton"){
             close();
+        }
+
+        if (el.className == "interestsRadio"){
+            console.log("?")
+            checkRadio(el);
         }
     };
 
 }
 
-var maxChoices = 5;
-var flag = 0;
- 
-function onCheckBox(checkbox)
-{
-    console.log("oncheckbox");
-	var items = document.getElementsByName("interestsRadio");
-	if(checkbox.checked)
-	{
-		flag ++;
-	}
-	else
-	{
-		flag --;
-	}
-	
-	if(flag < maxChoices)
-	{
-		for(var i=0; i<items.length; i++)
-		{
-			if(!items[i].checked)
-			{
-				items[i].disabled = false;
-			}
-		}
-	}
-	else
-	{
-		for(var i=0; i<items.length; i++)
-		{
-			if(!items[i].checked)
-			{
-				items[i].disabled = true;
-			}
-		}
-	}
-	
-	
-}
 
+function checkRadio(el){
+    const maxRadio = 5;
+    var radioNumber = 0;
+    var radios = document.getElementsByClassName("interestsRadio");
+    Array.from(radios).forEach((element)=>{
+        if (element.checked){
+            radioNumber += 1;
+        }
+    })
+
+    if (radioNumber > 5){
+        window.alert("You can only choose up to 5 interests!");
+        el.checked = false;
+    }
+
+}
 
 
 // Call when the interests page is loaded
