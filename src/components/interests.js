@@ -1,5 +1,4 @@
 
-
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
@@ -39,8 +38,17 @@ function addInterest(){
 
 function fetchUsername(){
     const url = window.location.href;
-    const username = url.split('=')[1];
+    const username = url.split('=')[1].split('&')[0];
+    
     document.getElementById("username").setAttribute("value", username);
+}
+
+function fetchMastodon(){
+    console.log("fetch mastodon from url");
+    const url = window.location.href;
+    const mastodonAccount = url.split("&mastodonAccount=")[1];
+    document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
+    console.log("here!!!!");
 }
 
 function expand(){
@@ -72,8 +80,6 @@ function createInterestsButtons(){
 
 
     // if not, predefined.
-    const radiosData = ["Star","Fun","Emotion","Beauty","Movie","Sociaty","TV","Food","International","Finance","Book","Photography","Car","Sport","Digital","Fashion","Military","Home","Pet","Technology","Comic","Travel","History","Art","Law","Design","Music","Game","School","Childcare","Education","Dance","Relationship","Charity"];
-
     var line=0;
     
     for(line; line<category; ++line){
@@ -162,6 +168,20 @@ function checkRadio(el){
 
 }
 
+function checkCurrentInterests(){
+    const url = window.location.href;
+    const interests = url.split('&mastodonAccount=')[0].split('&Interests=').splice(1);
+    let radiosData = [];
+    for (var i=0; i< interestsData.length; ++i){
+        radiosData = radiosData.concat(interestsData[i]);
+    }
+
+    Array.from(interests).forEach(interest=>{
+        document.getElementById(interest).checked=true;
+    });
+
+}
+
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {
@@ -169,3 +189,22 @@ if (window.location.href.includes('interests.html')) {
     fetchUsername();
 }
 
+if (window.location.href.includes("recommendations.html")){
+    createInterestsButtons();
+    fetchUsername();
+    fetchMastodon();
+    checkCurrentInterests();
+    document.getElementById("openProfileButton").onclick = editProfile;
+    document.getElementById("interestsTextButton").onclick = closeProfile;
+    function editProfile(){
+        const smallWindow = document.getElementById("container-profile");
+        smallWindow.style.display = 'block';
+    }
+
+    function closeProfile(){
+        const smallWindow = document.getElementById('container-profile');
+        smallWindow.style.display = 'none';
+        //update the interests
+        updateInterests();
+    }
+}
