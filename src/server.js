@@ -67,7 +67,6 @@ app.post('/login', async (req, res) => {
 // POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
     debugger
-    console.log(users);
     const { username, interests } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
@@ -80,6 +79,8 @@ app.post('/interests', (req, res) => {
         res.json({ success: true, message: 'Interests updated successfully' });
         // res.status(404).json({ success: false, message: 'User not found' });
     }
+
+    // console.log(users)
 });
 
 // GET user recommendations from endpoint
