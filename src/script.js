@@ -87,7 +87,7 @@ async function updateInterests() {
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
     let radiosData = [];
-    for (var i=0; i< interestsData.length; ++i){
+    for (var i=0; i<interestsData.length; ++i){
         radiosData = radiosData.concat(interestsData[i]);
     }
 
