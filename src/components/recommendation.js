@@ -2,7 +2,7 @@ import { renderRecommendation } from "./card.js";
 import { renderRecommendationPost } from "./post.js";
 // import { apiKey } from './apiKey.js';
 
-function fetchRecommendations(interests) {
+async function fetchRecommendations(interests) {
   fetch("http://localhost:5000/get_recommendations")
     .then((response) => {
       if (!response.ok) {
@@ -40,7 +40,7 @@ function fetchRecommendations(interests) {
 }
 
 // Fetch recommendation list (5) from flask backend
-function fetchRecommendedPeople(userMastodonURL) {
+async function fetchRecommendedPeople(userMastodonURL) {
   const url = `http://localhost:5000/get_recommendedpeople?userMastodonURL=${encodeURIComponent(
     userMastodonURL
   )}`;
@@ -68,6 +68,9 @@ function fetchRecommendedPeople(userMastodonURL) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+
+
+
   const refreshButton = document.getElementById("refreshButton");
   refreshButton.addEventListener("click", () => {
     //   fetchRecommendedPeople('cse210team1@mastodon.social');
@@ -80,15 +83,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // dummy variable
   let acc = "cse210team1@mastodon.social";
-  let interests = ["Emotion", "Customs"];
+  let interests = ["Pop", "Domestic"];
+
+  console.log(interests);
+  
 
   // Initial fetch when the page loads
   fetchRecommendations(interests);
   fetchRecommendedPeople('cse210team1@mastodon.social');
-
-  
-
-
 
 });
 

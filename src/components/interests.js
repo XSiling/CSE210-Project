@@ -41,14 +41,41 @@ function fetchUsername(){
     const username = url.split('=')[1].split('&')[0];
     
     document.getElementById("username").setAttribute("value", username);
+    document.getElementById("userProfileUsername").innerHTML = username;
+    
+    return username;
 }
 
-function fetchMastodon(){
-    console.log("fetch mastodon from url");
-    const url = window.location.href;
-    const mastodonAccount = url.split("&mastodonAccount=")[1];
-    document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
-    console.log("here!!!!");
+async function fetchMastodon(){
+    console.log("fetch mastodon account from server...");
+    try {
+        const response = await fetch('http://localhost:3000/users',{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+
+        if (data.success){
+            // set the mastodon content into some UI
+            const username = fetchUsername();
+            var mastodonAccount = '';
+            for(var i=0; i<data.users.length; ++i){
+                if (data.users[i].username === username){
+                    mastodonAccount = data.users[i].mastodonAccount;
+                }
+            }
+            // const mastodonAccount = data.users.username.mastodonAccount;
+            document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
+        }else{
+            alert("fetching mastodon account failure");
+        }
+    }catch(error){
+        console.error('Error during fetching Mastodon Accocunt');
+    }
+
+
 }
 
 function expand(){
@@ -168,17 +195,46 @@ function checkRadio(el){
 
 }
 
-function checkCurrentInterests(){
-    const url = window.location.href;
-    const interests = url.split('&mastodonAccount=')[0].split('&Interests=').splice(1);
-    let radiosData = [];
-    for (var i=0; i< interestsData.length; ++i){
-        radiosData = radiosData.concat(interestsData[i]);
-    }
+async function fetchCurrentInterests(){
 
-    Array.from(interests).forEach(interest=>{
-        document.getElementById(interest).checked=true;
-    });
+    console.log("fetch interests from server...");
+    try {
+        const response = await fetch('http://localhost:3000/users',{
+            method: 'GET',
+            headers:{
+                'Content-Type': 'application/json',
+            },
+        });
+        const data = await response.json();
+
+        if (data.success){
+            // set the mastodon content into some UI
+            const username = fetchUsername();
+            var html = "";
+            var interests = [];
+            for(var i=0; i<data.users.length; ++i){
+                if (data.users[i].username === username){
+                    interests = data.users[i].interests;
+                }
+            }
+            let radiosData = [];
+            for (var i=0; i< interestsData.length; ++i){
+                radiosData = radiosData.concat(interestsData[i]);
+            }
+            Array.from(interests).forEach(interest=>{
+                document.getElementById(interest).checked=true;
+                html += '<li class="interestsLi">' + interest + "</li>";
+            });
+
+            document.getElementById("userProfileInterests").innerHTML = "<ul>" + html + "</ul>";
+
+
+        }else{
+            alert("fetching user interests failure");
+        }
+    }catch(error){
+        console.error('Error during fetching user interests');
+    }
 
 }
 
@@ -191,9 +247,11 @@ if (window.location.href.includes('interests.html')) {
 
 if (window.location.href.includes("recommendations.html")){
     createInterestsButtons();
+
+    // //update the website situations
     fetchUsername();
     fetchMastodon();
-    checkCurrentInterests();
+    fetchCurrentInterests();
     document.getElementById("openProfileButton").onclick = editProfile;
     document.getElementById("interestsTextButton").onclick = closeProfile;
     function editProfile(){
