@@ -16,7 +16,11 @@ body {
 }
 
 .account-entry-form-container {
-    max-width: 500px;
+  max-width: 500px;
+}
+
+.interests-form-container {
+  max-width: 750px;
 }
 
 #container-profile{
