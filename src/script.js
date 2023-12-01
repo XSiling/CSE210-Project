@@ -130,12 +130,6 @@ async function updateInterests() {
         if (data.success) {
             //Redirect to recommendations page on successful interests update
             var url = 'recommendations.html?username=' + username;
-            // for (var j=0; j<interests.length; ++j){
-            //     url += '&Interests='
-            //     url += interests[j];
-            // }
-            // url += '&mastodonAccount=';
-            // url += mastodonAccount;
            window.location.href = url;
         } else {
             alert(data.message);

@@ -53,8 +53,12 @@
           class="profile-section col-3 d-flex flex-column align-items-center"
         >
           <div id="userProfile">
-            PROFILE
+            <h2>PROFILE</h2>
+            <br/>
+            <h4>User Name</h4>
             <div id="userProfileUsername"></div>
+            <br/>
+            <h4>Interests</h4>
             <div id="userProfileInterests"></div>
           </div>
           <!-- <img class="profile-img" src="../images/la+.jpg" /> -->
@@ -70,11 +74,19 @@
         <div class="col-9">
           <section class="header-section">
             <h2>Recommendation</h2>
-            <button id="refreshButton" type="button">Refresh</button>
+            <button id="refreshButton" type="button" onclick="updateInterests()">Refresh</button>
           </section>
           <section class="recommendation-section">
-            <div id="postContainer"></div>
-            <div id="recommendationContainer"></div>
+            <div id="postContainer">
+              <img src="../images/loading.gif" alt="loading..." id="postContainerLoading">
+            </div>
+            
+            <div id="recommendationContainer">
+              <img src="../images/loading.gif" alt="loading..." id="recommendationContainerLoading">
+            </div>
+
+
+
           </section>
         </div>
       </div>

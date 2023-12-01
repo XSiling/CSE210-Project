@@ -223,7 +223,7 @@ async function fetchCurrentInterests(){
             }
             Array.from(interests).forEach(interest=>{
                 document.getElementById(interest).checked=true;
-                html += "<li>" + interest + "</li>";
+                html += '<li class="interestsLi">' + interest + "</li>";
             });
 
             document.getElementById("userProfileInterests").innerHTML = "<ul>" + html + "</ul>";
@@ -248,7 +248,7 @@ if (window.location.href.includes('interests.html')) {
 if (window.location.href.includes("recommendations.html")){
     createInterestsButtons();
 
-    //update the website situations
+    // //update the website situations
     fetchUsername();
     fetchMastodon();
     fetchCurrentInterests();
