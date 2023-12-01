@@ -5,14 +5,14 @@ import random               # Importing the 'random' module for random operation
 client = log_in()
 
 
- """
-    Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
+"""
+Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
 
-    Args:
-    interest (str): The interest keyword to search for.
+Args:
+interest (str): The interest keyword to search for.
 
-    Returns:
-    tuple: A tuple containing the top 2 followed accounts (as account dicts) and the top 2 posts related to the interest (as status dicts).
+Returns:
+tuple: A tuple containing the top 2 followed accounts (as account dicts) and the top 2 posts related to the interest (as status dicts).
 """
 def searchInterest(interest):
     # userMastodonURL must be like this "travel"
@@ -50,14 +50,14 @@ def searchInterest(interest):
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
- """
-    Recommends accounts followed by someone the user follows on Mastodon.
+"""
+Recommends accounts followed by someone the user follows on Mastodon.
 
-    Args:
-    userMastodonURL (str): The Mastodon URL of the user.
+Args:
+userMastodonURL (str): The Mastodon URL of the user.
 
-    Returns:
-    list: A list of recommended people in the form of account dicts.
+Returns:
+list: A list of recommended people in the form of account dicts.
 """
 def recommendPeople(userMastodonURL):
     # userMastodonURL must be like this @travelleisure@flipboard.com
