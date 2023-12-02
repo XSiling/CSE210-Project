@@ -4,10 +4,9 @@ import { renderFollowerRecommendation } from "./account.js";
 import { flaskApikey, nodeApikey } from '../api/api.js';
 
 // TODO
-// 1) fetch interest and userAccount info // Still have bug
-// 2) Merge fetchFollower and fetchPost into one promise
-// 3) add backToTop button
-// 4) add user img to the profile
+// 1) Merge fetchFollower and fetchPost into one promise
+// 2) add backToTop button
+// 3) add user img to the profile
 
 function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);
@@ -71,10 +70,9 @@ async function fetchPostRecommendations(interests) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Parses the JSON from the response
+      return response.json();
     })
     .then((data) => {
-    //   console.log(data);
       const container = document.getElementById("postContainer");
       container.innerHTML = "";
       const header = document.createElement('h3');
@@ -119,7 +117,6 @@ async function fetchPeopleRecommended(userMastodonURL) {
       return response.json();
     })
     .then((data) => {
-      console.log(data); // For debugging
       const container = document.getElementById("recommendationContainer");
       container.innerHTML = "";
       const header = document.createElement('h3');
@@ -141,7 +138,7 @@ async function fetchUserData() {
   showLoadingGif('postContainer');
   showLoadingGif('recommendationContainer');
   try {
-      const response = await fetch(`http://localhost:3000/users`);
+      const response = await fetch(`${nodeApikey}/users`);
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
