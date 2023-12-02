@@ -2,10 +2,10 @@ from login import log_in    # Importing the log_in function from the 'login' mod
 import random               # Importing the 'random' module for random operations
 
 # Logging in the client
-client = log_in()
+mainClient = log_in("main")
 
 
- """
+"""
     Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
 
     Args:
@@ -20,7 +20,7 @@ def searchInterest(interest):
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
 
-    searchResults = client.search(interest)     # Search for the given interest on Mastodon
+    searchResults = mainClient.search(interest)     # Search for the given interest on Mastodon
     searchResults['accounts'].sort(key=lambda account: account['followers_count'], reverse = True)  # Sort users by follower count
 
     # Selecting top followed accounts and hashtags related to the interest
@@ -32,7 +32,7 @@ def searchInterest(interest):
     topPosts = []
      # Retrieve top posts from top followed accounts
     for account in top10FollowedAccounts:
-        account_statuses = client.account_statuses(account['id'])
+        account_statuses = mainClient.account_statuses(account['id'])
 
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
         if account_statuses:
@@ -40,7 +40,7 @@ def searchInterest(interest):
 
     # Retrieve top posts from top hashtags
     for hashtag in top5Hastags:
-        account_statuses = client.timeline_hashtag(hashtag['name'])
+        account_statuses = mainClient.timeline_hashtag(hashtag['name'])
 
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
         if account_statuses:
@@ -50,7 +50,7 @@ def searchInterest(interest):
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
- """
+"""
     Recommends accounts followed by someone the user follows on Mastodon.
 
     Args:
@@ -67,25 +67,25 @@ def recommendPeople(userMastodonURL):
     famousProfiles = ['@stephenfry@mastodonapp.uk','@jamesgunn@c.im','@gretathunberg@mastodon.nu','@kathygriffin@mstdn.social','@deborahmeaden@toot.community',\
                   '@georgetakei@universeodon.com','@profbriancox@universeodon.com']
 
-    famousProfilesAccounts = [client.account_lookup(famousProfile) for famousProfile in famousProfiles]
+    famousProfilesAccounts = [mainClient.account_lookup(famousProfile) for famousProfile in famousProfiles]
 
 
-    userId = client.account_lookup(userMastodonURL)['id']   # Retrieve user's ID
+    userId = mainClient.account_lookup(userMastodonURL)['id']   # Retrieve user's ID
     
-    following = client.account_following(userId)            # Retrieve user's following
-    followers = client.account_followers(userId)            # Retrieve user's followers
+    following = mainClient.account_following(userId)            # Retrieve user's following
+    followers = mainClient.account_followers(userId)            # Retrieve user's followers
     followersOfFollowing = []
     followingOfFollowers = []
 
     # Retrieve followers of following
     for users in following:
-        followersOfFollowing += client.account_followers(users['id'])
+        followersOfFollowing += mainClient.account_followers(users['id'])
     
     followersOfFollowing.sort(key=lambda account: (account['followers_count']),reverse=True)    # sort profiles by follower count
     
     # Retrievefollowing of followers
     for users in followers:
-        followingOfFollowers += client.account_following(users['id'])
+        followingOfFollowers += mainClient.account_following(users['id'])
     
     followingOfFollowers.sort(key=lambda account: (account['followers_count']),reverse=True)    # sort profiles by follower count
 
