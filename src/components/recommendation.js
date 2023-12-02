@@ -9,6 +9,23 @@ import { flaskApikey, nodeApikey } from '../api/api.js';
 // 3) add backToTop button
 // 4) add user img to the profile
 
+function showLoadingGif(containerId) {
+  const container = document.getElementById(containerId);
+  const loadingGif = document.createElement('img');
+  loadingGif.setAttribute('src', "../images/loading.gif");
+  loadingGif.setAttribute('id', 'loadingGif');
+  container.innerHTML = '';
+  container.appendChild(loadingGif);
+}
+
+function hideLoadingGif(containerId) {
+  const container = document.getElementById(containerId);
+  const loadingGif = document.getElementById('loadingGif');
+  if (loadingGif) {
+    container.removeChild(loadingGif);
+  }
+}
+
 async function fetchFollowerRecommendations(interests) {
   fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
@@ -18,7 +35,6 @@ async function fetchFollowerRecommendations(interests) {
       return response.json(); // Parses the JSON from the response
     })
     .then((data) => {
-    //   console.log(data);
       const container = document.getElementById("accountContainer");
       container.innerHTML = "";
       const header = document.createElement('h3');
@@ -119,18 +135,34 @@ async function fetchPeopleRecommended(userMastodonURL) {
     });
 }
 
-// TODO: Have Bugs cannot fetch user info cuz we dont know user info...
 // Fetch interest and user account infos
 async function fetchUserData() {
+  showLoadingGif('accountContainer');
+  showLoadingGif('postContainer');
+  showLoadingGif('recommendationContainer');
   try {
       const response = await fetch(`http://localhost:3000/users`);
       if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      console.log('User data:', data);
+      if (data.users[0].interests && Array.isArray(data.users[0].interests) && data.users[0].interests.length > 0) {
+        console.log("render follower and post");
+        const interest = data.users[0].interests;
+        fetchFollowerRecommendations(interest);
+        fetchPostRecommendations(interest);
+      }
+      if (data.users[0].mastodonAccount?.trim()) {
+        console.log("render people");
+        const userMastodonURL = data.users[0].mastodonAccount;
+        fetchPeopleRecommended(userMastodonURL);
+      }
   } catch (error) {
       console.error('Error fetching user data:', error);
+  } finally {
+    hideLoadingGif('accountContainer');
+    hideLoadingGif('postContainer');
+    hideLoadingGif('recommendationContainer');
   }
 }
 
@@ -140,16 +172,6 @@ document.addEventListener("DOMContentLoaded", () => {
     logOut();
   })
 
-  // BUG: No user info return
-  // fetchUserData()
-
-  // dummy variable
-  let acc = "cse210team1@mastodon.social";
-  let interests = ["Pop", "Domestic"];
-  
-  // // Initial fetch when the page loads
-  fetchFollowerRecommendations(interests);
-  fetchPostRecommendations(interests);
-  fetchPeopleRecommended('cse210team1@mastodon.social');
+  fetchUserData()
 });
 

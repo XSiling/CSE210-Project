@@ -64,8 +64,6 @@ app.post('/login', async (req, res) => {
     }
 });
 
-// TODO:
-// have to know the username then fetch interest and mastodon account
 app.get('/users', (req, res) => {
     // Create a new array that contains user information without hashed passwords
     const safeUserData = users.map(user => {

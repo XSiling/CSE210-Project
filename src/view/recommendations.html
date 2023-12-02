@@ -22,10 +22,10 @@
                 <button
                   id="interestsTextButton"
                   type="button"
-                  onclick="closeProfile()">
+                  onclick="closeProfile()"
+                >
                   Close
                 </button>
-
               </div>
               <input
                 type="hidden"
@@ -33,7 +33,6 @@
                 name="username"
                 value="user1"
               />
-
 
               <input
                 type="hidden"
@@ -56,22 +55,22 @@
         >
           <div id="userProfile">
             <h2>PROFILE</h2>
-            <br/>
+            <br />
             <h4>User Name</h4>
             <div id="userProfileUsername"></div>
-            <br/>
+            <br />
             <h4>Interests</h4>
             <div id="userProfileInterests"></div>
           </div>
           <!-- <img class="profile-img" src="../images/la+.jpg" /> -->
-          <button class="edit-profile-btn" id="openProfileButton" onclick="editProfile()">
+          <button
+            class="edit-profile-btn"
+            id="openProfileButton"
+            onclick="editProfile()"
+          >
             Edit Profile
           </button>
-          <button 
-          id="logOutButton"
-          type="button">
-          LOG OUT
-        </button>
+          <button id="logOutButton" type="button">LOG OUT</button>
         </section>
         <div class="col-9">
           <section class="header-section">
@@ -79,15 +78,9 @@
             <!-- <button id="refreshButton" type="button" onclick="updateInterests()">Refresh</button> -->
           </section>
           <section class="recommendation-section">
-            <div id="accountContainer">
-              <img src="../images/loading.gif" alt="loading..." id="accountContainerLoading">
-            </div>
-            <div id="postContainer">
-              <img src="../images/loading.gif" alt="loading..." id="postContainerLoading">
-            </div>
-            <div id="recommendationContainer">
-              <img src="../images/loading.gif" alt="loading..." id="recommendationContainerLoading">
-            </div>
+            <div id="accountContainer"></div>
+            <div id="postContainer"></div>
+            <div id="recommendationContainer"></div>
           </section>
         </div>
       </div>
