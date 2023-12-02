@@ -11,9 +11,11 @@ from mastodon import Mastodon   # Importing the Mastodon class from the 'mastodo
     Returns:
     None
 """
-def register():
-    Mastodon.create_app(
-    'pytooterapp',                              # Name of the application
+def register(clientName):
+    return Mastodon.create_app(
+    clientName,                              # Name of the application
     api_base_url = 'https://mastodon.social',   # Mastodon server's base URL
-    to_file = 'pytooter_clientcred.secret'      # File to save the client credentials
+    # to_file = str(clientName)+ '.secret',      # File to save the client credentials
+    redirect_uris = "http://127.0.0.1:5000/get_Auth_Code"
+    
 )
