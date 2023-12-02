@@ -23,22 +23,30 @@ userInterests = [
     The results are stored in a dictionary named 'recommendations', which is then converted to
     a JSON object and written to a file named 'recommendations.json'.
 """
+def getRecs():
+    recommendations = {}    # Dictionary to store recommendations for each interest
+
+    # Iterating through each interest in the user's interests
+    for interest in userInterests:
+        # For each interest, retrieve top 2 followed accounts and top 2 posts using searchInterest function
+        recommendations[interest]={}
+        recommendations[interest]['top2FollowedAccounts'], recommendations[interest]['top2Posts'] = searchInterest(interest)
+
+    # Convert recommendations dictionary to a JSON object
+    json_object = json.dumps(recommendations, default=str, indent=4)
+    
+    # Write the JSON object to a file named "recommendations.json"
+    with open("recommendations.json", "w") as outfile:
+        outfile.write(json_object)
+
 def updateRecs():
     while True:
-        recommendations = {}    # Dictionary to store recommendations for each interest
+        try:
+            getRecs()
+        except:
+            print("Error while recommendations fetching")
+            pass
+        finally:
+            time.sleep(6*60*60) # Refresh recommendations every 6 hours
 
-        # Iterating through each interest in the user's interests
-        for interest in userInterests:
-            # For each interest, retrieve top 2 followed accounts and top 2 posts using searchInterest function
-            recommendations[interest]={}
-            recommendations[interest]['top2FollowedAccounts'], recommendations[interest]['top2Posts'] = searchInterest(interest)
-
-        # Convert recommendations dictionary to a JSON object
-        json_object = json.dumps(recommendations, default=str, indent=4)
-        
-        # Write the JSON object to a file named "recommendations.json"
-        with open("recommendations.json", "w") as outfile:
-            outfile.write(json_object)
-
-        time.sleep(6*60*60) # Refresh recommendations every 6 hours
 

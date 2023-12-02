@@ -15,16 +15,15 @@ import env                          # Importing the 'env' module (assuming it co
     Returns:
     Mastodon: A Mastodon object authenticated with the user's credentials.
 """
-def log_in():
+def log_in(clientName):
 
-    if not os.path.exists('pytooter_clientcred.secret'):
-        register()      # If client credentials file does not exist, register the app
+    id, secret = register(clientName)      # If client credentials file does not exist, register the app
         
-    mastodon = Mastodon(client_id = 'pytooter_clientcred.secret',request_timeout=10*60*60) # Create a Mastadon instance using client credentials with large request timeout
+    mastodon = Mastodon(client_id = id, client_secret = secret, api_base_url = 'https://mastodon.social', request_timeout=10*60*60) # Create a Mastadon instance using client credentials with large request timeout
 
     mastodon.log_in(
         os.environ.get('Mastodon_username'),    # Retrieve Mastodon username from environment variables
         os.environ.get('Mastodon_password'),    # Retrieve Mastodon password from environment variables
-        to_file = 'pytooter_usercred.secret'    # Save user credentials to this file
+        # to_file = 'pytooter_usercred.secret'    # Save user credentials to this file
     )
     return mastodon     # Return Mastodon object authenticated with the user's credentials
