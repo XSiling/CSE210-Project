@@ -15,6 +15,14 @@ body {
   border-radius: 10px;
 }
 
+.account-entry-form-container {
+  max-width: 500px;
+}
+
+.interests-form-container {
+  max-width: 750px;
+}
+
 #container-profile{
   display:none;
   max-width: 50%;
@@ -25,11 +33,6 @@ body {
   border-radius:10px;
   position: absolute; left: 50%; top: 50%;
   transform: translate(-50%, -50%);
-}
-
-
-#container-profile #interestsTextButton{
-  float:center;
 }
 
 form {
@@ -43,22 +46,23 @@ h2 {
   text-align: center;
 }
 
-span{
-    text-align:center;
+span {
+    text-align: center;
 }
 
 label {
   margin-top: 10px;
   margin-bottom: 10px;
-  margin-left: 0px;
-  margin-right: 0px;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 input {
-  padding: 10px;
-  margin: 5px 0;
-  width: 100%;
-  box-sizing: border-box;
+    padding: 10px;
+    margin: 5px 0;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
 }
 
 button {
@@ -77,13 +81,6 @@ a {
     text-decoration: none;
     margin-top: 15px;
     font-weight: bold;
-}
-
-form {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 form {
@@ -142,13 +139,13 @@ form {
 }
 
 #interests{
-  display:flex;
+  display: flex;
   justify-content: center;
   margin: 10px;
 }
 
 #interestsDiv{
-  width:95%;
+  width: 95%;
   /* height:200px; */
   display: flex;
   margin:0 auto;
@@ -201,7 +198,6 @@ i{
 .interestsRadio{
     padding:5px;
     text-align:center;
-    display:inline-block;
     width:auto;
     display: none;
 }
@@ -239,7 +235,6 @@ i{
 
 
 #interestsText{
-    float: center;
     flex-grow: 1;
     padding:10px;
     margin:10px;
