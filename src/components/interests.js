@@ -1,3 +1,4 @@
+const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
@@ -30,11 +31,7 @@ function addInterest(){
         checkboxItem.checked=true;
         checkRadio(checkboxItem);
     }
-
-    
-
 }
-
 
 function fetchUsername(){
     const url = window.location.href;
@@ -210,6 +207,7 @@ async function fetchCurrentInterests(){
         if (data.success){
             // set the mastodon content into some UI
             const username = fetchUsername();
+            const profile_img = data.users[0].profile_img;
             var html = "";
             var interests = [];
             for(var i=0; i<data.users.length; ++i){
@@ -228,6 +226,16 @@ async function fetchCurrentInterests(){
 
             document.getElementById("userProfileInterests").innerHTML = "<ul>" + html + "</ul>";
 
+            // TODO:
+            const container = document.getElementById("userProfileImage");
+            let profile_image = document.createElement("img");
+            profile_image.src = profile_img;
+            let smt = profile_image.src;
+            const image_url = smt.replace('/view', '/images/user-image');
+            profile_image.src = image_url+'.jpg';
+            profile_image.alt = "profile image";
+            profile_image.className = "profile-image";
+            container.appendChild(profile_image);
 
         }else{
             alert("fetching user interests failure");
@@ -235,9 +243,7 @@ async function fetchCurrentInterests(){
     }catch(error){
         console.error('Error during fetching user interests');
     }
-
 }
-
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {

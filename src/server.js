@@ -70,7 +70,8 @@ app.get('/users', (req, res) => {
         return {
             username: user.username,
             interests: user.interests,
-            mastodonAccount: user.mastodonAccount
+            mastodonAccount: user.mastodonAccount,
+            profile_img: user.profile_img,
         };
     });
 
@@ -79,14 +80,15 @@ app.get('/users', (req, res) => {
 
 // POST endpoint to receive interest data
 app.post('/interests', (req, res) => {
-    console.log(users);
-    const { username, interests, mastodonAccount } = req.body;
+    // console.log("interest:", users);
+    const { username, interests, mastodonAccount, profile_img } = req.body;
     const userIndex = users.findIndex(u => u.username === username);
 
     // Update user interests in backend if user is located
     if (userIndex !== -1) {
         users[userIndex].interests = interests;
         users[userIndex].mastodonAccount = mastodonAccount;
+        users[userIndex].profile_img = profile_img;
         res.json({ success: true, message: 'Interests updated successfully' });
     } else {
         // users.push({ username, hashedPassword, interests: interests });
