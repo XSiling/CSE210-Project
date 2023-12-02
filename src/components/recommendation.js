@@ -6,7 +6,6 @@ import { flaskApikey, nodeApikey } from '../api/api.js';
 // TODO
 // 1) Merge fetchFollower and fetchPost into one promise
 // 2) add backToTop button
-// 3) add user img to the profile
 
 function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);
