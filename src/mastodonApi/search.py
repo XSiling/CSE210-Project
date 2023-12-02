@@ -15,7 +15,7 @@ Returns:
 tuple: A tuple containing the top 2 followed accounts (as account dicts) and the top 2 posts related to the interest (as status dicts).
 """
 def searchInterest(interest):
-    # interest must be like this "travel"
+    # userMastodonURL must be like this "travel"
     # Return the top2FollowedAccounts in the form of account dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#account-dicts
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
@@ -74,6 +74,15 @@ def recommendPeople(userMastodonURL):
     
     following = client.account_following(userId)            # Retrieve user's following
     followers = client.account_followers(userId)            # Retrieve user's followers
+    
+    followedByFollowing = []
+    for user in following:
+        userID = user['id']
+        followedByFollowing.extend(client.account_following(userID))
+
+    print('length of followedByFollowing: ', len(followedByFollowing))
+    print('first account in this list: ', followedByFollowing[0]['username'])
+
     followersOfFollowing = []
     followingOfFollowers = []
 
@@ -96,3 +105,20 @@ def recommendPeople(userMastodonURL):
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
 
     return recommendedPeople    # Return recommended people
+
+
+userMastodonURL = '@stephenfry@mastodonapp.uk'
+
+recommendPeople(userMastodonURL)
+
+userMastodonURL2 = '@jamesgunn@c.im'
+
+recommendPeople(userMastodonURL2)
+
+userMastodonURL3 = '@gretathunberg@mastodon.nu'
+
+recommendPeople(userMastodonURL3)
+
+
+print('COMPLETE')
+
