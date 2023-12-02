@@ -1,11 +1,12 @@
 import unittest
 import os
 import sys
+
 path = '../src/mastodonApi'
 sys.path.insert(1, path)
+
+
 from search import *
-
-
 from mastodon.utility import AttribAccessDict
 
 
