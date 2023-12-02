@@ -6,11 +6,7 @@ mainClient = log_in("main")
 
 
 """
-<<<<<<< HEAD
-Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
-=======
     Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
->>>>>>> 1a30ff44e5dfef552fe90109e419b0dfdc570a40
 
 Args:
 interest (str): The interest keyword to search for.
@@ -55,11 +51,7 @@ def searchInterest(interest):
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
 """
-<<<<<<< HEAD
-Recommends accounts followed by someone the user follows on Mastodon.
-=======
     Recommends accounts followed by someone the user follows on Mastodon.
->>>>>>> 1a30ff44e5dfef552fe90109e419b0dfdc570a40
 
 Args:
 userMastodonURL (str): The Mastodon URL of the user.
