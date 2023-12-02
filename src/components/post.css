@@ -1,0 +1,77 @@
+.post-card {
+  background: #fff;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  padding: 20px;
+  max-width: 300em;
+  margin: 20px auto;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.post-card-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.post-card-user-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.post-card-username {
+  font-weight: bold;
+}
+
+.post-card-email {
+  color: #777;
+}
+
+.post-card-timestamp {
+  color: #777;
+  margin-left: auto;
+}
+
+.post-card-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 20%;
+}
+
+.post-card-content-section {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.post-card-content {
+  padding: 0px;
+  font-size: 1em;
+  font-weight: normal;
+  line-height: normal;
+  color: inherit;
+  font-family: inherit;
+  text-align: left;
+}
+
+.post-card-content-attach {
+    max-width: 400px;
+    height: auto;
+}
+
+.post-card-content-info-section {
+    color: #777;
+    margin-left: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.post-card-visibility {
+    padding-left: 5px;
+}

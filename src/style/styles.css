@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 body {
-    font-family: 'Helvetica Neue', sans-serif;
+    font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
     background-color: #fff;
     color: #333;
     margin: 0;

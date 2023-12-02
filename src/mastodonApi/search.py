@@ -5,7 +5,7 @@ import random               # Importing the 'random' module for random operation
 client = log_in()
 
 
- """
+"""
     Searches for an interest on Mastodon platform and retrieves top followed accounts and posts related to that interest.
 
     Args:
@@ -50,7 +50,7 @@ def searchInterest(interest):
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
- """
+"""
     Recommends accounts followed by someone the user follows on Mastodon.
 
     Args:

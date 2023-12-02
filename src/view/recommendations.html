@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="../style/main.css" />
     <link rel="stylesheet" href="../style/main.css.map" />
     <link rel="stylesheet" href="../style/recommendation.css" />
+    <link rel="stylesheet" href="../components/account.css" />
+    <link rel="stylesheet" href="../components/post.css" />
     <link rel="stylesheet" href="../components/card.css" />
     <title>Recommendations</title>
   </head>
@@ -74,19 +76,18 @@
         <div class="col-9">
           <section class="header-section">
             <h2>Recommendation</h2>
-            <button id="refreshButton" type="button" onclick="updateInterests()">Refresh</button>
+            <!-- <button id="refreshButton" type="button" onclick="updateInterests()">Refresh</button> -->
           </section>
           <section class="recommendation-section">
+            <div id="accountContainer">
+              <img src="../images/loading.gif" alt="loading..." id="accountContainerLoading">
+            </div>
             <div id="postContainer">
               <img src="../images/loading.gif" alt="loading..." id="postContainerLoading">
             </div>
-            
             <div id="recommendationContainer">
               <img src="../images/loading.gif" alt="loading..." id="recommendationContainerLoading">
             </div>
-
-
-
           </section>
         </div>
       </div>
@@ -95,7 +96,5 @@
     <script src="../script.js"></script>
     <script type="module" src="../components/interests.js"></script>
     <script type="module" src="../components/recommendation.js"></script>
-
-
   </body>
 </html>
