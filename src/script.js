@@ -226,14 +226,13 @@ function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-// Optional: Show the button when the user scrolls down
-window.onscroll = function () {
-  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-    document.getElementById("backToTopButton").style.display = "block";
-  } else {
-    document.getElementById("backToTopButton").style.display = "none";
-  }
-};
+// window.onscroll = function () {
+//   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+//     document.getElementById("backToTopButton").style.display = "block";
+//   } else {
+//     document.getElementById("backToTopButton").style.display = "none";
+//   }
+// };
 
 // Call loadRecommendations when the recommendations page is loaded
 // if (window.location.href.includes('recommendations.html')) {

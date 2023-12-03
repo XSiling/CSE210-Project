@@ -95,6 +95,7 @@ function close(){
     document.getElementById("expandButton").style.display = 'block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
+    fetchUserData();
 }
 
 
@@ -246,6 +247,21 @@ async function fetchCurrentInterests(){
         console.error('Error during fetching user interests');
     }
 }
+
+async function fetchUserData() {
+    try {
+        const response = await fetch(`${nodeApikey}/users`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const img = data.users[0].profile_img;
+        const selected_avatar = document.getElementById(img);
+        selected_avatar?.classList?.add('selected-img');
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+  }
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {
