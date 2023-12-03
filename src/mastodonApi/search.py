@@ -1,5 +1,9 @@
 from login import log_in    # Importing the log_in function from the 'login' module
 import random               # Importing the 'random' module for random operations
+from datetime import datetime
+import pytz
+
+
 
 # Logging in the client
 mainClient = log_in("main")
@@ -50,6 +54,21 @@ def searchInterest(interest):
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
+def calculate_activity(account):
+    current_datetime = datetime.now(pytz.UTC)
+
+    time_created = account['created_at']
+    time_created = time_created.replace(tzinfo=pytz.UTC)
+    time_diff = current_datetime - time_created
+
+    statuses_count = account['statuses_count']
+    if statuses_count == 0:
+        return 0
+    days_elapsed = time_diff.days
+    activity = days_elapsed / statuses_count
+    
+    return activity
+
 """
     Recommends accounts followed by someone the user follows on Mastodon.
 
@@ -81,16 +100,18 @@ def recommendPeople(userMastodonURL):
     for users in following:
         followersOfFollowing += mainClient.account_followers(users['id'])
     
-    followersOfFollowing.sort(key=lambda account: (account['followers_count']),reverse=True)    # sort profiles by follower count
+    followersOfFollowing.sort(key=lambda account: (-calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
     
     # Retrievefollowing of followers
     for users in followers:
         followingOfFollowers += mainClient.account_following(users['id'])
     
-    followingOfFollowers.sort(key=lambda account: (account['followers_count']),reverse=True)    # sort profiles by follower count
+    followingOfFollowers.sort(key=lambda account: (-calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
 
     # Combine followers of following and following of followers to recommend people
     recommendedPeople = random.sample(followersOfFollowing[:5] + followingOfFollowers[:5], min(3,len(followersOfFollowing[:5] + followingOfFollowers[:5])))
+
+    print('length of list before adding famous people: ', len(recommendedPeople))
     
     # Add some of the famous profiles to recommended People
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
