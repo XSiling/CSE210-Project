@@ -53,6 +53,9 @@ h2 {
 span {
     text-align: center;
 }
+label {
+    display: none; /* label invisible but useful for screen readers */
+}
 
 input {
     padding: 10px;
@@ -63,14 +66,20 @@ input {
 }
 
 button {
-    padding: 12px 20px;
-    width: 100%;
-    max-width: 300px;
+    padding: 10px 15px;
+    max-width: 90%;
     background-color: #6699cc;
     color: #fff;
     border: none;
     border-radius: 20px;
     cursor: pointer;
+    margin: 10px 0 0;
+}
+
+button .login-register-button {
+    padding: 12px 20px;
+    width: 100%;
+    max-width: 300px;
     margin: 14px 0 4px;
     font-weight: bold
 }
