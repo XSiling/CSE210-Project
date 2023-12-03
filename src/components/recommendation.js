@@ -5,7 +5,6 @@ import { flaskApikey, nodeApikey } from '../api/api.js';
 
 // TODO
 // 1) Merge fetchFollower and fetchPost into one promise
-// 2) add backToTop button
 
 function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);

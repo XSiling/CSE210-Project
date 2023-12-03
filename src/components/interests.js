@@ -1,3 +1,5 @@
+import { flaskApikey, nodeApikey } from '../api/api.js';
+
 const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
 
 const interestsData = [
@@ -46,7 +48,7 @@ function fetchUsername(){
 async function fetchMastodon(){
     console.log("fetch mastodon account from server...");
     try {
-        const response = await fetch('http://localhost:3000/users',{
+        const response = await fetch(`${nodeApikey}/users`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
@@ -196,7 +198,7 @@ async function fetchCurrentInterests(){
 
     console.log("fetch interests from server...");
     try {
-        const response = await fetch('http://localhost:3000/users',{
+        const response = await fetch(`${nodeApikey}/users`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
@@ -232,7 +234,7 @@ async function fetchCurrentInterests(){
             profile_image.src = profile_img;
             let smt = profile_image.src;
             const image_url = smt.replace('/view', '/images/user-image');
-            profile_image.src = image_url+'.jpg';
+            profile_image.src = image_url+'.png';
             profile_image.alt = "profile image";
             profile_image.className = "profile-image";
             container.appendChild(profile_image);
