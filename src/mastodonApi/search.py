@@ -110,8 +110,6 @@ def recommendPeople(userMastodonURL):
 
     # Combine followers of following and following of followers to recommend people
     recommendedPeople = random.sample(followersOfFollowing[:5] + followingOfFollowers[:5], min(3,len(followersOfFollowing[:5] + followingOfFollowers[:5])))
-
-    print('length of list before adding famous people: ', len(recommendedPeople))
     
     # Add some of the famous profiles to recommended People
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
