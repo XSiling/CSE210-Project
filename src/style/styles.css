@@ -67,8 +67,8 @@ input {
 
 button {
     padding: 10px 15px;
-    max-width: 90%;
     background-color: #6699cc;
+    max-width: 90%;
     color: #fff;
     border: none;
     border-radius: 20px;
@@ -76,7 +76,7 @@ button {
     margin: 10px 0 0;
 }
 
-button .login-register-button {
+button.login-register-button {
     padding: 12px 20px;
     width: 100%;
     max-width: 300px;
