@@ -72,7 +72,6 @@ def recommendPeople(userMastodonURL):
 
     userId = mainClient.account_lookup(userMastodonURL)['id']   # Retrieve user's ID
     
-<<<<<<< HEAD
     following = client.account_following(userId)            # Retrieve user's following
     followers = client.account_followers(userId)            # Retrieve user's followers
 
@@ -86,10 +85,6 @@ def recommendPeople(userMastodonURL):
     print('first account in this list: ', followedByFollowing[0]['username'])
     
 
-=======
-    following = mainClient.account_following(userId)            # Retrieve user's following
-    followers = mainClient.account_followers(userId)            # Retrieve user's followers
->>>>>>> main
     followersOfFollowing = []
     followingOfFollowers = []
 
@@ -114,8 +109,8 @@ def recommendPeople(userMastodonURL):
     return recommendedPeople    # Return recommended people
 
 
-userMastodonURL = '@cse210team1@mastodon.social'
-recommendPeople(userMastodonURL)
+#userMastodonURL = '@cse210team1@mastodon.social'
+#recommendPeople(userMastodonURL)
 
 
 #userMastodonURL = '@stephenfry@mastodonapp.uk'
