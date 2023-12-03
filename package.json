@@ -4,7 +4,7 @@
   "description": "CSE-210 Project",
   "source": "/src/login.html",
   "scripts": {
-    "test": "jest"
+    "test": "jest --maxWorkers==1"
   },
   "repository": {
     "type": "git",
