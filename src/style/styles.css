@@ -16,7 +16,7 @@ body {
 }
 
 .account-entry-form-container {
-  max-width: 500px;
+  max-width: 450px;
 }
 
 .interests-form-container {
@@ -24,7 +24,7 @@ body {
 }
 
 #container-profile{
-  display:none;
+  display: none;
   max-width: 50%;
   margin: 50px auto;
   padding: 20px;
@@ -36,44 +36,43 @@ body {
 }
 
 form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-  color: #333;
-  text-align: center;
+    color: #333;
+    text-align: center;
 }
 
 span {
     text-align: center;
 }
 
-label {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 0;
-  margin-right: 0;
-}
-
 input {
     padding: 10px;
-    margin: 5px 0;
+    margin: 8px 0;
     width: 100%;
     max-width: 300px;
     box-sizing: border-box;
 }
 
 button {
-    margin-top: 20px;
-    padding: 12px;
+    padding: 12px 20px;
+    width: 100%;
+    max-width: 300px;
     background-color: #6699cc;
     color: #fff;
     border: none;
-    border-radius: 5px;
+    border-radius: 20px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin: 14px 0 4px;
+    font-weight: bold
 }
 
 a {
@@ -81,13 +80,6 @@ a {
     text-decoration: none;
     margin-top: 15px;
     font-weight: bold;
-}
-
-form {
-    background: white;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .interest-bubbles,
@@ -157,11 +149,11 @@ input[type="checkbox"]:checked+i {
   color:white;
 }
 
-i:hover{
+i:hover {
   background-color:#cccccc;
 }
 
-i{
+i {
   border: 3px solid #000;
   border-radius: 15px;
   padding: 6px;
