@@ -75,7 +75,7 @@ def recommendPeople(userMastodonURL):
     following = client.account_following(userId)            # Retrieve user's following
     followers = client.account_followers(userId)            # Retrieve user's followers
 
-    
+    '''
     followedByFollowing = []
     for user in following:
         userID = user['id']
@@ -83,7 +83,7 @@ def recommendPeople(userMastodonURL):
 
     print('length of followedByFollowing: ', len(followedByFollowing))
     print('first account in this list: ', followedByFollowing[0]['username'])
-    
+    '''
 
     followersOfFollowing = []
     followingOfFollowers = []
