@@ -104,7 +104,7 @@ function createInterestsButtons(){
 
     // fetch from the database
 
-
+    
 
     // if not, predefined.
     var line=0;

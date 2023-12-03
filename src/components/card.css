@@ -10,6 +10,11 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  transition: transform 0.3s ease;
+}
+
+.people-card:hover {
+  transform: scale(1.03);
 }
 
 .people-card-upper-section {
