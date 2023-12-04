@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: '16'
       - name: install
-        run: yarn install
+        run: npm install
       - name: ESLint
         run: yarn run fix .
       - name: Prettier
