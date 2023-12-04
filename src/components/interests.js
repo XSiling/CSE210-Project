@@ -22,12 +22,12 @@ function addInterest(){
     const interest = document.getElementById("interestsText").value;
 
     let radiosData = [];
-    for (var i=0; i< interestsData.length; ++i){
+    for (let i=0; i< interestsData.length; ++i){
         radiosData = radiosData.concat(interestsData[i]);
     }
     const idx = radiosData.indexOf(interest);
     if (idx==-1){
-        alert("No such existed interests.");
+        alert("Enter one of the available interests");
     }else{
         const checkboxItem = document.getElementById(interest);
         checkboxItem.checked=true;
@@ -38,10 +38,10 @@ function addInterest(){
 function fetchUsername(){
     const url = window.location.href;
     const username = url.split('=')[1].split('&')[0];
-    
+
     document.getElementById("username").setAttribute("value", username);
     document.getElementById("userProfileUsername").innerHTML = username;
-    
+
     return username;
 }
 
@@ -59,8 +59,8 @@ async function fetchMastodon(){
         if (data.success){
             // set the mastodon content into some UI
             const username = fetchUsername();
-            var mastodonAccount = '';
-            for(var i=0; i<data.users.length; ++i){
+            let mastodonAccount = '';
+            for(let i=0; i<data.users.length; ++i){
                 if (data.users[i].username === username){
                     mastodonAccount = data.users[i].mastodonAccount;
                 }
@@ -71,7 +71,7 @@ async function fetchMastodon(){
             alert("fetching mastodon account failure");
         }
     }catch(error){
-        console.error('Error during fetching Mastodon Accocunt');
+        console.error('Error during fetching Mastodon Account');
     }
 
 
@@ -103,17 +103,13 @@ function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
 
     // fetch from the database
-
-    
-
     // if not, predefined.
-    var line=0;
-    
-    for(line; line<category; ++line){
+    let line=0;
 
+    for(line; line<category; ++line){
         //expand button
         if(line==5){
-            var expandButton = document.createElement("button");
+            let expandButton = document.createElement("button");
             expandButton.setAttribute("onclick", "expand()");
             expandButton.setAttribute("type", "button");
             expandButton.setAttribute("id", "expandButton");
@@ -121,23 +117,23 @@ function createInterestsButtons(){
             container.appendChild(expandButton);
         }
 
-        var container1 = document.createElement("div");
+        let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
         // container1.className = "interestsContainer";
 
-        var containerLabel = document.createElement("div");
+        let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
         containerLabel.innerHTML = interestsCategory[line] + "<hr>";
         container1.appendChild(containerLabel);
 
         interestsData[line].forEach(radioText=>{
-            var container2 = document.createElement("div");
+            let container2 = document.createElement("div");
             container2.setAttribute("class", "interestsContainer");
 
-            var radioLabel = document.createElement("label");
+            let radioLabel = document.createElement("label");
             radioLabel.setAttribute("for", radioText);
             radioLabel.setAttribute("class", "interestsLabel");
-            radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText + 
+            radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText +
             '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
@@ -147,7 +143,7 @@ function createInterestsButtons(){
     }
 
     // close button
-    var closeButton = document.createElement("button");
+    let closeButton = document.createElement("button");
     closeButton.setAttribute("onclick", "close()");
     closeButton.setAttribute("type", "button");
     closeButton.setAttribute("id", "closeButton");
@@ -159,8 +155,8 @@ function createInterestsButtons(){
 
 
     document.onclick = function(event) {
-        var el = event.target;
-        
+        let el = event.target;
+
         if (el.id == "expandButton") {
             expand();
         }
@@ -180,15 +176,15 @@ function createInterestsButtons(){
 
 function checkRadio(el){
     const maxRadio = 5;
-    var radioNumber = 0;
-    var radios = document.getElementsByClassName("interestsRadio");
+    let radioNumber = 0;
+    let radios = document.getElementsByClassName("interestsRadio");
     Array.from(radios).forEach((element)=>{
         if (element.checked){
             radioNumber += 1;
         }
     })
 
-    if (radioNumber > 5){
+    if (radioNumber > maxRadio){
         window.alert("You can only choose up to 5 interests!");
         el.checked = false;
     }
@@ -219,7 +215,7 @@ async function fetchCurrentInterests(){
                 }
             }
             let radiosData = [];
-            for (var i=0; i< interestsData.length; ++i){
+            for (let i=0; i< interestsData.length; ++i){
                 radiosData = radiosData.concat(interestsData[i]);
             }
             Array.from(interests).forEach(interest=>{
