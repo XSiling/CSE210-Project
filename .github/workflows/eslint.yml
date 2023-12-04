@@ -25,7 +25,9 @@ jobs:
         run: npm install
       - name: install-prettier
         run: npm install -g prettier
+      - name: install-eslint
+        run: npm install -g eslint
       - name: ESLint
-        run: npm run lint
+        run: npm run fix .
       - name: Prettier
-        run: npm run format
+        run: npm prettier --write .
