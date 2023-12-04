@@ -23,11 +23,7 @@ jobs:
           node-version: '16'
       - name: install
         run: npm install
-      - name: install-prettier
-        run: npm install -g prettier
       - name: install-eslint
         run: npm install -g eslint
       - name: ESLint
         run: npm run fix .
-      - name: Prettier
-        run: npm run prettier --write .
