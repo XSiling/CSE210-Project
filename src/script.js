@@ -130,9 +130,6 @@ async function login() {
     } catch (error) {
         console.error('Error during login:', error);
     }
-  } catch (error) {
-    console.error("Error during login:", error);
-  }
 }
 
 function checkLoginStatus() {
@@ -194,9 +191,6 @@ async function register() {
     } catch (error) {
         console.error('Error during registration:', error);
     }
-  } catch (error) {
-    console.error("Error during registration:", error);
-  }
 }
 
 async function logOut() {
@@ -247,9 +241,6 @@ async function updateInterests() {
     } catch (error) {
         console.error('Error updating interests:', error);
     }
-  } catch (error) {
-    console.error("Error updating interests:", error);
-  }
 }
 
 function scrollToTop() {
