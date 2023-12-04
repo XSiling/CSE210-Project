@@ -1,3 +1,6 @@
+import { flaskApikey, nodeApikey } from '../api/api.js';
+
+const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
@@ -30,11 +33,7 @@ function addInterest(){
         checkboxItem.checked=true;
         checkRadio(checkboxItem);
     }
-
-
-
 }
-
 
 function fetchUsername(){
     const url = window.location.href;
@@ -49,7 +48,7 @@ function fetchUsername(){
 async function fetchMastodon(){
     console.log("fetch mastodon account from server...");
     try {
-        const response = await fetch('http://localhost:3000/users',{
+        const response = await fetch(`${nodeApikey}/users`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
@@ -96,6 +95,7 @@ function close(){
     document.getElementById("expandButton").style.display = 'block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
+    fetchUserData();
 }
 
 
@@ -103,7 +103,6 @@ function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
 
     // fetch from the database
-
     // if not, predefined.
     let line=0;
 
@@ -196,7 +195,7 @@ async function fetchCurrentInterests(){
 
     console.log("fetch interests from server...");
     try {
-        const response = await fetch('http://localhost:3000/users',{
+        const response = await fetch(`${nodeApikey}/users`,{
             method: 'GET',
             headers:{
                 'Content-Type': 'application/json',
@@ -207,9 +206,10 @@ async function fetchCurrentInterests(){
         if (data.success){
             // set the mastodon content into some UI
             const username = fetchUsername();
-            let html = "";
-            let interests = [];
-            for(let i=0; i<data.users.length; ++i){
+            const profile_img = data.users[0].profile_img;
+            var html = "";
+            var interests = [];
+            for(var i=0; i<data.users.length; ++i){
                 if (data.users[i].username === username){
                     interests = data.users[i].interests;
                 }
@@ -225,6 +225,16 @@ async function fetchCurrentInterests(){
 
             document.getElementById("userProfileInterests").innerHTML = "<ul>" + html + "</ul>";
 
+            // TODO:
+            const container = document.getElementById("userProfileImage");
+            let profile_image = document.createElement("img");
+            profile_image.src = profile_img;
+            let smt = profile_image.src;
+            const image_url = smt.replace('/view', '/images/user-image');
+            profile_image.src = image_url+'.png';
+            profile_image.alt = "profile image";
+            profile_image.className = "profile-image";
+            container.appendChild(profile_image);
 
         }else{
             alert("fetching user interests failure");
@@ -232,9 +242,22 @@ async function fetchCurrentInterests(){
     }catch(error){
         console.error('Error during fetching user interests');
     }
-
 }
 
+async function fetchUserData() {
+    try {
+        const response = await fetch(`${nodeApikey}/users`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        const img = data.users[0].profile_img;
+        const selected_avatar = document.getElementById(img);
+        selected_avatar?.classList?.add('selected-img');
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+    }
+  }
 
 // Call when the interests page is loaded
 if (window.location.href.includes('interests.html')) {

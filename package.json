@@ -4,6 +4,8 @@
   "description": "CSE-210 Project",
   "source": "/src/login.html",
   "scripts": {
+    "server1": "node src/server.js",
+    "server2": "python src/mastodonApi/api.py",
     "test": "jest --maxWorkers==1"
   },
   "repository": {

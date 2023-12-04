@@ -1,247 +1,105 @@
-// let recommendPost = {
-//   account: {
-//     acct: "tiesa@ceilidh.online",
-//     avatar:
-//       "https://files.mastodon.social/cache/accounts/avatars/109/304/411/845/745/927/original/7ddba4b0705d9208.jpeg",
-//     avatar_static:
-//       "https://files.mastodon.social/cache/accounts/avatars/109/304/411/845/745/927/original/7ddba4b0705d9208.jpeg",
-//     bot: false,
-//     created_at: "2022-11-18 00:00:00+00:00",
-//     discoverable: true,
-//     display_name: "Tiesa Meskis",
-//     emojis: [],
-//     fields: [
-//       {
-//         name: "Pronouns",
-//         value: "She/Her",
-//         verified_at: null,
-//       },
-//       {
-//         name: "Website",
-//         value:
-//           '<a href="https://www.meskis.net/tiesa" rel="nofollow noopener noreferrer" translate="no" target="_blank"><span class="invisible">https://www.</span><span class="">meskis.net/tiesa</span><span class="invisible"></span></a>',
-//         verified_at: null,
-//       },
-//       {
-//         name: "Location",
-//         value: "Territorial traditional land of the Pomo and Miwok People",
-//         verified_at: null,
-//       },
-//     ],
-//     followers_count: 273,
-//     following_count: 628,
-//     group: false,
-//     header:
-//       "https://files.mastodon.social/cache/accounts/headers/109/304/411/845/745/927/original/6655d12b070fa1fb.webp",
-//     header_static:
-//       "https://files.mastodon.social/cache/accounts/headers/109/304/411/845/745/927/original/6655d12b070fa1fb.webp",
-//     id: 109304411845745920,
-//     last_status_at: "2023-11-29 00:00:00",
-//     locked: true,
-//     note: "<p>I am an activist, geek, Mother, aspiring Goddess, and fierce advocate for equal rights.<br>Search for me on your favorite engine, you will not be disappointed.</p>",
-//     statuses_count: 2052,
-//     uri: "https://ceilidh.online/users/tiesa",
-//     url: "https://ceilidh.online/@tiesa",
-//     username: "tiesa",
-//   },
-//   bookmarked: false,
-//   card: null,
-//   content:
-//     '<p>Hey <a href="https://ceilidh.online/tags/BayArea" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>BayArea</span></a> peeps! This Saturday I will be the guest <a href="https://ceilidh.online/tags/DJ" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>DJ</span></a> for <a href="https://ceilidh.online/tags/Lush" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>Lush</span></a> at Vintage Spaces in the <a href="https://ceilidh.online/tags/Flamingo" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>Flamingo</span></a> <a href="https://ceilidh.online/tags/Hotel" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>Hotel</span></a> in <a href="https://ceilidh.online/tags/SantaRosa" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>SantaRosa</span></a>. </p><p>This is a fun, inclusive event that is held on the second Saturday every month. </p><p>It’s always a <a href="https://ceilidh.online/tags/party" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>party</span></a> and I will be spinning you on a crazy <a href="https://ceilidh.online/tags/journey" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>journey</span></a> of <a href="https://ceilidh.online/tags/emotion" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>emotion</span></a> and <a href="https://ceilidh.online/tags/love" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>love</span></a> through <a href="https://ceilidh.online/tags/sound" class="mention hashtag" rel="nofollow noopener noreferrer" target="_blank">#<span>sound</span></a>. </p><p>Please boost this to the moon and cum have an amazing time with me!</p>',
-//   created_at: "2023-11-09 15:37:02+00:00",
-//   edited_at: null,
-//   emojis: [],
-//   favourited: false,
-//   favourites_count: 0,
-//   filtered: [],
-//   id: 111381330591595500,
-//   in_reply_to_account_id: null,
-//   in_reply_to_id: null,
-//   language: "en",
-//   media_attachments: [
-//     {
-//       blurhash: "U9C5fWkD0.r?q,$jk*W=xKjHxSxGN=ofInad",
-//       description:
-//         "Event poster for Lush at Vintage spaces on Saturday, November 11, 2023. In the center is a picture of DJ EmBass wearing a pink collard, sleeveless top, hair is in pigtails and pink sparkly framed glasses rest on her nose.",
-//       id: 111381330301160640,
-//       meta: {
-//         focus: {
-//           x: -0.0034187825520833244,
-//           y: 0,
-//         },
-//         original: {
-//           aspect: 0.772,
-//           height: 1000,
-//           size: "772x1000",
-//           width: 772,
-//         },
-//         small: {
-//           aspect: 0.7728937728937729,
-//           height: 546,
-//           size: "422x546",
-//           width: 422,
-//         },
-//       },
-//       preview_remote_url: null,
-//       preview_url:
-//         "https://files.mastodon.social/cache/media_attachments/files/111/381/330/301/160/638/small/6dcdfd3433c1411e.jpeg",
-//       remote_url:
-//         "https://sfo3.digitaloceanspaces.com/ceilidh/media_attachments/files/111/381/295/750/165/530/original/8f24560e194413bc.jpeg",
-//       text_url: null,
-//       type: "image",
-//       url: "https://files.mastodon.social/cache/media_attachments/files/111/381/330/301/160/638/original/6dcdfd3433c1411e.jpeg",
-//     },
-//     {
-//       blurhash: "U7BCc@bcD*xC+T$*OkjJzprtl7t79psqI]NZ",
-//       description:
-//         "Event poster for Lush at Vintage spaces on Saturday, November 11, 2023. In the center are the DJs, EmBass and Dyops, and start time 9PM, ticket price $15, and ages 21",
-//       id: 111381330440728600,
-//       meta: {
-//         original: {
-//           aspect: 0.772,
-//           height: 1000,
-//           size: "772x1000",
-//           width: 772,
-//         },
-//         small: {
-//           aspect: 0.7728937728937729,
-//           height: 546,
-//           size: "422x546",
-//           width: 422,
-//         },
-//       },
-//       preview_remote_url: null,
-//       preview_url:
-//         "https://files.mastodon.social/cache/media_attachments/files/111/381/330/440/728/616/small/66c1c91da604fd1e.jpeg",
-//       remote_url:
-//         "https://sfo3.digitaloceanspaces.com/ceilidh/media_attachments/files/111/381/295/799/754/222/original/3d6f7055e41bf5fc.jpeg",
-//       text_url: null,
-//       type: "image",
-//       url: "https://files.mastodon.social/cache/media_attachments/files/111/381/330/440/728/616/original/66c1c91da604fd1e.jpeg",
-//     },
-//   ],
-//   mentions: [],
-//   muted: false,
-//   poll: null,
-//   reblog: null,
-//   reblogged: false,
-//   reblogs_count: 1,
-//   replies_count: 0,
-//   sensitive: false,
-//   spoiler_text: "",
-//   tags: [
-//     {
-//       name: "bayarea",
-//       url: "https://mastodon.social/tags/bayarea",
-//     },
-//     {
-//       name: "dj",
-//       url: "https://mastodon.social/tags/dj",
-//     },
-//     {
-//       name: "lush",
-//       url: "https://mastodon.social/tags/lush",
-//     },
-//     {
-//       name: "flamingo",
-//       url: "https://mastodon.social/tags/flamingo",
-//     },
-//     {
-//       name: "hotel",
-//       url: "https://mastodon.social/tags/hotel",
-//     },
-//     {
-//       name: "santarosa",
-//       url: "https://mastodon.social/tags/santarosa",
-//     },
-//     {
-//       name: "party",
-//       url: "https://mastodon.social/tags/party",
-//     },
-//     {
-//       name: "journey",
-//       url: "https://mastodon.social/tags/journey",
-//     },
-//     {
-//       name: "emotion",
-//       url: "https://mastodon.social/tags/emotion",
-//     },
-//     {
-//       name: "love",
-//       url: "https://mastodon.social/tags/love",
-//     },
-//     {
-//       name: "sound",
-//       url: "https://mastodon.social/tags/sound",
-//     },
-//   ],
-//   uri: "https://ceilidh.online/users/tiesa/statuses/111381330185207335",
-//   url: "https://ceilidh.online/@tiesa/111381330185207335",
-//   visibility: "public",
-// };
-
 export function renderRecommendationPost(recommendAccount) {
-  const card = document.createElement('div');
-  card.className = 'post-card';
+  console.log(recommendAccount);
 
-  const email = document.createElement('p');
+  const card = document.createElement("article");
+  card.className = "post-card";
+
+  const header_section = document.createElement("div");
+  header_section.className = "post-card-header";
+
+  const user_info = document.createElement("div");
+  user_info.className = "post-card-user-info";
+
+  const name_section = document.createElement("span");
+  name_section.className = "post-card-name";
+
+  const username = document.createElement("span");
+  username.textContent = recommendAccount?.account?.username;
+  username.className = "post-card-username";
+
+  const email = document.createElement("span");
   email.textContent = recommendAccount?.account?.acct;
-  
-  const username = document.createElement('p');
-  username.textContent = recommendAccount?.account?.display_name;
+  email.className = "post-card-email";
 
-  const followers = document.createElement('p');
-  followers.textContent = `Followers: ${recommendAccount.account.followers_count}`;
+  user_info.appendChild(username);
+  user_info.appendChild(email);
 
-  const following = document.createElement('p');
-  following.textContent = ` Following: ${recommendAccount.account.following_count}`;
-
-  const avatar = document.createElement('img');
+  const avatar = document.createElement("img");
   avatar.src = recommendAccount?.account?.avatar;
-  avatar.alt = 'Avatar';
+  avatar.alt = "Avatar";
+  avatar.className = "post-card-avatar";
 
-  const content = document.createElement('p');
-  content.innerHTML  = recommendAccount.content;
+  const time = document.createElement("p");
+  if (recommendAccount?.created_at) {
+    const date = new Date(recommendAccount.created_at);
+    time.textContent = date.toLocaleDateString("en-US");
+  }
+  time.className = "post-card-timestamp";
 
-  const viewed_num = document.createElement('p');
-  viewed_num.textContent = `Viewed: ${recommendAccount.account.statuses_count}`;
+  header_section.appendChild(avatar);
+  header_section.appendChild(user_info);
+  header_section.appendChild(time);
 
-  const url = document.createElement('p');
-  url.textContent = recommendAccount.account.uri;
+  const content_section = document.createElement("section");
+  content_section.className = "post-card-content-section";
 
-  const tagsContainer = document.createElement('div');
-  tagsContainer.className = 'tags-container';
+  const content = document.createElement("p");
+  content.innerHTML = recommendAccount.content;
+  content.className = "post-card-content";
 
-  if (recommendAccount.tags && Array.isArray(recommendAccount.tags)) {
-    recommendAccount.tags.forEach(tag => {
-      const tagButton = document.createElement('a'); // Use 'a' for links
-      tagButton.href = tag.url; // Set the URL for the tag
-      tagButton.textContent = tag.name; // Set the tag name as text
-      tagButton.className = 'tag-button'; // Optional: Add a class for styling
-      tagButton.target = "_blank"; // Open in new tab
-      tagButton.rel = "noopener noreferrer"; // Security measure for opening links in new tab
+  content_section.appendChild(content);
 
+  if (recommendAccount?.media_attachments[0]?.url) {
+    const content_attach = document.createElement("img");
+    content_attach.src = recommendAccount.media_attachments[0]?.url;
+    content_attach.alt = "content attachment";
+    content_attach.className = "post-card-content-attach";
+    content_section.appendChild(content_attach);
+  }
+
+  const content_info_section = document.createElement("span");
+  content_info_section.className = "post-card-content-info-section";
+
+  const viewed_num = document.createElement("p");
+  viewed_num.textContent = `Viewed: ${recommendAccount.account.statuses_count} |`;
+  viewed_num.className = "post-card-viewed";
+
+  const visibility = document.createElement("p");
+  visibility.textContent = `Visibility: ${recommendAccount.visibility}`;
+  visibility.className = "post-card-visibility";
+
+  content_info_section.appendChild(viewed_num);
+  content_info_section.appendChild(visibility);
+  content_section.appendChild(content_info_section);
+
+  // const url = document.createElement('p');
+  // url.textContent = recommendAccount.account.uri;
+
+  const tagsContainer = document.createElement("div");
+  tagsContainer.className = "post-card-tags-container";
+
+  if (
+    recommendAccount.tags &&
+    Array.isArray(recommendAccount.tags) &&
+    recommendAccount.tags.length > 0
+  ) {
+    recommendAccount.tags.forEach((tag) => {
+      const tagButton = document.createElement("a");
+      tagButton.href = tag.url;
+      tagButton.textContent = `#${tag.name} `;
+      tagButton.className = "tag-button";
+      tagButton.target = "_blank";
+      tagButton.rel = "noopener noreferrer";
       tagsContainer.appendChild(tagButton);
     });
   } else {
-    console.log("notags");
+    tagsContainer.style.display = "none";
   }
 
-  const visibility = document.createElement('p');
-  visibility.textContent = `Visibility: ${recommendAccount.visibility}`;
-
-  card.appendChild(avatar);
-  card.appendChild(email);
-  card.appendChild(username);
-  card.appendChild(followers);
-  card.appendChild(following);
-  card.appendChild(content);
-  card.appendChild(viewed_num);
-  card.appendChild(url);
-  card.appendChild(tagsContainer);
-  card.appendChild(visibility);
-
+  card.appendChild(header_section);
+  card.appendChild(content_section);
+  if (tagsContainer.hasChildNodes()) {
+    card.appendChild(tagsContainer);
+  }
   return card;
 }
-
-// renderRecommendation();

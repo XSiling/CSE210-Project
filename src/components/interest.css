@@ -1,0 +1,16 @@
+.profile-predefined-img-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.profile-predefined-img {
+    width: 23%;
+    height: 120px;
+    margin-bottom: 15px;
+}
+
+.selected-img {
+    border: 8px solid #4CAF50;
+}

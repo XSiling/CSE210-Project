@@ -1,53 +1,53 @@
-export function renderPeopleRecommendation(recommendationData) {
+export function renderFollowerRecommendation(recommendationData) {
   const card = document.createElement('section');
-  card.className = 'people-card';
+  card.className = 'follower-card';
 
   const upperContainer = document.createElement('section');
   const middleContainer = document.createElement('section');
   const lowerContainer = document.createElement('section');
-  upperContainer.className = 'people-card-upper-section';
-  middleContainer.className = 'people-card-middle-section';
-  lowerContainer.className = 'people-card-lower-section';
+  upperContainer.className = 'follower-card-upper-section';
+  middleContainer.className = 'follower-card-middle-section';
+  lowerContainer.className = 'follower-card-lower-section';
   
   const imgContainer = document.createElement('section');
   const infoContainer = document.createElement('section');
-  imgContainer.className = 'people-card-img-section';
-  infoContainer.className = 'people-card-info-section';
+  imgContainer.className = 'follower-card-img-section';
+  infoContainer.className = 'follower-card-info-section';
 
   const avatar = document.createElement('img');
   avatar.src = recommendationData.avatar;
   avatar.alt = 'Avatar';
-  avatar.className = 'people-card-avatar';
+  avatar.className = 'follower-card-avatar';
 
   const nameUsernameContainer = document.createElement('section');
   const followersFollowingContainer = document.createElement('section');
-  nameUsernameContainer.className = 'people-card-name-username-container';
-  followersFollowingContainer.className = 'people-card-followers-following-container';
+  nameUsernameContainer.className = 'follower-card-name-username-container';
+  followersFollowingContainer.className = 'follower-card-followers-following-container';
 
   const name = document.createElement('p');
   name.textContent = recommendationData.display_name;
-  name.className = 'people-card-name';
+  name.className = 'follower-card-name';
 
   const username = document.createElement('p');
   username.textContent = `(${recommendationData.username})`;
-  username.className = 'people-card-username';
+  username.className = 'follower-card-username';
 
   const followers = document.createElement('p');
   followers.textContent = `Followers: ${recommendationData.followers_count}|`;
-  followers.className = 'people-card-followers';
+  followers.className = 'follower-card-followers';
 
   const following = document.createElement('p');
   following.textContent = `Following: ${recommendationData.following_count}`;
-  followers.className = 'people-card-following';
+  followers.className = 'follower-card-following';
 
   const bio = document.createElement('p');
   bio.innerHTML = recommendationData.note;
-  bio.className = 'people-card-bio';
+  bio.className = 'follower-card-bio';
 
   const profileLink = document.createElement('a');
   profileLink.href = recommendationData.url;
   profileLink.textContent = 'View Profile';
-  profileLink.className = 'people-card-profile-link';
+  profileLink.className = 'follower-card-profile-link';
   profileLink.target = '_blank';
   profileLink.rel = 'noopener noreferrer';
 
