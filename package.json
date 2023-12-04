@@ -7,10 +7,10 @@
     "server1": "node src/server.js",
     "server2": "python src/mastodonApi/api.py",
     "test": "jest --maxWorkers==1",
-    "lint": "eslint --ext .ts,.tsx ./src",
+    "lint": "eslint --ext .js,.jsx",
     "fix": "npm run format && npm run lint:fix",
-    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
-    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
+    "format": "prettier --write --ext .js,.jsx .",
+    "lint:fix": "eslint --fix --ext .js,.jsx .",
     "fix:eslint": "eslint src --ext .js,.ts,.jsx,.tsx --fix",
     "fix:prettier": "prettier --write ."
   },
