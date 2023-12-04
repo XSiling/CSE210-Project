@@ -85,5 +85,5 @@ For more details on implementational functionality and tests, refer to individua
 
 - [Login Functionality](docs/backend/login.md)
 - [Registration Functionality](docs/backend/register.md)
-
+- [Interests Functionality](docs/backend/interests.md)
 
