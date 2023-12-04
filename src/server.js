@@ -128,7 +128,6 @@ app.get('/users', (req, res) => {
 
 // POST endpoint to receive interest data
 app.post("/interests", (req, res) => {
-  // console.log("interest:", users);
   const { username, interests, mastodonAccount, profile_img } = req.body;
   const userIndex = users.findIndex((u) => u.username === username);
 
