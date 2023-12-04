@@ -37,7 +37,7 @@ async function login() {
 
         if (data.success) {
             // Redirect to recommendations page on successful login
-            var url = 'recommendations.html?username=' + data.userName;
+            let url = 'recommendations.html?username=' + data.userName;
             // Array.from(data.interests).forEach((element)=>{
             //     url += '&Interests=';
             //     url += element;
@@ -60,7 +60,7 @@ async function register() {
     const confirmPassword = document.getElementById('confirmPassword').value;
     const email = document.getElementById('email').value;
 
-    // make sure the passward matches
+    // make sure the password matches
     if (password !== confirmPassword) {
         alert("Passwords do not match");
         return;
@@ -78,7 +78,7 @@ async function register() {
         const data = await response.json();
         console.log(data);
         if (data.success) {
-            var url = '../view/interests.html?username=' + data.userName;
+            let url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
             window.location.href = url;
         } else {
@@ -104,11 +104,11 @@ async function updateInterests() {
     const interests = [];
     let radiosData = [];
 
-    for (var i=0; i<interestsData1.length; ++i){
+    for (let i=0; i<interestsData1.length; ++i){
         radiosData = radiosData.concat(interestsData1[i]);
     }
 
-    for(var i=0; i<interestsList.length; ++i){
+    for(let i=0; i<interestsList.length; ++i){
         if (interestsList[i].checked){
             interests.push(radiosData[i]);
         }
@@ -129,7 +129,7 @@ async function updateInterests() {
 
         if (data.success) {
             //Redirect to recommendations page on successful interests update
-            var url = 'recommendations.html?username=' + username;
+            let url = 'recommendations.html?username=' + username;
            window.location.href = url;
         } else {
             alert(data.message);
