@@ -133,7 +133,7 @@ async function login() {
 }
 
 function checkLoginStatus() {
-    fetch('/check-login')
+    fetch('http://localhost:3000/check-login')
         .then(response => response.json())
         .then(data => {
             if (data.loggedIn) {
@@ -146,8 +146,8 @@ function checkLoginStatus() {
 window.onload = checkLoginStatus; // Call this function on window load
 
 //Handling Logout
-document.getElementById('logoutButton').addEventListener('click', () => {
-    fetch('/logout')
+document.getElementById('logOutButton').addEventListener('click', () => {
+    fetch('http://localhost:3000/logout')
         .then(response => response.json())
         .then(data => {
             if (data.success) {
