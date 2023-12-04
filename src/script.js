@@ -135,6 +135,31 @@ async function login() {
   }
 }
 
+function checkLoginStatus() {
+    fetch('/check-login')
+        .then(response => response.json())
+        .then(data => {
+            if (data.loggedIn) {
+                document.getElementById('loginButton').style.display = 'none';
+                // Additional actions based on login status
+            }
+        });
+}
+
+window.onload = checkLoginStatus; // Call this function on window load
+
+//Handling Logout
+document.getElementById('logoutButton').addEventListener('click', () => {
+    fetch('/logout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload(); // Reload the page after logout
+            }
+        });
+});
+
+
 // Function to handle registration
 async function register() {
     const username = document.getElementById('newUsername').value;
