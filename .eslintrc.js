@@ -22,5 +22,9 @@ module.exports = {
         "sourceType": "module"
     },
     "rules": {
+        "no-unused-vars": 1,
+        "no-undef": 1,
+        "no-inner-declarations": 1,
+        "no-prototype-builtins": 1
     }
 }
