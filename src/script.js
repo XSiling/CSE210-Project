@@ -130,10 +130,32 @@ async function login() {
     } catch (error) {
         console.error('Error during login:', error);
     }
-  } catch (error) {
-    console.error("Error during login:", error);
-  }
 }
+
+function checkLoginStatus() {
+    fetch('/check-login')
+        .then(response => response.json())
+        .then(data => {
+            if (data.loggedIn) {
+                document.getElementById('loginButton').style.display = 'none';
+                // Additional actions based on login status
+            }
+        });
+}
+
+window.onload = checkLoginStatus; // Call this function on window load
+
+//Handling Logout
+document.getElementById('logoutButton').addEventListener('click', () => {
+    fetch('/logout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.reload(); // Reload the page after logout
+            }
+        });
+});
+
 
 // Function to handle registration
 async function register() {
@@ -169,9 +191,6 @@ async function register() {
     } catch (error) {
         console.error('Error during registration:', error);
     }
-  } catch (error) {
-    console.error("Error during registration:", error);
-  }
 }
 
 async function logOut() {
@@ -222,9 +241,6 @@ async function updateInterests() {
     } catch (error) {
         console.error('Error updating interests:', error);
     }
-  } catch (error) {
-    console.error("Error updating interests:", error);
-  }
 }
 
 function scrollToTop() {

@@ -5,9 +5,16 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
-
+const session = require('express-session');
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use(session({
+    secret: 'negative_10x_developers',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
 let users = [];
 
@@ -59,28 +66,53 @@ app.post("/login", async (req, res) => {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
 
-      if (match) {
-        res.json({
-          success: true,
-          message: "Login successful",
-          userName: username,
-          interests: user.interests,
-          mastodonAccount: user.mastodonAccount,
-        });
-      } else {
-        res
-          .status(401)
-          .json({ success: false, message: "Invalid credentials" });
-      }
-    } else {
-      res.status(401).json({ success: false, message: "Invalid credentials" });
+            if (match) {
+                req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
+                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
+            } else {
+                res.status(401).json({ success: false, message: 'Invalid credentials' });
+            }
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-  } catch (error) {
-    res.status(500).json({ success: false, message: "Internal Server Error" });
-  }
 });
 
-app.get("/users", (req, res) => {
+app.get('/check-login', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
+
+// Logout function
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.json({ success: true, message: 'Logged out successfully' });
+});
+
+
+app.get('/check-login', (req, res) => {
+    if (req.session.user) {
+        res.json({ loggedIn: true, user: req.session.user });
+    } else {
+        res.json({ loggedIn: false });
+    }
+});
+
+
+// Logout function
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.json({ success: true, message: 'Logged out successfully' });
+});
+
+
+app.get('/users', (req, res) => {
   // Create a new array that contains user information without hashed passwords
   const safeUserData = users.map((user) => {
     return {
