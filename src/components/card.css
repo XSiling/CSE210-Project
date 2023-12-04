@@ -56,3 +56,22 @@
 .people-card-bio {
     text-align: left;
 }
+
+.people-card-lower-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.people-card-follow-button {
+  margin-left: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.people-card-profile-link:hover,
+.people-card-follow-button:hover {
+  color: #01796f;
+  transform: scale(1.1);
+}
