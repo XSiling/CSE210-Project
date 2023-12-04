@@ -30,4 +30,4 @@ jobs:
       - name: ESLint
         run: npm run fix .
       - name: Prettier
-        run: npm prettier --write .
+        run: npm run prettier --write .

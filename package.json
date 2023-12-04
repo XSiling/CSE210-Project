@@ -8,7 +8,7 @@
     "server2": "python src/mastodonApi/api.py",
     "test": "jest --maxWorkers==1",
     "lint": "eslint --ext .ts,.tsx ./src",
-    "fix": "npm format && npm lint:fix",
+    "fix": "npm run format && npm run lint:fix",
     "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
     "fix:eslint": "eslint src --ext .js,.ts,.jsx,.tsx --fix",
