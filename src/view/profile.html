@@ -1,39 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet">
-    <title>Interests</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/styles.css" />
+    <link rel="stylesheet" href="../components/profile.css" />
+    <title>Edit Profile</title>
+  </head>
+  <body>
     <div class="container-profile">
-        <div id="main">
-            <form id="interestsForm">
-                <div id="formDiv">
-                    <div id="interestsDiv">
-                        <input type="text" id="interestsText">
-                        <button id="interestsTextButton" type="button" onclick="addInterest()">Select</button>
-                    </div>
-                        <input type="hidden" id="username" name="username" value="user1">
-                        <div id="interests">
-                            <div id="interestsButtons">
-                                
-                            </div>
-                        </div>
-                        <br>
-                        <div id="account">
-                            <h2>(Optional) Link with your ActivityPub account:</h2>
-                            <input type="email" placeholder="xxx@mastodon.social">
-                        </div>
-                </div>
-            </form>
-        </div>
+      <div id="main">
+        <form id="interestsForm">
+          <div id="formDiv">
+            <div>
+              <h2>CHOOSE YOUR PROFILE IMAGE</h2>
+              <section class="profile-predefined-img-section">
+                <img
+                  src="../images/user-image/profile-predefined-img-1.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-1"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-2.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-2"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-3.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-3"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-4.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-4"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-5.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-5"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-6.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-6"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-7.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-7"
+                />
+                <img
+                  src="../images/user-image/profile-predefined-img-8.png"
+                  alt="User Image"
+                  class="profile-predefined-img"
+                  id="profile-predefined-img-8"
+                />
+              </section>
+            </div>
+            <div id="interestsDiv">
+              <input type="text" id="interestsText" />
+              <button
+                id="interestsTextButton"
+                type="button"
+                onclick="addInterest()"
+              >
+                Select
+              </button>
+            </div>
+            <input type="hidden" id="username" name="username" value="user1" />
+            <div id="interests">
+              <div id="interestsButtons"></div>
+            </div>
+            <br />
+            <div id="account">
+              <h2>(Optional) Link with your ActivityPub account:</h2>
+              <input type="email" placeholder="xxx@mastodon.social" />
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", (event) => {
+        let images = document.querySelectorAll(".profile-predefined-img");
+        images.forEach((img) => {
+          img.addEventListener("click", function () {
+            images.forEach((i) => i.classList.remove("selected-img"));
+            this.classList.add("selected-img");
+          });
+        });
+      });
+    </script>
+
     <script src="../script.js"></script>
-</body>
+  </body>
 </html>

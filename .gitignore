@@ -133,3 +133,5 @@ src/mastodonApi/pytooter_usercred.secret
 src/mastodonApi/__pycache__/*
 pytooter_clientcre.secret
 pytooter_usercard.secret
+__pycache__/*
+recommendations.json
