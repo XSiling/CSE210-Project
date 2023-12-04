@@ -118,7 +118,7 @@ async function fetchPeopleRecommended(userMastodonURL) {
       const container = document.getElementById("recommendationContainer");
       container.innerHTML = "";
       const header = document.createElement('h3');
-      header.textContent = "People U Might Know";
+      header.textContent = "People You Might Know";
       container.appendChild(header);
       data.forEach((userData) => {
         const card = renderPeopleRecommendation(userData);
@@ -132,6 +132,7 @@ async function fetchPeopleRecommended(userMastodonURL) {
 
 // Fetch interest and user account infos
 async function fetchUserData() {
+  // Show loading GIFs
   showLoadingGif('accountContainer');
   showLoadingGif('postContainer');
   showLoadingGif('recommendationContainer');
@@ -144,14 +145,15 @@ async function fetchUserData() {
       if (data.users[0].interests && Array.isArray(data.users[0].interests) && data.users[0].interests.length > 0) {
         console.log("render follower and post");
         const interest = data.users[0].interests;
-        fetchFollowerRecommendations(interest);
-        fetchPostRecommendations(interest);
+        await fetchFollowerRecommendations(interest);
+        await fetchPostRecommendations(interest);
       }
       if (data.users[0].mastodonAccount?.trim()) {
         console.log("render people");
         const userMastodonURL = data.users[0].mastodonAccount;
-        fetchPeopleRecommended(userMastodonURL);
+        await fetchPeopleRecommended(userMastodonURL);
       }
+      console.log("render finish");
   } catch (error) {
       console.error('Error fetching user data:', error);
   } finally {
@@ -170,3 +172,24 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchUserData()
 });
 
+async function getCredential() {
+  console.log("credential button clicked");
+  // try {
+  //   const response = await fetch('Your-API-Endpoint-Here');
+  //   if (!response.ok) {
+  //     throw new Error(`HTTP error! Status: ${response.status}`);
+  //   }
+  //   const data = await response.json();
+  //   console.log(data);
+  //   // Process and display the data as needed
+  // } catch (error) {
+  //   console.error('Error fetching data:', error);
+  // }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const credentialButton = document.getElementById('get-credential-btn');
+  if (credentialButton) {
+      credentialButton.addEventListener('click', getCredential);
+  }
+});
