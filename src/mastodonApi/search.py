@@ -114,13 +114,13 @@ def recommendPeople(userMastodonURL):
     for users in following:
         followersOfFollowing += mainClient.account_followers(users['id'])
     
-    followersOfFollowing.sort(key=lambda account: (calculate_interest_intersect(userID, account), -calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
+    followersOfFollowing.sort(key=lambda account: (calculate_interest_intersect(userId, account), -calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
     
     # Retrievefollowing of followers
     for users in followers:
         followingOfFollowers += mainClient.account_following(users['id'])
     
-    followingOfFollowers.sort(key=lambda account: (calculate_interest_intersect(userID, account), -calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
+    followingOfFollowers.sort(key=lambda account: (calculate_interest_intersect(userId, account), -calculate_activity(account), account['followers_count']),reverse=True)    # sort profiles by follower count
 
     # Combine followers of following and following of followers to recommend people
     recommendedPeople = random.sample(followersOfFollowing[:5] + followingOfFollowers[:5], min(3,len(followersOfFollowing[:5] + followingOfFollowers[:5])))
