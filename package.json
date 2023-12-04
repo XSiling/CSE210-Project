@@ -6,7 +6,16 @@
   "scripts": {
     "server1": "node src/server.js",
     "server2": "python src/mastodonApi/api.py",
-    "test": "jest --maxWorkers==1"
+    "test": "jest --maxWorkers==1 & react-scripts test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "lint": "eslint --ext .ts,.tsx ./src",
+    "fix": "yarn format && yarn lint:fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
+    "fix:eslint": "eslint src --ext .js,.ts,.jsx,.tsx --fix",
+    "fix:prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
