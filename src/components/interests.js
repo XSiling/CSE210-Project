@@ -283,6 +283,6 @@ if (window.location.href.includes("recommendations.html")){
         const smallWindow = document.getElementById('container-profile');
         smallWindow.style.display = 'none';
         //update the interests
-        updateInterests();
+        updateInterestsRecommendations();
     }
 }
