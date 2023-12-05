@@ -370,6 +370,9 @@ async function updateInterestsRecommendations() {
     }
 }
 
+/**
+* Scrolls to the top of the window smoothly.
+*/
 
 
 /**
@@ -378,4 +381,3 @@ async function updateInterestsRecommendations() {
 function scrollToTop() {
 window.scrollTo({ top: 0, behavior: "smooth" });
 }
-
