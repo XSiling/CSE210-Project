@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.reload(); // Reload the page after logout
+                window.location.href = 'register.html' // Reload the page after logout
             }
         });
   });
