@@ -61,11 +61,21 @@ function fetchUsername(){
      * The username
      * @type {string}
      */
-    const username = window.location.href.split('=')[1].split('&')[0];
+    const url = window.location.href;
+    let username;
+    if (url.indexOf('=')!=-1){
+        username = window.location.href.split('=')[1].split('&')[0];
+    }
+    else{
+        username = parent.window.location.href.split('=')[1].split('&')[0];
+    }
+
+    
 
     document.getElementById("username").setAttribute("value", username);
-    document.getElementById("userProfileUsername").innerHTML = username;
-
+    if (document.getElementById("userProfileUsername")){
+        document.getElementById("userProfileUsername").innerHTML = username;
+    }
     return username;
 }
 
@@ -320,7 +330,14 @@ async function fetchUserData() {
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
         const data = await response.json();
-        const img = data.users[0].profile_img;
+        const username = fetchUsername();
+        let index = -1;
+        for(let i=0; i<data.users.length;++i){
+            if(data.users[i].username === username){
+                index = i;
+            }
+        }
+        const img = data.users[index].profile_img;
         const selected_avatar = document.getElementById(img);
         selected_avatar?.classList?.add('selected-img');
     } catch (error) {

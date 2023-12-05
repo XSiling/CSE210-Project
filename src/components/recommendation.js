@@ -142,15 +142,25 @@ async function fetchUserData() {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      if (data.users[0].interests && Array.isArray(data.users[0].interests) && data.users[0].interests.length > 0) {
+      const username = window.location.href.split('=')[1].split('&')[0];
+
+      let i = -1;
+      for(let index=0; index<data.users.length; ++index){
+        if (data.users[index].username === username){
+            i = index;
+            break;
+        }
+      }
+
+      if (data.users[i].interests && Array.isArray(data.users[i].interests) && data.users[i].interests.length > 0) {
         console.log("render follower and post");
-        const interest = data.users[0].interests;
+        const interest = data.users[i].interests;
         await fetchFollowerRecommendations(interest);
         await fetchPostRecommendations(interest);
       }
-      if (data.users[0].mastodonAccount?.trim()) {
+      if (data.users[i].mastodonAccount?.trim()) {
         console.log("render people");
-        const userMastodonURL = data.users[0].mastodonAccount;
+        const userMastodonURL = data.users[i].mastodonAccount;
         await fetchPeopleRecommended(userMastodonURL);
       }
       console.log("render finish");
