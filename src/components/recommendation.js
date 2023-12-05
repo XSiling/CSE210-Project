@@ -144,10 +144,10 @@ async function fetchUserData() {
       const data = await response.json();
       const username = window.location.href.split('=')[1].split('&')[0];
 
-      let index = -1;
-      for(let i=0; i<data.users.length; ++i){
-        if (data.users[i].username === username){
-            index = i;
+      let i = -1;
+      for(let index=0; index<data.users.length; ++index){
+        if (data.users[index].username === username){
+            i = index;
             break;
         }
       }
