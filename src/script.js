@@ -145,16 +145,6 @@ function checkLoginStatus() {
 
 window.onload = checkLoginStatus; // Call this function on window load
 
-//Handling Logout
-document.getElementById('logOutButton').addEventListener('click', () => {
-    fetch('http://localhost:3000/logout')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.reload(); // Reload the page after logout
-            }
-        });
-});
 
 
 // Function to handle registration
@@ -191,11 +181,6 @@ async function register() {
     } catch (error) {
         console.error('Error during registration:', error);
     }
-}
-
-async function logOut() {
-  const url = "register.html";
-  window.location.href = url;
 }
 
 // Function to update user interests

@@ -69,9 +69,7 @@
               <input type="text" id="interestsText" />
               <button
                 id="interestsTextButton"
-                type="button"
-                onclick="addInterest()"
-              >
+                type="button">
                 Select
               </button>
             </div>
@@ -79,28 +77,35 @@
             <div id="interests">
               <div id="interestsButtons"></div>
             </div>
-            <br />
-            <div id="account">
-              <h2>(Optional) Link with your ActivityPub account:</h2>
-              <input type="email" placeholder="xxx@mastodon.social" />
-            </div>
+            <!-- we don't offer changing activitypub account now, so delete it temporarily -->
+            <!-- <br /> -->
+            <!-- <div id="account"> -->
+              <!-- <h2>(Optional) Link with your ActivityPub account:</h2> -->
+              <!-- <input type="email" placeholder="xxx@mastodon.social" /> -->
+            <!-- </div> -->
           </div>
         </form>
+        <div id="profileButtonContainer">
+          <button class="profileButton" id="profileSaveButton">SAVE</button>
+          <!-- <button class="profileButton" id="profileCloseButton">CLOSE</button> -->
+        </div>
+
       </div>
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        let images = document.querySelectorAll(".profile-predefined-img");
-        images.forEach((img) => {
-          img.addEventListener("click", function () {
-            images.forEach((i) => i.classList.remove("selected-img"));
-            this.classList.add("selected-img");
-          });
-        });
-      });
+
     </script>
 
     <script src="../script.js"></script>
+    <!-- <script type="module" src="../components/interest.js"></script> -->
+    <script type="module" src="../components/profile.js"></script>
+
+    <script>
+        // load those interests information
+      //   document.addEventListener("DOMContentLoaded", (event)=>{
+      //     createInterestsButtons();
+      // })
+    </script>
   </body>
 </html>

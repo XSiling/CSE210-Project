@@ -77,7 +77,7 @@ async function fetchMastodon(){
 
 }
 
-function expand(){
+export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
         elements[i].style.display = 'block';
@@ -86,7 +86,7 @@ function expand(){
     document.getElementById("closeButton").style.display = 'block';
 }
 
-function close(){
+export function close(){
     console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5;i<category;++i){
@@ -99,7 +99,7 @@ function close(){
 }
 
 
-function createInterestsButtons(){
+export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
 
     // fetch from the database
@@ -110,7 +110,7 @@ function createInterestsButtons(){
         //expand button
         if(line==5){
             let expandButton = document.createElement("button");
-            expandButton.setAttribute("onclick", "expand()");
+            // expandButton.setAttribute("onclick", "expand()");
             expandButton.setAttribute("type", "button");
             expandButton.setAttribute("id", "expandButton");
             expandButton.innerHTML="EXPAND";
@@ -144,7 +144,7 @@ function createInterestsButtons(){
 
     // close button
     let closeButton = document.createElement("button");
-    closeButton.setAttribute("onclick", "close()");
+    // closeButton.setAttribute("onclick", "close()");
     closeButton.setAttribute("type", "button");
     closeButton.setAttribute("id", "closeButton");
     closeButton.innerHTML = "CLOSE";
@@ -166,7 +166,7 @@ function createInterestsButtons(){
         }
 
         if (el.className == "interestsRadio"){
-            console.log("?")
+            console.log(el.value, "clicked");
             checkRadio(el);
         }
     };
@@ -174,7 +174,7 @@ function createInterestsButtons(){
 }
 
 
-function checkRadio(el){
+export function checkRadio(el){
     const maxRadio = 5;
     let radioNumber = 0;
     let radios = document.getElementsByClassName("interestsRadio");
@@ -206,12 +206,14 @@ async function fetchCurrentInterests(){
         if (data.success){
             // set the mastodon content into some UI
             const username = fetchUsername();
-            const profile_img = data.users[0].profile_img;
+            var profile_img = undefined;
             var html = "";
             var interests = [];
             for(var i=0; i<data.users.length; ++i){
                 if (data.users[i].username === username){
                     interests = data.users[i].interests;
+                    profile_img = data.users[i].profile_img;
+                    break;
                 }
             }
             let radiosData = [];
@@ -272,7 +274,7 @@ if (window.location.href.includes("recommendations.html")){
     fetchUsername();
     fetchMastodon();
     fetchCurrentInterests();
-    document.getElementById("openProfileButton").onclick = editProfile;
+    // document.getElementById("openProfileButton").onclick = editProfile;
     document.getElementById("interestsTextButton").onclick = closeProfile;
     function editProfile(){
         const smallWindow = document.getElementById("container-profile");
