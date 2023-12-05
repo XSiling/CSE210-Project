@@ -18,13 +18,29 @@ const interestsCategory = [
 ]
 const category = 9;
 
+/**
+ * Select the interest button according to text input;
+ */
 function addInterest(){
+    /**
+     * The interest input content;
+     * @type {string}
+     */
     const interest = document.getElementById("interestsText").value;
 
+    /**
+     * The predefined interests list;
+     * @type {list[string]}
+     */
     let radiosData = [];
     for (let i=0; i< interestsData.length; ++i){
         radiosData = radiosData.concat(interestsData[i]);
     }
+
+    /**
+     * The index of selected interest;
+     * @type {int}
+     */
     const idx = radiosData.indexOf(interest);
     if (idx==-1){
         alert("Enter one of the available interests");
@@ -35,9 +51,17 @@ function addInterest(){
     }
 }
 
+/**
+ * fetch the user name from the url.
+ * @returns the user name string
+ */
+
 function fetchUsername(){
-    const url = window.location.href;
-    const username = url.split('=')[1].split('&')[0];
+    /**
+     * The username
+     * @type {string}
+     */
+    const username = window.location.href.split('=')[1].split('&')[0];
 
     document.getElementById("username").setAttribute("value", username);
     document.getElementById("userProfileUsername").innerHTML = username;
@@ -45,6 +69,10 @@ function fetchUsername(){
     return username;
 }
 
+/**
+ * Fetch the mastodon account of the user from server.
+ * @async
+*/
 async function fetchMastodon(){
     console.log("fetch mastodon account from server...");
     try {
@@ -54,11 +82,23 @@ async function fetchMastodon(){
                 'Content-Type': 'application/json',
             },
         });
+        /**
+         * All the user information including username, interest, mastodonaccount
+         * @type {list}
+         */
         const data = await response.json();
 
         if (data.success){
             // set the mastodon content into some UI
+            /**
+             * The username
+             * @type {string}
+             */
             const username = fetchUsername();
+            /**
+             * The mastodon account
+             * @type {string}
+             */
             let mastodonAccount = '';
             for(let i=0; i<data.users.length; ++i){
                 if (data.users[i].username === username){
@@ -77,6 +117,11 @@ async function fetchMastodon(){
 
 }
 
+/**
+ * Expand the compressed section of interests buttons
+ * @exports
+ */
+
 export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
@@ -85,6 +130,12 @@ export function expand(){
     document.getElementById("expandButton").style.display = 'none';
     document.getElementById("closeButton").style.display = 'block';
 }
+
+
+/**
+ * Close the expanded section of interests buttons
+ * @exports
+ */
 
 export function close(){
     console.log("close");
@@ -99,6 +150,10 @@ export function close(){
 }
 
 
+/**
+ * Create the interests buttons according to predefined interests lists;
+ * @exports
+ */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
 
@@ -173,7 +228,11 @@ export function createInterestsButtons(){
 
 }
 
-
+/**
+ * Check the current selected interests buttons number exceed 5 or not.
+ * @param {element} Theclickedtarget
+ * @exports
+ */
 export function checkRadio(el){
     const maxRadio = 5;
     let radioNumber = 0;
@@ -191,6 +250,10 @@ export function checkRadio(el){
 
 }
 
+/**
+ * Set the current interests buttons status with the server user status
+ * @async
+ */
 async function fetchCurrentInterests(){
 
     console.log("fetch interests from server...");
@@ -246,6 +309,10 @@ async function fetchCurrentInterests(){
     }
 }
 
+/**
+ * Fetch the user data from server
+ * @async
+ */
 async function fetchUserData() {
     try {
         const response = await fetch(`${nodeApikey}/users`);

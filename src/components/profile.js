@@ -17,6 +17,11 @@ const interestsCategory = [
 ]
 const category = 9;
 
+
+/**
+ * Select the interest button according to text input;
+ */
+
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
 
@@ -34,6 +39,10 @@ function addInterest(){
     }
 }
 
+/**
+ * Set the current interests buttons status with the server user status
+ * @async
+ */
 async function updateCurrentInterests(){
     console.log(parent.window.location.href);
     const url = parent.window.location.href;
@@ -76,6 +85,12 @@ async function updateCurrentInterests(){
     }
 
 }
+
+/**
+ * Send the information to server and remove the iframe
+ * @param {boolean} save whether or not save the iframe information
+ * @returns 
+ */
 
 async function saveInformation(save){
     if (save){
@@ -124,7 +139,9 @@ async function saveInformation(save){
     }
 }
 
-
+/**
+ * Select the profile img
+ */
 document.addEventListener("DOMContentLoaded", (event) => {
     let images = document.querySelectorAll(".profile-predefined-img");
     images.forEach((img) => {
@@ -141,6 +158,10 @@ document.addEventListener("DOMContentLoaded", (event)=>{
     updateCurrentInterests();
 })
 
+
+/**
+ * Link the save button to saveInformation
+ */
 document.addEventListener("DOMContentLoaded", (event)=>{
     const profileSaveButton = document.getElementById("profileSaveButton");
     // const profileCloseButton = document.getElementById("profileCloseButton");
@@ -154,6 +175,9 @@ document.addEventListener("DOMContentLoaded", (event)=>{
 
 })
 
+/**
+ * Link the interest text button to addInterest
+ */
 document.addEventListener("DOMContentLoaded", (event)=>{
     const interestsTextButton = document.getElementById("interestsTextButton");
     interestsTextButton.addEventListener("click", function(){
