@@ -168,8 +168,13 @@ app.post("/interests", (req, res) => {
   // Update user interests in backend if user is located
   if (userIndex !== -1) {
     users[userIndex].interests = interests;
-    users[userIndex].mastodonAccount = mastodonAccount;
-    users[userIndex].profile_img = profile_img;
+    if (mastodonAccount != undefined){
+      users[userIndex].mastodonAccount = mastodonAccount;
+    }
+
+    if (profile_img != undefined){
+      users[userIndex].profile_img = profile_img;
+    }
     res.json({ success: true, message: "Interests updated successfully" });
   } else {
     res.status(404).json({ success: false, message: "User not found" });

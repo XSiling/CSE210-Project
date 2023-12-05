@@ -44,6 +44,9 @@
               <div id="interests">
                 <div id="interestsButtons"></div>
               </div>
+
+              <div id="profile">
+              </div>
             </div>
           </form>
         </div>
@@ -64,14 +67,13 @@
             <br />
             <h4>Interests</h4>
             <div id="userProfileInterests"></div>
+            <h4>Followings</h4>
+            <div id="userFollowing"></div>
           </div>
-          <button
-            class="edit-profile-btn"
-            id="openProfileButton"
-            onclick="editProfile()"
-          >
+          <button class="edit-profile-btn" id="openProfileButton">
             Edit Profile
           </button>
+
           <button id="logOutButton" type="button">LOG OUT</button>
         </section>
         <div class="col-9">
@@ -87,6 +89,8 @@
         </div>
       </div>
       <button id="backToTopButton" onclick="scrollToTop()">Back to Top</button>
+
+      <iframe id="profileEdittion" name="editProfile" src="profile.html"></iframe>
     </div>
 
     <script src="../script.js"></script>
