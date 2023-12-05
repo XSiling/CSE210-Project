@@ -39,14 +39,16 @@ body {
 
 #profileEdittion{
   display: none;
-  max-width: 60%;
+  width: 40%;
   height:60%;
   margin: 50px auto;
   padding: 20px;
   background-color: #f4f4f4;
   box-shadow: 0 0 10px rgba(0,0,0);
   border-radius:10px;
-  position: absolute; left: 50%; top: 50%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   transform: translate(-50%, -50%);
 }
 
