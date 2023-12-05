@@ -177,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetchUserData();
 });
 
-
 document.addEventListener("DOMContentLoaded", ()=>{
   const openProfileButton = document.getElementById("openProfileButton");
   const url = window.location.href;
@@ -190,20 +189,68 @@ document.addEventListener("DOMContentLoaded", ()=>{
   })
 })
 
+async function getStatusSpan() {
+  console.log("False");
+}
+
 async function getCredential() {
   console.log("credential button clicked");
-
-  // try {
-  //   const response = await fetch('Your-API-Endpoint-Here');
-  //   if (!response.ok) {
-  //     throw new Error(`HTTP error! Status: ${response.status}`);
-  //   }
-  //   const data = await response.json();
-  //   console.log(data);
-  //   // Process and display the data as needed
-  // } catch (error) {
-  //   console.error('Error fetching data:', error);
-  // }
+  let mastodonAccount;
+  try {
+    const response = await fetch(`${nodeApikey}/users`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    mastodonAccount = data?.users[0]?.mastodonAccount;
+    console.log(mastodonAccount);
+    if (mastodonAccount) {
+      try {
+        const response = await fetch(`${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.text();
+        console.log(data);
+        if (data === "True") {
+          console.log("Credential Found");
+          alert("Already Credentialed");
+        } else {
+          try {
+            const response = await fetch(`${flaskApikey}/get_Auth_URL?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.text();
+            window.open(data, '_blank');
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    } else {
+      console.log("Not Found");
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+  try {
+    const response = await fetch(`${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.text();
+    const status_span = document.getElementById('user_status_span');
+    if (data === "True") {
+      status_span.textContent = "True";
+    } else {
+      status_span.textContent = "False";
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
