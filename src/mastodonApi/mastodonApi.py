@@ -74,8 +74,8 @@ def follow_People():
 def check_User_Isloggedin():
     userMastodonURL = request.args.get('userMastodonURL')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
-    userClient = userMastodonID_to_ClientMap[userMastodonID]
     try:
+        userClient = userMastodonID_to_ClientMap[userMastodonID]
         userClient.account_verify_credentials()
     except:
         return Response("False")
