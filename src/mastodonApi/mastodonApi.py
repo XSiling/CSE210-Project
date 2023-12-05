@@ -32,7 +32,8 @@ def client_auth_url(userMastodonID):
 @app.route('/get_recommendations', methods=['GET'])
 def get_recommendations():
     with open('./src/mastodonApi/recommendations.json', 'r') as file:
-        data = json.load(file)      # Load recommendations data from 'recommendations.json'
+        # Load recommendations data from 'recommendations.json'
+        data = json.load(file)
     return jsonify(data)    # Return recommendations data as JSON response
 
 # Route to get recommended people based on user's Mastodon URL

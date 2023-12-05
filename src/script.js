@@ -150,7 +150,7 @@ async function login() {
  * @function
  */
 function checkLoginStatus() {
-    fetch('/check-login')
+    fetch('http://localhost:3000/check-login')
         .then(response => response.json())
         .then(data => {
             if (data.loggedIn) {
@@ -165,18 +165,6 @@ function checkLoginStatus() {
  */
 window.onload = checkLoginStatus;
 
-/**
- * Handles the logout functionality.
- */
-document.getElementById('logoutButton').addEventListener('click', () => {
-    fetch('/logout')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.reload(); // Reload the page after logout
-            }
-        });
-});
 
 /**
  * Handles the registration functionality.
@@ -245,13 +233,6 @@ async function register() {
     }
 }
 
-/**
- * Logs out the user.
- */
-async function logOut() {
-    const url = "register.html";
-    window.location.href = url;
-}
 
 /**
  * Updates user interests.
@@ -337,11 +318,66 @@ async function updateInterests() {
     } catch (error) {
         console.error('Error updating interests:', error);
     }
-    
-    /**
-    * Scrolls to the top of the window smoothly.
-    */
-    function scrollToTop() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/**
+ * @async
+ * Update the interests in recommendations page
+ */
+async function updateInterestsRecommendations() {
+    const username = document.getElementById('username').value.split('&')[0];
+    // const mastodonAccount = document.getElementById('mastodonInput').value;
+    // const profile_img = document.getElementsByClassName('selected-img')[0].id;
+    const mastodonAccount = undefined;
+    const profile_img = undefined;
+    // need to modify here
+    const interestsList = document.getElementsByClassName("interestsRadio");
+    const interests = [];
+    let radiosData = [];
+
+    for (let i=0; i<interestsData1.length; ++i){
+        radiosData = radiosData.concat(interestsData1[i]);
     }
+
+    for(let i=0; i<interestsList.length; ++i){
+        if (interestsList[i].checked){
+            interests.push(radiosData[i]);
+        }
+    }
+    console.log("!");
+
+    try {
+        // Send a POST request to local server containing user:interests info
+        const response = await fetch('http://localhost:3000/interests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, interests, mastodonAccount, profile_img }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            //Redirect to recommendations page on successful interests update
+            let url = 'recommendations.html?username=' + username;
+           window.location.href = url;
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error updating interests:', error);
+    }
+}
+
+/**
+* Scrolls to the top of the window smoothly.
+*/
+
+
+/**
+* Scrolls to the top of the window smoothly.
+*/
+function scrollToTop() {
+window.scrollTo({ top: 0, behavior: "smooth" });
 }

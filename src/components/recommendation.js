@@ -164,16 +164,35 @@ async function fetchUserData() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const logOutButton = document.getElementById("logOutButton");
-  logOutButton.addEventListener("click", ()=>{
-    logOut();
-  })
+  document.getElementById('logOutButton').addEventListener('click', () => {
+    fetch('http://localhost:3000/logout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'register.html' // Reload the page after logout
+            }
+        });
+  });
 
-  fetchUserData()
+  fetchUserData();
 });
+
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  const openProfileButton = document.getElementById("openProfileButton");
+  const url = window.location.href;
+  const username = url.split('=')[1].split('&')[0];
+  openProfileButton.setAttribute("src", "profile.html?username=" + username);
+  console.log(openProfileButton);
+  openProfileButton.addEventListener("click", ()=>{
+    const profileWindow = document.getElementById("profileEdittion");
+    profileWindow.style.display = 'block';
+  })
+})
 
 async function getCredential() {
   console.log("credential button clicked");
+
   // try {
   //   const response = await fetch('Your-API-Endpoint-Here');
   //   if (!response.ok) {
