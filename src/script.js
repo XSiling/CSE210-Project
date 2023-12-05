@@ -339,7 +339,7 @@ async function updateInterests() {
     }
     
     /**
-    Scrolls to the top of the window smoothly.
+    * Scrolls to the top of the window smoothly.
     */
     function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
