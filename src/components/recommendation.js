@@ -1,9 +1,30 @@
-import { renderRecommendation } from "./card.js";
+import { renderPeopleRecommendation } from "./card.js";
 import { renderRecommendationPost } from "./post.js";
-// import { apiKey } from './apiKey.js';
+import { renderFollowerRecommendation } from "./account.js";
+import { flaskApikey, nodeApikey } from '../api/api.js';
 
-async function fetchRecommendations(interests) {
-  fetch("http://localhost:5000/get_recommendations")
+// TODO
+// 1) Merge fetchFollower and fetchPost into one promise
+
+function showLoadingGif(containerId) {
+  const container = document.getElementById(containerId);
+  const loadingGif = document.createElement('img');
+  loadingGif.setAttribute('src', "../images/loading.gif");
+  loadingGif.setAttribute('id', 'loadingGif');
+  container.innerHTML = '';
+  container.appendChild(loadingGif);
+}
+
+function hideLoadingGif(containerId) {
+  const container = document.getElementById(containerId);
+  const loadingGif = document.getElementById('loadingGif');
+  if (loadingGif) {
+    container.removeChild(loadingGif);
+  }
+}
+
+async function fetchFollowerRecommendations(interests) {
+  fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -11,9 +32,50 @@ async function fetchRecommendations(interests) {
       return response.json(); // Parses the JSON from the response
     })
     .then((data) => {
-    //   console.log(data);
+      const container = document.getElementById("accountContainer");
+      container.innerHTML = "";
+      const header = document.createElement('h3');
+      header.textContent = "Top Recommended Followers";
+      container.appendChild(header);
+      if (Array.isArray(interests)) {
+        interests.forEach((interest) => {
+          if(data.hasOwnProperty(interest)) {
+            const recommendData = data[interest];
+            const top2Account = recommendData.top2FollowedAccounts;
+            top2Account.forEach((account) => {
+                let return_account = renderFollowerRecommendation(account);
+                container.appendChild(return_account);
+            })
+          } else {
+            console.log('No data found for:', interest);
+          }
+        });
+      } else {
+        console.error("Interests is not an array:", interests);
+      }
+    })
+    .catch((error) => {
+      console.error(
+        "There has been a problem with your fetch operation:",
+        error
+      );
+    });
+}
+
+async function fetchPostRecommendations(interests) {
+  fetch(`${flaskApikey}/get_recommendations`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
       const container = document.getElementById("postContainer");
       container.innerHTML = "";
+      const header = document.createElement('h3');
+      header.textContent = "Top Recommended Post";
+      container.appendChild(header);
       if (Array.isArray(interests)) {
         interests.forEach((interest) => {
           if(data.hasOwnProperty(interest)) {
@@ -40,8 +102,8 @@ async function fetchRecommendations(interests) {
 }
 
 // Fetch recommendation list (5) from flask backend
-async function fetchRecommendedPeople(userMastodonURL) {
-  const url = `http://localhost:5000/get_recommendedpeople?userMastodonURL=${encodeURIComponent(
+async function fetchPeopleRecommended(userMastodonURL) {
+  const url = `${flaskApikey}/get_recommendedpeople?userMastodonURL=${encodeURIComponent(
     userMastodonURL
   )}`;
 
@@ -53,12 +115,13 @@ async function fetchRecommendedPeople(userMastodonURL) {
       return response.json();
     })
     .then((data) => {
-      console.log(data); // For debugging
       const container = document.getElementById("recommendationContainer");
       container.innerHTML = "";
+      const header = document.createElement('h3');
+      header.textContent = "People You Might Know";
+      container.appendChild(header);
       data.forEach((userData) => {
-        // Changed from dataArray to data
-        const card = renderRecommendation(userData); // Ensure createCard is defined and correct
+        const card = renderPeopleRecommendation(userData);
         container.appendChild(card);
       });
     })
@@ -67,30 +130,66 @@ async function fetchRecommendedPeople(userMastodonURL) {
     });
 }
 
+// Fetch interest and user account infos
+async function fetchUserData() {
+  // Show loading GIFs
+  showLoadingGif('accountContainer');
+  showLoadingGif('postContainer');
+  showLoadingGif('recommendationContainer');
+  try {
+      const response = await fetch(`${nodeApikey}/users`);
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.users[0].interests && Array.isArray(data.users[0].interests) && data.users[0].interests.length > 0) {
+        console.log("render follower and post");
+        const interest = data.users[0].interests;
+        await fetchFollowerRecommendations(interest);
+        await fetchPostRecommendations(interest);
+      }
+      if (data.users[0].mastodonAccount?.trim()) {
+        console.log("render people");
+        const userMastodonURL = data.users[0].mastodonAccount;
+        await fetchPeopleRecommended(userMastodonURL);
+      }
+      console.log("render finish");
+  } catch (error) {
+      console.error('Error fetching user data:', error);
+  } finally {
+    hideLoadingGif('accountContainer');
+    hideLoadingGif('postContainer');
+    hideLoadingGif('recommendationContainer');
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-
-
-
-  const refreshButton = document.getElementById("refreshButton");
-  refreshButton.addEventListener("click", () => {
-    //   fetchRecommendedPeople('cse210team1@mastodon.social');
-  });
-
   const logOutButton = document.getElementById("logOutButton");
   logOutButton.addEventListener("click", ()=>{
     logOut();
   })
 
-  // dummy variable
-  let acc = "cse210team1@mastodon.social";
-  let interests = ["Pop", "Domestic"];
-
-  console.log(interests);
-  
-
-  // Initial fetch when the page loads
-  fetchRecommendations(interests);
-  fetchRecommendedPeople('cse210team1@mastodon.social');
-
+  fetchUserData()
 });
 
+async function getCredential() {
+  console.log("credential button clicked");
+  // try {
+  //   const response = await fetch('Your-API-Endpoint-Here');
+  //   if (!response.ok) {
+  //     throw new Error(`HTTP error! Status: ${response.status}`);
+  //   }
+  //   const data = await response.json();
+  //   console.log(data);
+  //   // Process and display the data as needed
+  // } catch (error) {
+  //   console.error('Error fetching data:', error);
+  // }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const credentialButton = document.getElementById('get-credential-btn');
+  if (credentialButton) {
+      credentialButton.addEventListener('click', getCredential);
+  }
+});

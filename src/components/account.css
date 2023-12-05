@@ -1,4 +1,4 @@
-.people-card {
+.follower-card {
   background: #fff;
   border: 1px solid #e1e4e8;
   border-radius: 6px;
@@ -13,18 +13,18 @@
   transition: transform 0.3s ease;
 }
 
-.people-card:hover {
+.follower-card:hover {
   transform: scale(1.03);
 }
 
-.people-card-upper-section {
+.follower-card-upper-section {
   display: flex;
   flex-direction: row;
   padding: 0;
   margin: 0;
 }
 
-.people-card-info-section {
+.follower-card-info-section {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -33,45 +33,45 @@
   line-height: normal;
 }
 
-.people-card-name-username-container {
-    display: flex;
-    flex-direction: row;
-    padding-left: 10px;
-    margin: 0;
+.follower-card-name-username-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  margin: 0;
 }
 
-.people-card-followers-following-container {
-    display: flex;
-    flex-direction: row;
-    padding-left: 10px;
-    margin: 0;
+.follower-card-followers-following-container {
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  margin: 0;
 }
 
-.people-card-avatar {
+.follower-card-avatar {
   width: 60px;
   height: 60px;
   border-radius: 20%;
 }
 
-.people-card-bio {
-    text-align: left;
+.follower-card-bio {
+  text-align: left;
 }
 
-.people-card-lower-section {
+.follower-card-lower-section {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
 }
 
-.people-card-follow-button {
+.follower-card-follow-button {
   margin-left: auto;
   cursor: pointer;
   transition: transform 0.2s ease;
 }
 
-.people-card-profile-link:hover,
-.people-card-follow-button:hover {
+.follower-card-profile-link:hover,
+.follower-card-follow-button:hover {
   color: #01796f;
   transform: scale(1.1);
 }
