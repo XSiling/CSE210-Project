@@ -202,6 +202,7 @@ async function logOut() {
 async function updateInterests() {
     const username = document.getElementById('username').value.split('&')[0];
     const mastodonAccount = document.getElementById('mastodonInput').value;
+    const profile_img = document.getElementsByClassName('selected-img')[0].id;
 
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
@@ -226,7 +227,7 @@ async function updateInterests() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, interests, mastodonAccount }),
+            body: JSON.stringify({ username, interests, mastodonAccount, profile_img }),
         });
 
         const data = await response.json();

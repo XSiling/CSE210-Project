@@ -51,6 +51,10 @@ export function renderFollowerRecommendation(recommendationData) {
   profileLink.target = '_blank';
   profileLink.rel = 'noopener noreferrer';
 
+  const follow_btn = document.createElement('a');
+  follow_btn.textContent = 'Follow him/her';
+  follow_btn.className = 'follower-card-follow-button';
+
   imgContainer.appendChild(avatar);
   nameUsernameContainer.appendChild(name);
   nameUsernameContainer.appendChild(username);
@@ -60,6 +64,7 @@ export function renderFollowerRecommendation(recommendationData) {
   infoContainer.appendChild(followersFollowingContainer);
   middleContainer.appendChild(bio);
   lowerContainer.appendChild(profileLink);
+  lowerContainer.appendChild(follow_btn);
   upperContainer.appendChild(imgContainer);
   upperContainer.appendChild(infoContainer);
   card.appendChild(upperContainer);
