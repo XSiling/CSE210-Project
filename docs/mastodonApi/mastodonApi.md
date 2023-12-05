@@ -44,6 +44,20 @@ This API handles Mastodon interactions, providing recommendations based on user 
 - **Purpose:** Recommends accounts followed by someone the user follows on Mastodon based on the provided Mastodon URL.
 - **Returns:** A list of recommended people in the form of account dicts.
 
+### `calculate_activity(account)`
+
+- **Purpose:** Calculates the activity of an account based on the number of statuses and account creation date.
+
+- **Returns:** Activity score calculated as days elapsed since account creation divided by the number of statuses.
+    If the number of statuses is 0, returns 0.
+
+### `calculate_interest_intersect(user_Id, account_Id)`
+
+- **Purpose:** Calculates the number of common featured tags between a user's account and another account.
+
+- **Returns:** Number of common featured tags between the user's account and the other account.
+    
+
 ## Implementation Details
 
 ### Libraries and Modules
