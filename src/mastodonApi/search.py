@@ -90,6 +90,7 @@ def calculate_activity(account):
 
 
 """
+
     Removes any nsfw posts from a given list of posts
 
     Args:
@@ -108,6 +109,7 @@ def remove_nsfw_posts(toot_list):
 
 
 """
+
     Calculates the number of common featured tags between a user's account and another account.
 
     Args:

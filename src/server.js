@@ -6,9 +6,12 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
 const session = require('express-session');
+
+// Middleware setup
 app.use(bodyParser.json());
 app.use(cors());
 
+// Session setup
 app.use(session({
     secret: 'negative_10x_developers',
     resave: false,
@@ -16,9 +19,26 @@ app.use(session({
     cookie: { secure: false }
 }));
 
+/**
+ * User data structure.
+ * @typedef {Object} User
+ * @property {string} username - User's username.
+ * @property {string} hashedPassword - Hashed password using bcrypt.
+ * @property {string[]} interests - Array of user interests.
+ * @property {string} mastodonAccount - User's Mastodon account.
+ * @property {string} profile_img - User's profile image.
+ */
+
+/** @type {User[]} */
 let users = [];
 
-// Registration function
+/**
+ * Registration endpoint.
+ * @function
+ * @name POST/register
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.post("/register", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -56,7 +76,13 @@ app.post("/register", async (req, res) => {
   });
 });
 
-// Login function
+/**
+ * Login endpoint.
+ * @function
+ * @name POST/login
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -66,20 +92,27 @@ app.post("/login", async (req, res) => {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
 
-            if (match) {
-                req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
-                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
-            } else {
-                res.status(401).json({ success: false, message: 'Invalid credentials' });
-            }
-        } else {
-            res.status(401).json({ success: false, message: 'Invalid credentials' });
-        }
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Internal Server Error' });
+      if (match) {
+        req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
+        res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
+      } else {
+        res.status(401).json({ success: false, message: 'Invalid credentials' });
+      }
+    } else {
+      res.status(401).json({ success: false, message: 'Invalid credentials' });
     }
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Internal Server Error' });
+  }
 });
 
+/**
+ * Check login status endpoint.
+ * @function
+ * @name GET/check-login
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.get('/check-login', (req, res) => {
     if (req.session.user) {
         res.json({ loggedIn: true, user: req.session.user });
@@ -88,30 +121,25 @@ app.get('/check-login', (req, res) => {
     }
 });
 
-
-// Logout function
+/**
+ * Logout endpoint.
+ * @function
+ * @name GET/logout
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
 });
 
-
-app.get('/check-login', (req, res) => {
-    if (req.session.user) {
-        res.json({ loggedIn: true, user: req.session.user });
-    } else {
-        res.json({ loggedIn: false });
-    }
-});
-
-
-// Logout function
-app.get('/logout', (req, res) => {
-    req.session.destroy();
-    res.json({ success: true, message: 'Logged out successfully' });
-});
-
-
+/**
+ * Get all users endpoint.
+ * @function
+ * @name GET/users
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.get('/users', (req, res) => {
   // Create a new array that contains user information without hashed passwords
   const safeUserData = users.map((user) => {
@@ -126,7 +154,13 @@ app.get('/users', (req, res) => {
   res.json({ success: true, users: safeUserData });
 });
 
-// POST endpoint to receive interest data
+/**
+ * Update user interests endpoint.
+ * @function
+ * @name POST/interests
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.post("/interests", (req, res) => {
   const { username, interests, mastodonAccount, profile_img } = req.body;
   const userIndex = users.findIndex((u) => u.username === username);
@@ -134,19 +168,26 @@ app.post("/interests", (req, res) => {
   // Update user interests in backend if user is located
   if (userIndex !== -1) {
     users[userIndex].interests = interests;
-    users[userIndex].mastodonAccount = mastodonAccount;
-    users[userIndex].profile_img = profile_img;
+    if (mastodonAccount != undefined){
+      users[userIndex].mastodonAccount = mastodonAccount;
+    }
+
+    if (profile_img != undefined){
+      users[userIndex].profile_img = profile_img;
+    }
     res.json({ success: true, message: "Interests updated successfully" });
   } else {
-    // users.push({ username, hashedPassword, interests: interests });
-    // res.json({ success: true, message: 'Interests updated successfully' });
     res.status(404).json({ success: false, message: "User not found" });
   }
-
-  // console.log(users)
 });
 
-// GET user recommendations from endpoint
+/**
+ * Get user recommendations endpoint.
+ * @function
+ * @name GET/recommendations/:username
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.get("/recommendations/:username", (req, res) => {
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
@@ -160,8 +201,14 @@ app.get("/recommendations/:username", (req, res) => {
   }
 });
 
+  /**
+  * Server initialization.
+  * @type {Object}
+  * @property {Object} app - Express application instance.
+  * @property {User[]} users - Array of user data.
+  * @property {Object} server - Express server instance.
+  */
 const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
 module.exports = { app, users, server };

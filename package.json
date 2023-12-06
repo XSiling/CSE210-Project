@@ -5,7 +5,7 @@
   "source": "/src/login.html",
   "scripts": {
     "server1": "node src/server.js",
-    "server2": "python src/mastodonApi/api.py",
+    "server2": "python src/mastodonApi/mastodonApi.py",
     "test": "jest --maxWorkers==1",
     "lint": "eslint --ext .js,.jsx",
     "fix": "npm run lint:fix",

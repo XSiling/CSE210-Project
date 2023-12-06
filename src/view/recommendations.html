@@ -44,6 +44,9 @@
               <div id="interests">
                 <div id="interestsButtons"></div>
               </div>
+
+              <div id="profile">
+              </div>
             </div>
           </form>
         </div>
@@ -64,20 +67,26 @@
             <br />
             <h4>Interests</h4>
             <div id="userProfileInterests"></div>
+            <br />
+            <h4>Mastodon Account</h4>
+            <div id="userProfileMastodonAccount"></div>
+            <br />
+            <h4>Followings</h4>
+            <div id="userFollowing"></div>
           </div>
-          <button
-            class="edit-profile-btn"
-            id="openProfileButton"
-            onclick="editProfile()"
-          >
+          <button class="edit-profile-btn" id="openProfileButton">
             Edit Profile
           </button>
-          <button id="logOutButton" type="button">LOG OUT</button>
+
+          <button id="get-credential-btn">Get Credential</button>
+          <div>Status: <span id="user_status_span"></span></div>
+
+          <button id="logOutButton" type="button">Log Out</button>
         </section>
         <div class="col-9">
           <section class="header-section">
             <h1>Recommendation</h1>
-            <button id="get-credential-btn">Get Credential</button>
+
           </section>
           <section class="recommendation-section">
             <div id="accountContainer"></div>
@@ -87,6 +96,8 @@
         </div>
       </div>
       <button id="backToTopButton" onclick="scrollToTop()">Back to Top</button>
+
+      <iframe id="profileEdittion" name="editProfile" src="profile.html"></iframe>
     </div>
 
     <script src="../script.js"></script>
