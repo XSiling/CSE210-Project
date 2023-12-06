@@ -96,6 +96,11 @@ const interestsCategory1 = [
 ];
 const category1 = 9;
 
+document.addEventListener('DOMContentLoaded', function() {
+    checkLoginStatus();
+});
+
+
 // Function to handle login
 async function login() {
     const username = document.getElementById('username').value;
@@ -132,29 +137,32 @@ async function login() {
     }
 }
 
-function checkLoginStatus() {
-    fetch('/check-login')
-        .then(response => response.json())
-        .then(data => {
-            if (data.loggedIn) {
-                document.getElementById('loginButton').style.display = 'none';
-                // Additional actions based on login status
-            }
-        });
-}
+
+
+// function checkLoginStatus() {
+//     fetch('/check-login')
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.loggedIn) {
+
+//                 document.getElementById('loginButton').style.display = 'none';
+//                 // Additional actions based on login status
+//             }
+//         });
+// }
 
 window.onload = checkLoginStatus; // Call this function on window load
 
 //Handling Logout
-document.getElementById('logoutButton').addEventListener('click', () => {
-    fetch('/logout')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.reload(); // Reload the page after logout
-            }
-        });
-});
+// document.getElementById('logoutButton').addEventListener('click', () => {
+//     fetch('/logout')
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.success) {
+//                 window.location.reload(); // Reload the page after logout
+//             }
+//         });
+// });
 
 
 // Function to handle registration
@@ -197,6 +205,22 @@ async function logOut() {
   const url = "register.html";
   window.location.href = url;
 }
+
+
+//Handling Logout
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+        fetch('/logout')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload(); // Reload the page after logout
+                }
+            });
+    });
+}
+
 
 // Function to update user interests
 async function updateInterests() {
@@ -246,6 +270,39 @@ async function updateInterests() {
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+
+
+function checkLoginStatus() {
+    console.log("check login status");
+    fetch('http://localhost:3000/check-login', { credentials: 'include' }) // Ensure credentials are included for session cookies
+        .then(response => response.json())
+        .then(data => {
+            if (data.loggedIn) {
+                console.log("logged in");
+                let url = 'recommendations.html?username=' + data.user.username;
+                console.log(url);
+                window.location.href = url;
+            }
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}
+
+// Call this function when the login page is loaded
+if (window.location.href.includes('login')) {
+    console.log("login");
+    window.onload = checkLoginStatus;
+}
+
+
+// // Call this function on window load for login.html
+// if (window.location.href.includes('http://127.0.0.1:5500/CSE210-Project/src/view/login.html')) {
+//     window.onload = checkLoginStatus;
+// }
+
 
 // window.onscroll = function () {
 //   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {

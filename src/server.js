@@ -18,6 +18,14 @@ app.use(session({
 
 let users = [];
 
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500', // Your client's origin
+  credentials: true, // To allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
+
+
 // Registration function
 app.post("/register", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
@@ -48,7 +56,9 @@ app.post("/register", async (req, res) => {
 
   // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
-
+  const user = users.find((u) => u.username === username);
+  req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
+  console.log('Session after Registration:', req.session);
   res.json({
     success: true,
     message: "Registration successful",
@@ -56,8 +66,19 @@ app.post("/register", async (req, res) => {
   });
 });
 
+
+// function redirectIfLoggedIn(req, res, next) {
+//     if (req.session.user) {
+//         res.redirect('/home'); // Replace '/home' with your home page route
+//     } else {
+//         next();
+//     }
+// }
+
+
 // Login function
 app.post("/login", async (req, res) => {
+    console.log("In login");
   try {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
@@ -68,6 +89,8 @@ app.post("/login", async (req, res) => {
 
             if (match) {
                 req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
+                console.log("Login successful")
+                console.log('Session after login:', req.session);
                 res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid credentials' });
@@ -82,6 +105,9 @@ app.post("/login", async (req, res) => {
 
 app.get('/check-login', (req, res) => {
     if (req.session.user) {
+        console.log("In check-login");
+        console.log(req.session.user);
+        
         res.json({ loggedIn: true, user: req.session.user });
     } else {
         res.json({ loggedIn: false });
