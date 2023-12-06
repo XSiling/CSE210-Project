@@ -2,6 +2,8 @@ import unittest
 import os
 import sys
 from datetime import datetime
+import pytz
+import math
 
 path = '../src/mastodonApi'
 sys.path.insert(1, path)
@@ -38,6 +40,18 @@ class TestAll(unittest.TestCase):
 
         user1_acct_dict = {'created_at': datetime.strptime('2022-11-08 00:00:00', date_format), 'statuses_count': 86}
         user2_acct_dict = {'created_at': datetime.strptime('2022-11-05 00:00:00', date_format), 'statuses_count': 0}
+
+        current_datetime = datetime.now(pytz.UTC)
+        time_created = user1_acct_dict['created_at']
+        time_created = time_created.replace(tzinfo=pytz.UTC)
+        days_elapsed = (current_datetime - time_created).days
+
+        statuses_count = user1_acct_dict['statuses_count']
+        activity_1_test = days_elapsed / statuses_count
+
+        activity_1 = calculate_activity(user1_acct_dict)
+        self.assertEqual(math.floor(activity_1_test),math.floor(activity_1))
+
 
         activity_2 = calculate_activity(user2_acct_dict)
         self.assertEqual(activity_2,0)
