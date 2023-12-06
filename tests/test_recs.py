@@ -1,6 +1,7 @@
 import unittest
 import os
 import sys
+from datetime import datetime
 
 path = '../src/mastodonApi'
 sys.path.insert(1, path)
@@ -32,7 +33,15 @@ class TestAll(unittest.TestCase):
             post = bestPosts[i]
             self.assertIsInstance(post, AttribAccessDict)
 
+    def test_calculate_activity(self):
+        date_format = '%Y-%m-%d %H:%M:%S'
 
+        user1_acct_dict = {'created_at': datetime.strptime('2022-11-08 00:00:00', date_format), 'statuses_count': 86}
+        user2_acct_dict = {'created_at': datetime.strptime('2022-11-05 00:00:00', date_format), 'statuses_count': 0}
+
+        activity_2 = calculate_activity(user2_acct_dict)
+        self.assertEqual(activity_2,0)
+        
     
     def test_recommendPeople(self):
         userMastodonURL = '@stephenfry@mastodonapp.uk'

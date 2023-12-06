@@ -65,17 +65,18 @@ def searchInterest(interest):
     If the number of statuses is 0, returns 0.
 """
 def calculate_activity(account):
+
+    # Checking if there are no statuses to avoid division by zero
+    statuses_count = account['statuses_count']
+    if statuses_count == 0:
+        return 0
+        
     current_datetime = datetime.now(pytz.UTC)
 
     # Retrieving and formatting account creation time
     time_created = account['created_at']
     time_created = time_created.replace(tzinfo=pytz.UTC)
     time_diff = current_datetime - time_created
-
-    # Checking if there are no statuses to avoid division by zero
-    statuses_count = account['statuses_count']
-    if statuses_count == 0:
-        return 0
 
     # Calculating activity score, defined as amount of time the account has been active over the amount of posts
     days_elapsed = time_diff.days
@@ -158,3 +159,25 @@ def recommendPeople(userMastodonURL):
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
 
     return recommendedPeople    # Return recommended people
+
+
+userID_1 = mainClient.account_lookup('@jamesgunn@c.im')
+userID_2 = mainClient.account_lookup('@stephenfry@mastodonapp.uk')
+
+time_created_1 = userID_1['created_at']
+time_created_2 = userID_2['created_at']
+
+statuses_count_1 = userID_1['statuses_count']
+statuses_count_2 = userID_2['statuses_count']
+
+
+print('time_created_1: ', time_created_1)
+print('time_created_2: ', time_created_2)
+
+print('statuses_count_1: ', statuses_count_1)
+print('statuses_count_2: ', statuses_count_2)
+
+print('activity of first: ', calculate_activity(userID_1))
+print('activity of second: ', calculate_activity(userID_2))
+
+
