@@ -268,4 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (credentialButton) {
       credentialButton.addEventListener('click', getCredential);
   }
+  const status_span = document.getElementById('user_status_span');
+  status_span.textContent = 'None';
 });

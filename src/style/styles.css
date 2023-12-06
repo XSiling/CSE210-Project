@@ -17,6 +17,11 @@ body {
   border-radius: 10px;
 }
 
+.interestsLi{
+  /* float:left; */
+  display:block;
+}
+
 .account-entry-form-container {
   max-width: 450px;
 }

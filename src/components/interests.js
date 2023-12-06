@@ -117,6 +117,7 @@ async function fetchMastodon(){
             }
             // const mastodonAccount = data.users.username.mastodonAccount;
             document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
+            document.getElementById("userProfileMastodonAccount").innerHTML = "<div>" + mastodonAccount +  "</div>"
         }else{
             alert("fetching mastodon account failure");
         }
@@ -295,10 +296,11 @@ async function fetchCurrentInterests(){
             }
             Array.from(interests).forEach(interest=>{
                 document.getElementById(interest).checked=true;
-                html += '<li class="interestsLi">' + interest + "</li>";
+                // html += '<li class="interestsLi">' + interest + "</li>";
+                html += '<div class=interestsLi>' + interest + '</div>';
             });
 
-            document.getElementById("userProfileInterests").innerHTML = "<ul>" + html + "</ul>";
+            document.getElementById("userProfileInterests").innerHTML =  html ;
 
             // TODO:
             const container = document.getElementById("userProfileImage");
