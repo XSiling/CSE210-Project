@@ -57,6 +57,12 @@ This API handles Mastodon interactions, providing recommendations based on user 
 
 - **Returns:** Number of common featured tags between the user's account and the other account.
     
+### `remove_nsfw_posts(toot_list)`
+
+- **Purpose:** Removes any nsfw posts from a list of posts based on whether it is marked as containing sensitive content or containing the 'nsfw' hashtag
+
+- **Returns:** A modified version of the toot_list passed to the function without any nsfw posts in it
+    
 
 ## Implementation Details
 
