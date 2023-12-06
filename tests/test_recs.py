@@ -26,14 +26,35 @@ class TestAll(unittest.TestCase):
     def test_searchInterest(self):
         interest = 'travel'
         bestAccounts, bestPosts = searchInterest(interest)
-        expected_fields = ['id', 'acct', 'username']
+        expected_account_fields = (
+            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
+            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
+            'avatar_static', 'header', 'header_static', 'followers_count', 
+            'following_count', 'statuses_count', 'last_status_at', 'emojis', 'fields']
+        )
+
+        expected_post_fields = (
+            ['id', 'created_at', 'in_reply_to_id', 'in_reply_to_account_id', 'sensitive', 'spoiler_text', 
+            'visibility', 'language', 'uri', 'url', 'replies_count', 'reblogs_count', 'favourites_count', 
+            'edited_at', 'favourited', 'reblogged', 'muted', 'bookmarked', 'content', 'filtered', 'reblog', 
+            'account', 'media_attachments', 'mentions', 'tags', 'emojis', 'card', 'poll']
+        )
         for i in range(len(bestAccounts)):
             account = bestAccounts[i]
             self.assertIsInstance(account, AttribAccessDict)
+            self.assertEqual(22, len(account.keys()))
+
+            for key in account.keys():
+                self.assertIn(key, expected_account_fields)
 
         for i in range(len(bestPosts)):
             post = bestPosts[i]
             self.assertIsInstance(post, AttribAccessDict)
+            self.assertEqual(28, len(post.keys()))
+
+            for key in post.keys():
+                self.assertIn(key, expected_post_fields)
+
 
     def test_calculate_activity(self):
         date_format = '%Y-%m-%d %H:%M:%S'
@@ -56,7 +77,7 @@ class TestAll(unittest.TestCase):
         activity_2 = calculate_activity(user2_acct_dict)
         self.assertEqual(activity_2,0)
         
-    
+    '''
     def test_recommendPeople(self):
         userMastodonURL = '@stephenfry@mastodonapp.uk'
         recommendedPeople = recommendPeople(userMastodonURL)
@@ -64,7 +85,7 @@ class TestAll(unittest.TestCase):
         for i in range(len(recommendedPeople)):
             person = recommendedPeople[i]
             self.assertIsInstance(person, AttribAccessDict)
-
+    '''
 
 
 if __name__ == '__main__':

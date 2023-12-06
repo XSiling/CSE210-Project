@@ -23,7 +23,6 @@ def searchInterest(interest):
     # Return the top2FollowedAccounts in the form of account dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#account-dicts
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
-
     searchResults = mainClient.search(interest)     # Search for the given interest on Mastodon
     searchResults['accounts'].sort(key=lambda account: account['followers_count'], reverse = True)  # Sort users by follower count
 
@@ -70,7 +69,7 @@ def calculate_activity(account):
     statuses_count = account['statuses_count']
     if statuses_count == 0:
         return 0
-        
+
     current_datetime = datetime.now(pytz.UTC)
 
     # Retrieving and formatting account creation time
@@ -161,23 +160,8 @@ def recommendPeople(userMastodonURL):
     return recommendedPeople    # Return recommended people
 
 
-userID_1 = mainClient.account_lookup('@jamesgunn@c.im')
-userID_2 = mainClient.account_lookup('@stephenfry@mastodonapp.uk')
-
-time_created_1 = userID_1['created_at']
-time_created_2 = userID_2['created_at']
-
-statuses_count_1 = userID_1['statuses_count']
-statuses_count_2 = userID_2['statuses_count']
+top2FollowedAccounts, top2Posts = searchInterest('travel')
 
 
-print('time_created_1: ', time_created_1)
-print('time_created_2: ', time_created_2)
-
-print('statuses_count_1: ', statuses_count_1)
-print('statuses_count_2: ', statuses_count_2)
-
-print('activity of first: ', calculate_activity(userID_1))
-print('activity of second: ', calculate_activity(userID_2))
 
 
