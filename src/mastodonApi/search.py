@@ -54,20 +54,61 @@ def searchInterest(interest):
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
 
+"""
+    Calculates the activity of an account based on the number of statuses and account creation date.
+
+    Args:
+    account (dict): Dictionary containing account information including 'created_at' and 'statuses_count'.
+
+    Returns:
+    float: Activity score calculated as days elapsed since account creation divided by the number of statuses.
+    If the number of statuses is 0, returns 0.
+"""
 def calculate_activity(account):
     current_datetime = datetime.now(pytz.UTC)
 
+    # Retrieving and formatting account creation time
     time_created = account['created_at']
     time_created = time_created.replace(tzinfo=pytz.UTC)
     time_diff = current_datetime - time_created
 
+    # Checking if there are no statuses to avoid division by zero
     statuses_count = account['statuses_count']
     if statuses_count == 0:
         return 0
+
+    # Calculating activity score, defined as amount of time the account has been active over the amount of posts
     days_elapsed = time_diff.days
     activity = days_elapsed / statuses_count
     
-    return activity
+    return activity     # Returns the activity score
+
+
+"""
+    Calculates the number of common featured tags between a user's account and another account.
+
+    Args:
+    user_id (str): ID of the user account.
+    account_id (str): ID of the other account to compare featured tags with.
+
+    Returns:
+    int: Number of common featured tags between the user's account and the other account.
+    """
+def calculate_interest_intersect(user_id, account_id):
+
+    # Retrieving featured tags for user and other account
+    user_featured_tags = [tag['name'] for tag in mainClient.account_featured_tags(user_id)]
+    account_featured_tags = [tag['name'] for tag in mainClient.account_featured_tags(account_id)]
+
+    # Creating sets for efficient intersection
+    user_set = set(user_featured_tags)
+    account_set = set(account_featured_tags)
+
+    # Finding common featured tags
+    common_featured_tags = user_set & account_set
+
+    return len(common_featured_tags)
+
 
 """
     Recommends accounts followed by someone the user follows on Mastodon.
