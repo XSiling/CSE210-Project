@@ -36,7 +36,9 @@ def searchInterest(interest):
      # Retrieve top posts from top followed accounts
     for account in top10FollowedAccounts:
         account_statuses = mainClient.account_statuses(account['id'])
-
+        
+        account_statuses = remove_nsfw_posts(account_statuses)      # Remove any posts that have nsfw content
+                
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
         if account_statuses:
             topPosts += random.sample(account_statuses[:5], min(len(account_statuses), 2))                                  # Add some random top accounts
@@ -45,6 +47,8 @@ def searchInterest(interest):
     for hashtag in top5Hastags:
         account_statuses = mainClient.timeline_hashtag(hashtag['name'])
 
+        account_statuses = remove_nsfw_posts(account_statuses)      # Remove any posts that have nsfw content
+
         account_statuses.sort(key=lambda account: (account['reblogs_count'], account['favourites_count']),reverse=True)     # Sort by likes
         if account_statuses:
             topPosts += random.sample(account_statuses[:5], min(len(account_statuses), 2))                                  # Add some random posts to top posts
@@ -52,6 +56,7 @@ def searchInterest(interest):
     top2Posts = random.sample(topPosts, 2)  # Selecting top 2 posts
 
     return top2FollowedAccounts, top2Posts  # Return top followed accounts and posts related to the interest
+
 
 """
     Calculates the activity of an account based on the number of statuses and account creation date.
@@ -85,6 +90,26 @@ def calculate_activity(account):
 
 
 """
+
+    Removes any nsfw posts from a given list of posts
+
+    Args:
+    toot_list (list of toot_dicts): list of posts represented as toot_dicts
+
+    Returns:
+    list of toot dicts: An edited version of the list of posts inputted without any nsfw posts
+"""
+def remove_nsfw_posts(toot_list):
+    # remove sensitive posts from a list of posts
+    for toot in toot_list:
+        toot_tags = [tag['name'] for tag in toot['tags']]           # grab the actual hashtag tags of the given post
+        if (toot['sensitive'] is True) or ('nsfw' in toot_tags):    # If the post has a hashtag 'nsfw' or if it is marked as sensitive, remove it
+            toot_list.remove(toot)
+    return toot_list    # Return the edited list of posts
+
+
+"""
+
     Calculates the number of common featured tags between a user's account and another account.
 
     Args:
@@ -152,14 +177,18 @@ def recommendPeople(userMastodonURL):
     # Combine followers of following and following of followers to recommend people
     recommendedPeople = random.sample(followersOfFollowing[:5] + followingOfFollowers[:5], min(3,len(followersOfFollowing[:5] + followingOfFollowers[:5])))
 
-    print('length of list before adding famous people: ', len(recommendedPeople))
+    # print('length of list before adding famous people: ', len(recommendedPeople))
     
     # Add some of the famous profiles to recommended People
     recommendedPeople += random.sample(famousProfilesAccounts, 5 - len(recommendedPeople))
 
     return recommendedPeople    # Return recommended people
 
+<<<<<<< HEAD
 
 recommendedPeople = recommendPeople('@stephenfry@mastodonapp.uk')
 print(recommendedPeople[0].keys())
 print(len(recommendedPeople[0].keys()))
+=======
+print(len(recommendPeople('@stephenfry@mastodonapp.uk')))
+>>>>>>> main
