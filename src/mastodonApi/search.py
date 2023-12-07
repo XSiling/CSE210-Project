@@ -160,8 +160,6 @@ def recommendPeople(userMastodonURL):
     return recommendedPeople    # Return recommended people
 
 
-top2FollowedAccounts, top2Posts = searchInterest('travel')
-
-
-
-
+recommendedPeople = recommendPeople('@stephenfry@mastodonapp.uk')
+print(recommendedPeople[0].keys())
+print(len(recommendedPeople[0].keys()))

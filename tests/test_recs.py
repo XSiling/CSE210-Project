@@ -77,16 +77,26 @@ class TestAll(unittest.TestCase):
         activity_2 = calculate_activity(user2_acct_dict)
         self.assertEqual(activity_2,0)
         
-    '''
+    
     def test_recommendPeople(self):
         userMastodonURL = '@stephenfry@mastodonapp.uk'
         recommendedPeople = recommendPeople(userMastodonURL)
 
+        '''
+        expected_account_fields = (
+            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
+            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
+            'avatar_static', 'header', 'header_static', 'followers_count', 
+            'following_count', 'statuses_count', 'last_status_at', 'emojis', 'fields']
+        )
+        '''
         for i in range(len(recommendedPeople)):
             person = recommendedPeople[i]
             self.assertIsInstance(person, AttribAccessDict)
-    '''
+            self.assertEqual(22, len(person.keys()))
 
-
+            #for key in person.keys():
+                #self.assertIn(key, expected_account_fields)
+    
 if __name__ == '__main__':
     unittest.main()
