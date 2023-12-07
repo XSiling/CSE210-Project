@@ -184,11 +184,3 @@ def recommendPeople(userMastodonURL):
 
     return recommendedPeople    # Return recommended people
 
-<<<<<<< HEAD
-
-recommendedPeople = recommendPeople('@stephenfry@mastodonapp.uk')
-print(recommendedPeople[0].keys())
-print(len(recommendedPeople[0].keys()))
-=======
-print(len(recommendPeople('@stephenfry@mastodonapp.uk')))
->>>>>>> main
