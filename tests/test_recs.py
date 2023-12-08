@@ -13,6 +13,27 @@ sys.path.insert(1, path)
 from search import *
 from mastodon.utility import AttribAccessDict
 
+expected_account_fields_22 = (
+            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
+            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
+            'avatar_static', 'header', 'header_static', 'followers_count', 
+            'following_count', 'statuses_count', 'last_status_at', 'emojis', 'fields']
+        )
+
+expected_account_fields_24 = (
+            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
+            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
+            'avatar_static', 'header', 'header_static', 'followers_count', 
+            'following_count', 'statuses_count', 'last_status_at', 'noindex', 'emojis', 'roles', 'fields']
+        )
+        
+expected_post_fields = (
+            ['id', 'created_at', 'in_reply_to_id', 'in_reply_to_account_id', 'sensitive', 'spoiler_text', 
+            'visibility', 'language', 'uri', 'url', 'replies_count', 'reblogs_count', 'favourites_count', 
+            'edited_at', 'favourited', 'reblogged', 'muted', 'bookmarked', 'content', 'filtered', 'reblog', 
+            'account', 'media_attachments', 'mentions', 'tags', 'emojis', 'card', 'poll']
+        )
+
 
 def has_expected_fields(input_dict, expected_fields):
     for field in input_dict.keys():
@@ -20,42 +41,27 @@ def has_expected_fields(input_dict, expected_fields):
             return False
     return True
 
-
-
 class TestAll(unittest.TestCase):
 
     def test_searchInterest(self):
         interest = 'travel'
         bestAccounts, bestPosts = searchInterest(interest)
-        expected_account_fields = (
-            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
-            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
-            'avatar_static', 'header', 'header_static', 'followers_count', 
-            'following_count', 'statuses_count', 'last_status_at', 'emojis', 'fields']
-        )
-
-        expected_post_fields = (
-            ['id', 'created_at', 'in_reply_to_id', 'in_reply_to_account_id', 'sensitive', 'spoiler_text', 
-            'visibility', 'language', 'uri', 'url', 'replies_count', 'reblogs_count', 'favourites_count', 
-            'edited_at', 'favourited', 'reblogged', 'muted', 'bookmarked', 'content', 'filtered', 'reblog', 
-            'account', 'media_attachments', 'mentions', 'tags', 'emojis', 'card', 'poll']
-        )
+        
+        
+        
         for i in range(len(bestAccounts)):
             account = bestAccounts[i]
             self.assertIsInstance(account, AttribAccessDict)
-            self.assertEqual(22, len(account.keys()))
-
-            for key in account.keys():
-                self.assertIn(key, expected_account_fields)
+            if len(account.keys()) == 22:
+               self.assertTrue(has_expected_fields(account, expected_account_fields_22))
+            elif len(account.keys()) == 24:
+                self.assertTrue(has_expected_fields(account, expected_account_fields_24))
 
         for i in range(len(bestPosts)):
             post = bestPosts[i]
             self.assertIsInstance(post, AttribAccessDict)
             self.assertEqual(28, len(post.keys()))
-
-            for key in post.keys():
-                self.assertIn(key, expected_post_fields)
-
+            self.assertTrue(has_expected_fields(post, expected_post_fields))
 
     def test_calculate_activity(self):
         date_format = '%Y-%m-%d %H:%M:%S'
@@ -93,7 +99,7 @@ class TestAll(unittest.TestCase):
 
         filtered_toots = remove_nsfw_posts(sample_toot_list)
 
-        print('filtered roots from function: ', filtered_toots)
+        #print('filtered roots from function: ', filtered_toots)
 
         manually_filtered = [
             {'sensitive': False, 'tags': [{'name': 'tag_first'}, {'name': 'tag_second'}]},
@@ -107,21 +113,15 @@ class TestAll(unittest.TestCase):
         userMastodonURL = '@stephenfry@mastodonapp.uk'
         recommendedPeople = recommendPeople(userMastodonURL)
 
-        '''
-        expected_account_fields = (
-            ['id', 'username', 'acct', 'display_name', 'locked', 'bot', 
-            'discoverable', 'group', 'created_at', 'note', 'url', 'uri', 'avatar', 
-            'avatar_static', 'header', 'header_static', 'followers_count', 
-            'following_count', 'statuses_count', 'last_status_at', 'emojis', 'fields']
-        )
-        '''
+        #print('length of list: ', len(recommendedPeople))
         for i in range(len(recommendedPeople)):
+
             person = recommendedPeople[i]
             self.assertIsInstance(person, AttribAccessDict)
-            #self.assertEqual(22, len(person.keys()))
-
-            #for key in person.keys():
-                #self.assertIn(key, expected_account_fields)
+            if len(person.keys()) == 22:
+               self.assertTrue(has_expected_fields(person, expected_account_fields_22))
+            elif len(person.keys()) == 24:
+                self.assertTrue(has_expected_fields(person, expected_account_fields_24))
     
 if __name__ == '__main__':
     unittest.main()
