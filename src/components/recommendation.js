@@ -142,15 +142,25 @@ async function fetchUserData() {
           throw new Error(`HTTP error! Status: ${response.status}`);
       }
       const data = await response.json();
-      if (data.users[0].interests && Array.isArray(data.users[0].interests) && data.users[0].interests.length > 0) {
+      const username = window.location.href.split('=')[1].split('&')[0];
+
+      let i = -1;
+      for(let index=0; index<data.users.length; ++index){
+        if (data.users[index].username === username){
+            i = index;
+            break;
+        }
+      }
+
+      if (data.users[i].interests && Array.isArray(data.users[i].interests) && data.users[i].interests.length > 0) {
         console.log("render follower and post");
-        const interest = data.users[0].interests;
+        const interest = data.users[i].interests;
         await fetchFollowerRecommendations(interest);
         await fetchPostRecommendations(interest);
       }
-      if (data.users[0].mastodonAccount?.trim()) {
+      if (data.users[i].mastodonAccount?.trim()) {
         console.log("render people");
-        const userMastodonURL = data.users[0].mastodonAccount;
+        const userMastodonURL = data.users[i].mastodonAccount;
         await fetchPeopleRecommended(userMastodonURL);
       }
       console.log("render finish");
@@ -164,27 +174,93 @@ async function fetchUserData() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const logOutButton = document.getElementById("logOutButton");
-  logOutButton.addEventListener("click", ()=>{
-    logOut();
-  })
+  document.getElementById('logOutButton').addEventListener('click', () => {
+    fetch('http://localhost:3000/logout')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = 'register.html' // Reload the page after logout
+            }
+        });
+  });
 
-  fetchUserData()
+  fetchUserData();
 });
+
+document.addEventListener("DOMContentLoaded", ()=>{
+  const openProfileButton = document.getElementById("openProfileButton");
+  const url = window.location.href;
+  const username = url.split('=')[1].split('&')[0];
+  openProfileButton.setAttribute("src", "profile.html?username=" + username);
+  console.log(openProfileButton);
+  openProfileButton.addEventListener("click", ()=>{
+    const profileWindow = document.getElementById("profileEdittion");
+    profileWindow.style.display = 'block';
+  })
+})
+
+async function getStatusSpan() {
+  console.log("False");
+}
 
 async function getCredential() {
   console.log("credential button clicked");
-  // try {
-  //   const response = await fetch('Your-API-Endpoint-Here');
-  //   if (!response.ok) {
-  //     throw new Error(`HTTP error! Status: ${response.status}`);
-  //   }
-  //   const data = await response.json();
-  //   console.log(data);
-  //   // Process and display the data as needed
-  // } catch (error) {
-  //   console.error('Error fetching data:', error);
-  // }
+  let mastodonAccount;
+  try {
+    const response = await fetch(`${nodeApikey}/users`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.json();
+    mastodonAccount = data?.users[0]?.mastodonAccount;
+    console.log(mastodonAccount);
+    if (mastodonAccount) {
+      try {
+        const response = await fetch(`${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.text();
+        console.log(data);
+        if (data === "True") {
+          console.log("Credential Found");
+          alert("Already Credentialed");
+        } else {
+          try {
+            const response = await fetch(`${flaskApikey}/get_Auth_URL?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            const data = await response.text();
+            window.open(data, '_blank');
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    } else {
+      console.log("Not Found");
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+  try {
+    const response = await fetch(`${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(mastodonAccount)}`)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const data = await response.text();
+    const status_span = document.getElementById('user_status_span');
+    if (data === "True") {
+      status_span.textContent = "True";
+    } else {
+      status_span.textContent = "False";
+    }
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -192,4 +268,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if (credentialButton) {
       credentialButton.addEventListener('click', getCredential);
   }
+  const status_span = document.getElementById('user_status_span');
+  status_span.textContent = 'None';
 });

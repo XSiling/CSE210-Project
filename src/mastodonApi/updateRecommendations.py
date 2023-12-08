@@ -39,6 +39,17 @@ def getRecs():
     with open("recommendations.json", "w") as outfile:
         outfile.write(json_object)
 
+
+"""
+    Continuously updates recommendations by fetching recommendations periodically.
+    
+    This function runs in an infinite loop, periodically calling the 'getRecs()' function to update recommendations.
+    If an error occurs during recommendations fetching, it prints an error message and continues.
+    The function refreshes recommendations every 6 hours.
+
+    Returns:
+        None
+"""
 def updateRecs():
     while True:
         try:
