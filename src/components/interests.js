@@ -70,8 +70,6 @@ function fetchUsername(){
         username = parent.window.location.href.split('=')[1].split('&')[0];
     }
 
-    
-
     document.getElementById("username").setAttribute("value", username);
     if (document.getElementById("userProfileUsername")){
         document.getElementById("userProfileUsername").innerHTML = username;
@@ -167,7 +165,7 @@ export function close(){
  */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
-
+    const datalistContainer = document.getElementById("interestsTextList");
     // fetch from the database
     // if not, predefined.
     let line=0;
@@ -203,6 +201,12 @@ export function createInterestsButtons(){
             '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
+
+            // append the datalist here
+            let datalistOption = document.createElement("option");
+            datalistOption.setAttribute("value", radioText);
+            datalistOption.innerHTML = radioText;
+            datalistContainer.appendChild(datalistOption);
         })
 
         container.appendChild(container1);
@@ -339,39 +343,21 @@ async function fetchUserData() {
                 index = i;
             }
         }
-        const img = data.users[index].profile_img;
+        const img = data?.users[index]?.profile_img;
         const selected_avatar = document.getElementById(img);
         selected_avatar?.classList?.add('selected-img');
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
-  }
+}
+
+
 
 // Call when the interests page is loaded
-if (window.location.href.includes('interests.html')) {
-    createInterestsButtons();
-    fetchUsername();
-    document.getElementById("interestsTextButton").onclick=addInterest;
-}
-
-if (window.location.href.includes("recommendations.html")){
-    createInterestsButtons();
-
-    // //update the website situations
-    fetchUsername();
-    fetchMastodon();
-    fetchCurrentInterests();
-    // document.getElementById("openProfileButton").onclick = editProfile;
-    document.getElementById("interestsTextButton").onclick = closeProfile;
-    function editProfile(){
-        const smallWindow = document.getElementById("container-profile");
-        smallWindow.style.display = 'block';
+document.addEventListener("DOMContentLoaded", ()=>{
+    if (window.location.href.includes('interests.html')) {
+        createInterestsButtons();
+        fetchUsername();
+        document.getElementById("interestsTextButton").onclick=addInterest;
     }
-
-    function closeProfile(){
-        const smallWindow = document.getElementById('container-profile');
-        smallWindow.style.display = 'none';
-        //update the interests
-        updateInterestsRecommendations();
-    }
-}
+})
