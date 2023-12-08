@@ -102,11 +102,25 @@ def get_Auth_Code():
 @app.route('/follow_People', methods=['GET'])
 def follow_People():
     userMastodonURL = request.args.get('userMastodonURL')
-    followList = request.args.get('followList')
+    followID = request.args.get('followID')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
     userClient = userMastodonID_to_ClientMap[userMastodonID]
-    for followId in followList:
-        userClient.account_follow(followId)
+    userClient.account_follow(followID)
+    return Response("Success")
+
+"""
+    Unfollow people on Mastodon.
+
+    Returns:
+        Response: Message indicating successful unfollow operation.
+"""
+@app.route('/unfollow_People', methods=['GET'])
+def unfollow_People():
+    userMastodonURL = request.args.get('userMastodonURL')
+    unfollowID = request.args.get('unfollowID')
+    userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    userClient = userMastodonID_to_ClientMap[userMastodonID]
+    userClient.account_follow(unfollowID)
     return Response("Success")
 
 
