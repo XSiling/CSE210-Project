@@ -137,7 +137,7 @@ export function expand(){
         elements[i].style.display = 'block';
     }
     document.getElementById("expandButton").style.display = 'none';
-    document.getElementById("closeButton").style.display = 'block';
+    document.getElementById("closeButton").style.display = 'inline-block';
 }
 
 
@@ -152,7 +152,7 @@ export function close(){
     for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
     }
-    document.getElementById("expandButton").style.display = 'block';
+    document.getElementById("expandButton").style.display = 'inline-block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
     fetchUserData();
@@ -172,15 +172,6 @@ export function createInterestsButtons(){
 
     for(line; line<category; ++line){
         //expand button
-        if(line==5){
-            let expandButton = document.createElement("button");
-            // expandButton.setAttribute("onclick", "expand()");
-            expandButton.setAttribute("type", "button");
-            expandButton.setAttribute("id", "expandButton");
-            expandButton.innerHTML="EXPAND";
-            container.appendChild(expandButton);
-        }
-
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
         // container1.className = "interestsContainer";
@@ -213,13 +204,6 @@ export function createInterestsButtons(){
     }
 
     // close button
-    let closeButton = document.createElement("button");
-    // closeButton.setAttribute("onclick", "close()");
-    closeButton.setAttribute("type", "button");
-    closeButton.setAttribute("id", "closeButton");
-    closeButton.innerHTML = "CLOSE";
-    container.appendChild(closeButton);
-
     console.log("here");
     close();
 
@@ -352,12 +336,53 @@ async function fetchUserData() {
 }
 
 
+function loadStepInterests(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'block';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'none';
+    document.getElementById("nextPageButton").onclick = loadStepProfileImg;
+    
+
+}
+
+function loadStepProfileImg(){
+    //debugger;
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'block';
+    accountStep.style.display = 'none';
+    document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
+}
+
+function loadStepMastodonAccount(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'block';
+    document.getElementById('nextPageButton').onclick = updateInterests;
+
+}
 
 // Call when the interests page is loaded
 document.addEventListener("DOMContentLoaded", ()=>{
     if (window.location.href.includes('interests.html')) {
         createInterestsButtons();
         fetchUsername();
-        document.getElementById("interestsTextButton").onclick=addInterest;
+
+        document.getElementById("interestsTextButton").onclick = addInterest;
+
+        // get the steps:
+        // 1 -- interests
+        // 2 -- profile-img
+        // 3 -- Mastodon account
+        loadStepInterests();
+
     }
 })
