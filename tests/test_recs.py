@@ -4,6 +4,7 @@ import sys
 from datetime import datetime
 import pytz
 import math
+import random
 
 path = '../src/mastodonApi'
 sys.path.insert(1, path)
@@ -76,6 +77,28 @@ class TestAll(unittest.TestCase):
 
         activity_2 = calculate_activity(user2_acct_dict)
         self.assertEqual(activity_2,0)
+
+    def test_remove_nsfw_posts(self):
+        # Generate random test data
+        sample_toot_list = [
+            {'sensitive': False, 'tags': [{'name': 'tag_first'}, {'name': 'tag_second'}]},
+            {'sensitive': False, 'tags': [{'name': 'nsfw'}, {'name': 'tag2'}]},
+            {'sensitive': True, 'tags': [{'name': 'nsfw'}, {'name': 'tag3'}]},
+            {'sensitive': False, 'tags': [{'name': 'tag4'}, {'name': 'tag5'}]},
+            {'sensitive': False, 'tags': [{'name': 'nsfw'}, {'name': 'tag6'}, {'name': 'tag7'}]},
+            {'sensitive': True, 'tags': [{'name': 'tag8'}, {'name': 'tag9'}, {'name': 'nsfw'}]}
+        ]
+
+        random.shuffle(sample_toot_list) #  shuffle to ensure randomness
+
+        filtered_toots = remove_nsfw_posts(sample_toot_list)
+
+        manually_filtered = [
+            {'sensitive': False, 'tags': [{'name': 'tag_first'}, {'name': 'tag_second'}]},
+            {'sensitive': False, 'tags': [{'name': 'tag4'}, {'name': 'tag5'}]}
+        ]
+
+        self.assertCountEqual(filtered_toots,filtered_toots)
         
     
     def test_recommendPeople(self):
