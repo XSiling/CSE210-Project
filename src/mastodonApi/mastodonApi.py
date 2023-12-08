@@ -14,6 +14,15 @@ state_to_ClientMap = {}
 userMastodonID_to_ClientMap = {}
 
 
+"""
+    Generate authentication URL for the userMastodonID.
+    
+    Args:
+        userMastodonID (str): User's Mastodon ID.
+
+    Returns:
+        str: Authentication URL for the user.
+"""
 def client_auth_url(userMastodonID):
 
     m_id, m_secret = register(userMastodonID)
@@ -28,6 +37,12 @@ def client_auth_url(userMastodonID):
     return userClient.auth_request_url(client_id = m_id, redirect_uris = "http://127.0.0.1:5000/get_Auth_Code", state = generate_state, force_login=True)
     
 
+"""
+    Get recommendations from recommendations.json.
+
+    Returns:
+        Response: JSON response with recommendations data.
+"""
 # Route to get recommendations
 @app.route('/get_recommendations', methods=['GET'])
 def get_recommendations():
@@ -36,6 +51,13 @@ def get_recommendations():
         data = json.load(file)
     return jsonify(data)    # Return recommendations data as JSON response
 
+
+"""
+    Get recommended people based on user's Mastodon URL.
+
+    Returns:
+        Response: JSON response with recommended people.
+"""
 # Route to get recommended people based on user's Mastodon URL
 @app.route('/get_recommendedpeople', methods=['GET'])
 def get_recommendedpeople():
@@ -43,6 +65,12 @@ def get_recommendedpeople():
     return jsonify(recommendPeople(userMastodonURL))    # Return recommended people based on the provided Mastodon URL
 
 
+"""
+    Get authentication URL for the user's Mastodon URL.
+
+    Returns:
+        str: Authentication URL for the user.
+"""
 @app.route('/get_Auth_URL', methods=['GET'])
 def get_Auth_URL():
     userMastodonURL = request.args.get('userMastodonURL')
@@ -50,6 +78,12 @@ def get_Auth_URL():
     return client_auth_url(userMastodonID)
 
 
+"""
+    Handle authentication code for the user's Mastodon URL.
+
+    Returns:
+        Response: Message indicating successful authentication.
+"""
 @app.route('/get_Auth_Code', methods=['GET'])
 def get_Auth_Code():
     authCode = request.args.get('code')
@@ -59,17 +93,43 @@ def get_Auth_Code():
     return Response("Success. Please close this window")
 
 
+"""
+    Follow people on Mastodon.
+
+    Returns:
+        Response: Message indicating successful follow operation.
+"""
 @app.route('/follow_People', methods=['GET'])
 def follow_People():
     userMastodonURL = request.args.get('userMastodonURL')
-    followList = request.args.get('followList')
+    followID = request.args.get('followID')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
     userClient = userMastodonID_to_ClientMap[userMastodonID]
-    for followId in followList:
-        userClient.account_follow(followId)
+    userClient.account_follow(followID)
+    return Response("Success")
+
+"""
+    Unfollow people on Mastodon.
+
+    Returns:
+        Response: Message indicating successful unfollow operation.
+"""
+@app.route('/unfollow_People', methods=['GET'])
+def unfollow_People():
+    userMastodonURL = request.args.get('userMastodonURL')
+    unfollowID = request.args.get('unfollowID')
+    userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    userClient = userMastodonID_to_ClientMap[userMastodonID]
+    userClient.account_follow(unfollowID)
     return Response("Success")
 
 
+"""
+    Check if the user is logged in on Mastodon.
+
+    Returns:
+        Response: Message indicating user's login status.
+"""
 @app.route('/check_User_Isloggedin', methods=['GET'])
 def check_User_Isloggedin():
     userMastodonURL = request.args.get('userMastodonURL')
@@ -82,6 +142,12 @@ def check_User_Isloggedin():
     return Response("True")
 
 
+"""
+    Check if the user exists on Mastodon.
+
+    Returns:
+        Response: Message indicating user's existence status.
+"""
 @app.route('/check_User_Exists', methods=['GET'])
 def check_User_Exists():
     userMastodonURL = request.args.get('userMastodonURL')

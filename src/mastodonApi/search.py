@@ -101,11 +101,12 @@ def calculate_activity(account):
 """
 def remove_nsfw_posts(toot_list):
     # remove sensitive posts from a list of posts
+    clean_list = []
     for toot in toot_list:
         toot_tags = [tag['name'] for tag in toot['tags']]           # grab the actual hashtag tags of the given post
-        if (toot['sensitive'] is True) or ('nsfw' in toot_tags):    # If the post has a hashtag 'nsfw' or if it is marked as sensitive, remove it
-            toot_list.remove(toot)
-    return toot_list    # Return the edited list of posts
+        if (toot['sensitive'] is False) and ('nsfw' not in toot_tags):    # If the post has a hashtag 'nsfw' or if it is marked as sensitive, remove it
+            clean_list.append(toot)
+    return clean_list    # Return the edited list of posts
 
 
 """
