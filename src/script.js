@@ -97,14 +97,6 @@ const interestsCategory1 = [
 const category1 = 9;
 
 /**
- * Instantly focus onto the username upon first load
- */
-window.onload = function() {
-    document.getElementById("username").focus();
-    console.log("hey")
-};
-
-/**
  * Handles the login functionality.
  * @async
  * @function
@@ -399,3 +391,34 @@ async function updateInterestsRecommendations() {
 function scrollToTop() {
 window.scrollTo({ top: 0, behavior: "smooth" });
 }
+
+/**
+ * Restrict user from login/register until all fields are filled
+ */
+function initializeFormValidation(formId, submitButtonId, inputFieldIds) {
+    let form = document.getElementById(formId);
+    let submitBtn = document.getElementById(submitButtonId);
+    let inputFields = inputFieldIds.map(id => document.getElementById(id));
+
+    if (!form || !submitBtn) {
+        return;
+    }
+
+    function updateButtonState() {
+        submitBtn.disabled = inputFields.some(field => !field.value);
+    }
+
+    inputFields.forEach(field => field.addEventListener('input', updateButtonState));
+
+    // Initial check in case the browser autocompletes fields
+    updateButtonState();
+}
+
+/**
+ * Initialize the form validation when the DOM is fully loaded
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    initializeFormValidation('loginForm', 'login-submit', ['username', 'password']);
+    initializeFormValidation('registerForm', 'register-submit', ['newUsername', 'newPassword', 'confirmPassword', 'email']);
+});
+
