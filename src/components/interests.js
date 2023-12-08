@@ -351,6 +351,7 @@ async function fetchUserData() {
 if (window.location.href.includes('interests.html')) {
     createInterestsButtons();
     fetchUsername();
+    document.getElementById("interestsTextButton").onclick=addInterest;
 }
 
 if (window.location.href.includes("recommendations.html")){
