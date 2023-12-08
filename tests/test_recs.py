@@ -93,12 +93,14 @@ class TestAll(unittest.TestCase):
 
         filtered_toots = remove_nsfw_posts(sample_toot_list)
 
+        print('filtered roots from function: ', filtered_toots)
+
         manually_filtered = [
             {'sensitive': False, 'tags': [{'name': 'tag_first'}, {'name': 'tag_second'}]},
             {'sensitive': False, 'tags': [{'name': 'tag4'}, {'name': 'tag5'}]}
         ]
 
-        self.assertCountEqual(filtered_toots,filtered_toots)
+        self.assertCountEqual(filtered_toots,manually_filtered)
         
     
     def test_recommendPeople(self):
