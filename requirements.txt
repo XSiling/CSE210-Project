@@ -1,0 +1,3 @@
+pip3 install Mastodon.py
+pip install flask
+pip install flask-cors

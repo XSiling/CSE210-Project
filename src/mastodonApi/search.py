@@ -23,7 +23,6 @@ def searchInterest(interest):
     # Return the top2FollowedAccounts in the form of account dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#account-dicts
     # AND Return the top2Posts in the form of status dicts as mentioned in https://mastodonpy.readthedocs.io/en/stable/02_return_values.html#toot-status-dicts
 
-
     searchResults = mainClient.search(interest)     # Search for the given interest on Mastodon
     searchResults['accounts'].sort(key=lambda account: account['followers_count'], reverse = True)  # Sort users by follower count
 
@@ -70,17 +69,18 @@ def searchInterest(interest):
     If the number of statuses is 0, returns 0.
 """
 def calculate_activity(account):
+
+    # Checking if there are no statuses to avoid division by zero
+    statuses_count = account['statuses_count']
+    if statuses_count == 0:
+        return 0
+
     current_datetime = datetime.now(pytz.UTC)
 
     # Retrieving and formatting account creation time
     time_created = account['created_at']
     time_created = time_created.replace(tzinfo=pytz.UTC)
     time_diff = current_datetime - time_created
-
-    # Checking if there are no statuses to avoid division by zero
-    statuses_count = account['statuses_count']
-    if statuses_count == 0:
-        return 0
 
     # Calculating activity score, defined as amount of time the account has been active over the amount of posts
     days_elapsed = time_diff.days
@@ -184,4 +184,3 @@ def recommendPeople(userMastodonURL):
 
     return recommendedPeople    # Return recommended people
 
-print(len(recommendPeople('@stephenfry@mastodonapp.uk')))
