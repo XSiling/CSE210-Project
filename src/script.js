@@ -97,6 +97,14 @@ const interestsCategory1 = [
 const category1 = 9;
 
 /**
+ * Instantly focus onto the username upon first load
+ */
+window.onload = function() {
+    document.getElementById("username").focus();
+    console.log("hey")
+};
+
+/**
  * Handles the login functionality.
  * @async
  * @function
@@ -161,10 +169,16 @@ function checkLoginStatus() {
 }
 
 /**
+ * Automatically focus user to the "username" input field if exists
  * Loads the checkLoginStatus function on window load.
  */
-window.onload = checkLoginStatus;
-
+window.onload = function() {
+    let usernameInput = document.getElementById("username");
+    if (usernameInput) {
+        usernameInput.focus();
+    }
+    checkLoginStatus();
+};
 
 /**
  * Handles the registration functionality.
