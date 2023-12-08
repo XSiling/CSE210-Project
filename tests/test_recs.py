@@ -6,7 +6,7 @@ import pytz
 import math
 import random
 
-path = '../src/mastodonApi'
+path = 'src/mastodonApi'
 sys.path.insert(1, path)
 
 
