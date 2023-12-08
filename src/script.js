@@ -174,8 +174,12 @@ function checkLoginStatus() {
  */
 window.onload = function() {
     let usernameInput = document.getElementById("username");
+    let newUsernameInput = document.getElementById("newUsername");
     if (usernameInput) {
         usernameInput.focus();
+    }
+    if (newUsernameInput) {
+        newUsernameInput.focus();
     }
     checkLoginStatus();
 };
