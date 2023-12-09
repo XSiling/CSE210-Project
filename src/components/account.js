@@ -56,7 +56,7 @@ export function renderFollowerRecommendation(recommendationData) {
   profileLink.rel = "noopener noreferrer";
 
   const follow_btn = document.createElement("a");
-  follow_btn.textContent = "Follow him/her";
+  follow_btn.textContent = "Follow";
   follow_btn.className = "follower-card-follow-button";
 
   follow_btn.addEventListener("click", function () {
@@ -90,7 +90,7 @@ export function renderFollowerRecommendation(recommendationData) {
   });
 
   const unfollow_btn = document.createElement("a");
-  unfollow_btn.textContent = "UnFollow him/her";
+  unfollow_btn.textContent = "UnFollow";
   unfollow_btn.className = "follower-card-unfollow-button";
   unfollow_btn.style.display = 'none';
 
