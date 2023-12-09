@@ -1,7 +1,5 @@
 import { flaskApikey, nodeApikey } from '../api/api.js';
 
-const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
-
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
@@ -122,15 +120,12 @@ async function fetchMastodon(){
     }catch(error){
         console.error('Error during fetching Mastodon Account');
     }
-
-
 }
 
 /**
  * Expand the compressed section of interests buttons
  * @exports
  */
-
 export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
@@ -145,7 +140,6 @@ export function expand(){
  * Close the expanded section of interests buttons
  * @exports
  */
-
 export function close(){
     console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
@@ -347,8 +341,6 @@ function loadStepInterests(){
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'none';
     document.getElementById("nextPageButton").onclick = loadStepProfileImg;
-    
-
 }
 
 /**
@@ -376,9 +368,7 @@ function loadStepMastodonAccount(){
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'block';
     document.getElementById('nextPageButton').onclick = updateInterests;
-
 }
-
 
 /**
  * initialize the interests page structure and functions
@@ -396,6 +386,27 @@ document.addEventListener("DOMContentLoaded", ()=>{
         // 2 -- profile-img
         // 3 -- Mastodon account
         loadStepInterests();
-
     }
 })
+
+window.onload = function () {
+    if (sessionStorage.getItem('registerSuccess') === 'true') {
+      sessionStorage.removeItem('registerSuccess');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+  
+      Toast.fire({
+        icon: 'success',
+        title: 'Register successfully'
+      });
+    }
+  }
