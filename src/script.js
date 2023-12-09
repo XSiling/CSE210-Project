@@ -383,13 +383,8 @@ async function updateInterestsRecommendations() {
 /**
 * Scrolls to the top of the window smoothly.
 */
-
-
-/**
-* Scrolls to the top of the window smoothly.
-*/
 function scrollToTop() {
-window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
 /**

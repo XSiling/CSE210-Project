@@ -148,6 +148,7 @@ app.get('/users', (req, res) => {
       interests: user.interests,
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
+      // followers: user.followers,
     };
   });
 
