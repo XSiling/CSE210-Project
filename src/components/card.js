@@ -1,3 +1,5 @@
+import { flaskApikey, nodeApikey } from "../api/api.js";
+
 export function renderPeopleRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'people-card';
@@ -55,6 +57,71 @@ export function renderPeopleRecommendation(recommendationData) {
   follow_btn.textContent = 'Follow him/her';
   follow_btn.className = 'people-card-follow-button';
 
+  follow_btn.addEventListener("click", function () {
+    fetch(`${nodeApikey}/users`)
+      .then((response) => response.json())
+      .then((data) => {
+        const users = data.users;
+        const userToFollow = users[0];
+
+        const userMastodonURL = userToFollow?.mastodonAccount;
+        const followUserURL = recommendationData?.acct;
+
+        const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
+          userMastodonURL
+        )}&followUserURL=${encodeURIComponent(followUserURL)}`;
+
+        fetch(followURL)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log("Follow action result:", result);
+            follow_btn.style.display = 'none';
+            unfollow_btn.style.display = 'block';
+          })
+          .catch((error) => {
+            console.error("Error following user:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  });
+
+  const unfollow_btn = document.createElement("a");
+  unfollow_btn.textContent = "UnFollow him/her";
+  unfollow_btn.className = "people-card-unfollow-button";
+  unfollow_btn.style.display = 'none';
+
+  unfollow_btn.addEventListener("click", function () {
+    fetch(`${nodeApikey}/users`)
+      .then((response) => response.json())
+      .then((data) => {
+        const users = data.users;
+        const userToFollow = users[0];
+
+        const userMastodonURL = userToFollow?.mastodonAccount;
+        const followUserURL = recommendationData?.acct;
+
+        const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
+          userMastodonURL
+        )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
+
+        fetch(followURL)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log("unFollow action result:", result);
+            follow_btn.style.display = 'block';
+            unfollow_btn.style.display = 'none';
+          })
+          .catch((error) => {
+            console.error("Error following user:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  });
+
   imgContainer.appendChild(avatar);
   nameUsernameContainer.appendChild(name);
   nameUsernameContainer.appendChild(username);
@@ -65,6 +132,7 @@ export function renderPeopleRecommendation(recommendationData) {
   middleContainer.appendChild(bio);
   lowerContainer.appendChild(profileLink);
   lowerContainer.appendChild(follow_btn);
+  lowerContainer.appendChild(unfollow_btn);
   upperContainer.appendChild(imgContainer);
   upperContainer.appendChild(infoContainer);
   card.appendChild(upperContainer);
