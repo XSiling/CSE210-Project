@@ -17,6 +17,7 @@ app.use(session({
 }));
 
 let users = [];
+let active_users = [];
 
 const corsOptions = {
   origin: 'http://127.0.0.1:5500', // Your client's origin
@@ -50,12 +51,16 @@ app.post("/register", async (req, res) => {
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
+  if (active_users.includes(username)) {
+    return res.redirect("/recommendations/" + username);
+  }
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
+  active_users.push(username);
   const user = users.find((u) => u.username === username);
   req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
   console.log('Session after Registration:', req.session);
@@ -86,8 +91,12 @@ app.post("/login", async (req, res) => {
     if (user) {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
-
+            
             if (match) {
+              if (active_users.includes(username)) {
+                return res.redirect("/recommendations/" + username);
+            }
+                active_users.push(username);
                 req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
                 console.log("Login successful")
                 console.log('Session after login:', req.session);
@@ -117,6 +126,10 @@ app.get('/check-login', (req, res) => {
 
 // Logout function
 app.get('/logout', (req, res) => {
+  const index = active_users.indexOf(req.session.user.username);
+  if (index > -1) {
+      active_users.splice(index, 1);
+  }
     req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
 });

@@ -284,7 +284,6 @@ function checkLoginStatus() {
                 console.log(url);
                 window.location.href = url;
             }
-            
         })
         .catch(error => {
             console.error('Error:', error);
