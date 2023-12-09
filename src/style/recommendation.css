@@ -23,3 +23,29 @@
     height: 100px;
     border-radius: 20%;
 }
+
+#backToTopButton {
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    z-index: 1000;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  #logo {
+    width: 15em;
+    max-width: 20em;
+    height: auto;
+  }
+
+  #get-credential-btn {
+    padding: 5px;
+    margin: 0;
+  }

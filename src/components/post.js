@@ -1,6 +1,26 @@
-export function renderRecommendationPost(recommendAccount) {
-  console.log(recommendAccount);
+import { flaskApikey, nodeApikey } from "../api/api.js";
 
+function fetchImageDataUrl(imageUrl, callback) {
+  const requestUrl = `${nodeApikey}/convert-to-data-url?imageUrl=${encodeURIComponent(imageUrl)}`;
+  // console.log('Requesting data URL from:', requestUrl);
+  fetch(requestUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(dataUrl => {
+      // console.log('Received data URL:', dataUrl);
+      callback(dataUrl);
+    })
+    .catch(error => {
+      console.error('Error fetching Data URL:', error);
+      callback(null);
+    });
+}
+
+export function renderRecommendationPost(recommendAccount) {
   const card = document.createElement("article");
   card.className = "post-card";
 
@@ -25,7 +45,13 @@ export function renderRecommendationPost(recommendAccount) {
   user_info.appendChild(email);
 
   const avatar = document.createElement("img");
-  avatar.src = recommendAccount?.account?.avatar;
+  fetchImageDataUrl(recommendAccount?.account?.avatar, function(dataUrl) {
+    if (dataUrl) {
+      avatar.src = dataUrl;
+    } else {
+      avatar.src = '../images/default.png';
+    }
+  });
   avatar.alt = "Avatar";
   avatar.className = "post-card-avatar";
 
@@ -51,7 +77,14 @@ export function renderRecommendationPost(recommendAccount) {
 
   if (recommendAccount?.media_attachments[0]?.url) {
     const content_attach = document.createElement("img");
-    content_attach.src = recommendAccount.media_attachments[0]?.url;
+    fetchImageDataUrl(recommendAccount.media_attachments[0]?.url, function(dataUrl) {
+      if (dataUrl) {
+        content_attach.src = dataUrl;
+      } else {
+        content_attach.src = '';
+        content_attach.style.display = 'none';
+      }
+    });
     content_attach.alt = "content attachment";
     content_attach.className = "post-card-content-attach";
     content_section.appendChild(content_attach);
