@@ -387,6 +387,5 @@ document.addEventListener("DOMContentLoaded", ()=>{
         // 2 -- profile-img
         // 3 -- Mastodon account
         loadStepInterests();
-
     }
 })

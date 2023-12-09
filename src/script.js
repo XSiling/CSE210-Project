@@ -1,4 +1,6 @@
 // script.js
+const flaskApikey = "http://localhost:5000";
+const nodeApikey = "http://localhost:3000";
 
 const interestsData1 = [
   ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
@@ -270,6 +272,22 @@ async function updateInterests() {
      * @type {string}
      */
     const mastodonAccount = document.getElementById('mastodonInput').value;
+
+    console.log("check account");
+    try {
+        const response = await fetch(
+            `${flaskApikey}/check_User_Exists?userMastodonURL=${encodeURIComponent(mastodonAccount)}`
+        );
+        const data = await response.text();
+        if (data === "False") {
+            alert("User does not exist.");
+            return; // Stop the function if user does not exist
+        }
+        console.log("User exists.");
+    } catch (error) {
+        console.error("Error checking user:", error);
+        return; // Stop the function in case of an error
+    }
 
     /**
      * Gets the profile image from the selected image.
