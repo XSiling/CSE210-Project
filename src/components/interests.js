@@ -120,8 +120,6 @@ async function fetchMastodon(){
     }catch(error){
         console.error('Error during fetching Mastodon Account');
     }
-
-
 }
 
 /**
