@@ -151,13 +151,30 @@ def check_User_Isloggedin():
 @app.route('/check_User_Exists', methods=['GET'])
 def check_User_Exists():
     userMastodonURL = request.args.get('userMastodonURL')
+    userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    try:
+        userClient = userMastodonID_to_ClientMap[userMastodonID]
+        userClient.revoke_access_token()
+        del userMastodonID_to_ClientMap[userMastodonID]
+    except:
+        return Response("False")
+    return Response("True")
+    
+"""
+    Revoke access token of the user on logout
+
+    Returns:
+        Response: Message indicating status.
+"""
+@app.route('/logout_User', methods=['GET'])
+def logout_User():
+    userMastodonURL = request.args.get('userMastodonURL')
     try:
         mainClient.account_lookup(userMastodonURL)['id']
     except:
         return Response("False")
     return Response("True")
     
-
 
 if __name__ == '__main__':   
     recThread = threading.Thread(target=updateRecs) # Create a separate thread to update recommendations continuously
