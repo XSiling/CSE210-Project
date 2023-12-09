@@ -44,3 +44,8 @@
     max-width: 20em;
     height: auto;
   }
+
+  #get-credential-btn {
+    padding: 5px;
+    margin: 0;
+  }
