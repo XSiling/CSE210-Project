@@ -138,22 +138,6 @@ async function login() {
     if (data.success) {
       // Redirect to recommendations page on successful login
       sessionStorage.setItem('showToast', 'true');
-    //   const Toast = Swal.mixin({
-    //     toast: true,
-    //     position: 'top-end',
-    //     showConfirmButton: false,
-    //     timer: 3000,
-    //     timerProgressBar: true,
-    //     didOpen: (toast) => {
-    //       toast.addEventListener('mouseenter', Swal.stopTimer);
-    //       toast.addEventListener('mouseleave', Swal.resumeTimer);
-    //     }
-    //   });
-  
-    //   await Toast.fire({
-    //     icon: 'success',
-    //     title: 'Signed in successfully'
-    //   });
   
       // After the toast, redirect to the recommendations page
       let url = 'recommendations.html?username=' + encodeURIComponent(data.userName);
