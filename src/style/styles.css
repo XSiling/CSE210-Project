@@ -221,6 +221,7 @@ i {
   display:flex;
   flex-direction:row;
   justify-content: center;
+  text-align: center;
 }
 
 .interestsRadio{
@@ -307,8 +308,19 @@ i {
   border-radius: 5px;
 }
 
+.containerLabelButton{   
+  font-size:10px;
+  
+}
+
+
 .button-wrapper{
   text-align: center;
+}
+
+.centerDiv{
+  text-align:center;
+  float:center;
 }
 
 #expandButton{

@@ -1,3 +1,5 @@
+import { flaskApikey, nodeApikey } from "../api/api";
+
 export function renderFollowerRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'follower-card';

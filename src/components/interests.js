@@ -178,7 +178,7 @@ export function createInterestsButtons(){
 
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
-        containerLabel.innerHTML = interestsCategory[line] + "<hr>";
+        containerLabel.innerHTML = interestsCategory[line] + '<button type="button" class="containerButton">EXPAND</button><hr>';
         container1.appendChild(containerLabel);
 
         interestsData[line].forEach(radioText=>{
@@ -336,6 +336,9 @@ async function fetchUserData() {
 }
 
 
+/**
+ * configuration step 1 - let the users select interests by datalist or checkboxes.
+ */
 function loadStepInterests(){
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
@@ -348,6 +351,9 @@ function loadStepInterests(){
 
 }
 
+/**
+ * configuration step 2 - let the users choose the profile img.
+ */
 function loadStepProfileImg(){
     //debugger;
     const interestsStep = document.getElementById("form-interests");
@@ -359,6 +365,9 @@ function loadStepProfileImg(){
     document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
 }
 
+/**
+ * configuration step 3 - let the users input the mastodon account
+ */
 function loadStepMastodonAccount(){
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
@@ -370,7 +379,11 @@ function loadStepMastodonAccount(){
 
 }
 
-// Call when the interests page is loaded
+
+/**
+ * initialize the interests page structure and functions
+ * Call when the interests page is loaded
+ */
 document.addEventListener("DOMContentLoaded", ()=>{
     if (window.location.href.includes('interests.html')) {
         createInterestsButtons();

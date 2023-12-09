@@ -77,23 +77,28 @@
             <div id="form-interests">
               <div>
                 <div id="headChoosePage">
-                  <h2>CHOOSE YOUR INTERESTS</h2>
+                  <h2>EXPLORE YOUT INTERESTS</h2>
                 </div>
+
+
+                <div class="centerDiv"><h3>Try to input some keyword here:</h3></div>
 
                 <div id="form-interests-textinput">
                   <input type="text" list="interestsTextList" name="interestsText" id="interestsText" />
+                  <button
+                  id="interestsTextButton"
+                  type="button">
+                  SELECT
+                  </button>
                   <datalist id="interestsTextList">
 
                   </datalist>
-                  <button
-                    id="interestsTextButton"
-                    type="button"
-                  >
-                    SELECT
-                  </button>
+
                   <input type="hidden" id="username" name="username" value="user1" />
                 </div>
                 <div id="interests">
+                  <div class="centerDiv"><h3>Or select from below:</h3></div>
+
                   <div id="interestsButtons"></div>
                   <div class="button-wrapper">
                     <button type="button" id="expandButton">EXPAND</button>
