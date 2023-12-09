@@ -408,6 +408,12 @@ function initializeFormValidation(formId, submitButtonId, inputFieldIds, isLogin
             let new_password = document.getElementById("newPassword");
             submitBtn.disabled = inputFields.some(field => !field.value) || !new_password.checkValidity();
         }
+        
+        if(submitBtn.disabled) {
+            submitBtn.classList.add("disabled-button");
+        } else {
+            submitBtn.classList.remove("disabled-button");
+        }
     }
 
     inputFields.forEach(field => field.addEventListener('input', updateButtonState));
