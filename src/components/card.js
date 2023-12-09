@@ -1,3 +1,25 @@
+import { flaskApikey, nodeApikey } from "../api/api.js";
+
+function fetchImageDataUrl(imageUrl, callback) {
+  const requestUrl = `${nodeApikey}/convert-to-data-url?imageUrl=${encodeURIComponent(imageUrl)}`;
+  // console.log('Requesting data URL from:', requestUrl);
+  fetch(requestUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(dataUrl => {
+      // console.log('Received data URL:', dataUrl);
+      callback(dataUrl);
+    })
+    .catch(error => {
+      console.error('Error fetching Data URL:', error);
+      callback(null);
+    });
+}
+
 export function renderPeopleRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'people-card';
@@ -15,7 +37,13 @@ export function renderPeopleRecommendation(recommendationData) {
   infoContainer.className = 'people-card-info-section';
 
   const avatar = document.createElement('img');
-  avatar.src = recommendationData.avatar;
+  fetchImageDataUrl(recommendationData.avatar, function(dataUrl) {
+    if (dataUrl) {
+      avatar.src = dataUrl;
+    } else {
+      avatar.src = '../images/default.png';
+    }
+  });
   avatar.alt = 'Avatar';
   avatar.className = 'people-card-avatar';
 
@@ -52,8 +80,73 @@ export function renderPeopleRecommendation(recommendationData) {
   profileLink.rel = 'noopener noreferrer';
 
   const follow_btn = document.createElement('a');
-  follow_btn.textContent = 'Follow him/her';
+  follow_btn.textContent = 'Follow';
   follow_btn.className = 'people-card-follow-button';
+
+  follow_btn.addEventListener("click", function () {
+    fetch(`${nodeApikey}/users`)
+      .then((response) => response.json())
+      .then((data) => {
+        const users = data.users;
+        const userToFollow = users[0];
+
+        const userMastodonURL = userToFollow?.mastodonAccount;
+        const followUserURL = recommendationData?.acct;
+
+        const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
+          userMastodonURL
+        )}&followUserURL=${encodeURIComponent(followUserURL)}`;
+
+        fetch(followURL)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log("Follow action result:", result);
+            follow_btn.style.display = 'none';
+            unfollow_btn.style.display = 'block';
+          })
+          .catch((error) => {
+            console.error("Error following user:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  });
+
+  const unfollow_btn = document.createElement("a");
+  unfollow_btn.textContent = "Unfollow";
+  unfollow_btn.className = "people-card-unfollow-button";
+  unfollow_btn.style.display = 'none';
+
+  unfollow_btn.addEventListener("click", function () {
+    fetch(`${nodeApikey}/users`)
+      .then((response) => response.json())
+      .then((data) => {
+        const users = data.users;
+        const userToFollow = users[0];
+
+        const userMastodonURL = userToFollow?.mastodonAccount;
+        const followUserURL = recommendationData?.acct;
+
+        const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
+          userMastodonURL
+        )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
+
+        fetch(followURL)
+          .then((response) => response.text())
+          .then((result) => {
+            console.log("unFollow action result:", result);
+            follow_btn.style.display = 'block';
+            unfollow_btn.style.display = 'none';
+          })
+          .catch((error) => {
+            console.error("Error following user:", error);
+          });
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  });
 
   imgContainer.appendChild(avatar);
   nameUsernameContainer.appendChild(name);
@@ -65,6 +158,7 @@ export function renderPeopleRecommendation(recommendationData) {
   middleContainer.appendChild(bio);
   lowerContainer.appendChild(profileLink);
   lowerContainer.appendChild(follow_btn);
+  lowerContainer.appendChild(unfollow_btn);
   upperContainer.appendChild(imgContainer);
   upperContainer.appendChild(infoContainer);
   card.appendChild(upperContainer);

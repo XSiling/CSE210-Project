@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
 const session = require('express-session');
+const fetch = require('node-fetch');
 
 // Middleware setup
 app.use(bodyParser.json());
@@ -18,6 +19,20 @@ app.use(session({
     saveUninitialized: true,
     cookie: { secure: false }
 }));
+
+app.get('/convert-to-data-url', async (req, res) => {
+  const imageUrl = req.query.imageUrl;
+  try {
+    const response = await fetch(imageUrl);
+    const buffer = await response.buffer();
+    const base64 = buffer.toString('base64');
+    const mimeType = response.headers.get('content-type');
+    const dataUrl = `data:${mimeType};base64,${base64}`;
+    res.send(dataUrl);
+  } catch (error) {
+    res.status(500).send('Error converting image to Data URL');
+  }
+});
 
 /**
  * User data structure.
@@ -148,6 +163,7 @@ app.get('/users', (req, res) => {
       interests: user.interests,
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
+      // followers: user.followers,
     };
   });
 
