@@ -59,7 +59,10 @@ jobs:
           pip install -r requirements.txt
         
       - name: Create env.py from template
-        run: echo "import os\nos.environ['Mastodon_username'] = 'cse210team1@gmail.com'\nos.environ['Mastodon_password'] = 'negative10xdevelopers'" > src/mastodonApi/env.py
+        run: |
+          echo "import os" > src/mastodonApi/env.py
+          echo "os.environ['Mastodon_username'] = 'cse210team1@gmail.com'" >> src/mastodonApi/env.py
+          echo "os.environ['Mastodon_password'] = 'negative10xdevelopers'" >> src/mastodonApi/env.py
 
       - name: Run Python tests
         run: python tests/test_recs.py
