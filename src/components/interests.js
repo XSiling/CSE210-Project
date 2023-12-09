@@ -70,8 +70,6 @@ function fetchUsername(){
         username = parent.window.location.href.split('=')[1].split('&')[0];
     }
 
-    
-
     document.getElementById("username").setAttribute("value", username);
     if (document.getElementById("userProfileUsername")){
         document.getElementById("userProfileUsername").innerHTML = username;
@@ -139,7 +137,7 @@ export function expand(){
         elements[i].style.display = 'block';
     }
     document.getElementById("expandButton").style.display = 'none';
-    document.getElementById("closeButton").style.display = 'block';
+    document.getElementById("closeButton").style.display = 'inline-block';
 }
 
 
@@ -154,7 +152,7 @@ export function close(){
     for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
     }
-    document.getElementById("expandButton").style.display = 'block';
+    document.getElementById("expandButton").style.display = 'inline-block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
     fetchUserData();
@@ -167,29 +165,20 @@ export function close(){
  */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
-
+    const datalistContainer = document.getElementById("interestsTextList");
     // fetch from the database
     // if not, predefined.
     let line=0;
 
     for(line; line<category; ++line){
         //expand button
-        if(line==5){
-            let expandButton = document.createElement("button");
-            // expandButton.setAttribute("onclick", "expand()");
-            expandButton.setAttribute("type", "button");
-            expandButton.setAttribute("id", "expandButton");
-            expandButton.innerHTML="EXPAND";
-            container.appendChild(expandButton);
-        }
-
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
         // container1.className = "interestsContainer";
 
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
-        containerLabel.innerHTML = interestsCategory[line] + "<hr>";
+        containerLabel.innerHTML = interestsCategory[line] + '<button type="button" class="containerButton">EXPAND</button><hr>';
         container1.appendChild(containerLabel);
 
         interestsData[line].forEach(radioText=>{
@@ -203,19 +192,18 @@ export function createInterestsButtons(){
             '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
+
+            // append the datalist here
+            let datalistOption = document.createElement("option");
+            datalistOption.setAttribute("value", radioText);
+            datalistOption.innerHTML = radioText;
+            datalistContainer.appendChild(datalistOption);
         })
 
         container.appendChild(container1);
     }
 
     // close button
-    let closeButton = document.createElement("button");
-    // closeButton.setAttribute("onclick", "close()");
-    closeButton.setAttribute("type", "button");
-    closeButton.setAttribute("id", "closeButton");
-    closeButton.innerHTML = "CLOSE";
-    container.appendChild(closeButton);
-
     console.log("here");
     close();
 
@@ -339,38 +327,75 @@ async function fetchUserData() {
                 index = i;
             }
         }
-        const img = data.users[index].profile_img;
+        const img = data?.users[index]?.profile_img;
         const selected_avatar = document.getElementById(img);
         selected_avatar?.classList?.add('selected-img');
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
-  }
-
-// Call when the interests page is loaded
-if (window.location.href.includes('interests.html')) {
-    createInterestsButtons();
-    fetchUsername();
 }
 
-if (window.location.href.includes("recommendations.html")){
-    createInterestsButtons();
 
-    // //update the website situations
-    fetchUsername();
-    fetchMastodon();
-    fetchCurrentInterests();
-    // document.getElementById("openProfileButton").onclick = editProfile;
-    document.getElementById("interestsTextButton").onclick = closeProfile;
-    function editProfile(){
-        const smallWindow = document.getElementById("container-profile");
-        smallWindow.style.display = 'block';
-    }
+/**
+ * configuration step 1 - let the users select interests by datalist or checkboxes.
+ */
+function loadStepInterests(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'block';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'none';
+    document.getElementById("nextPageButton").onclick = loadStepProfileImg;
+    
 
-    function closeProfile(){
-        const smallWindow = document.getElementById('container-profile');
-        smallWindow.style.display = 'none';
-        //update the interests
-        updateInterestsRecommendations();
-    }
 }
+
+/**
+ * configuration step 2 - let the users choose the profile img.
+ */
+function loadStepProfileImg(){
+    //debugger;
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'block';
+    accountStep.style.display = 'none';
+    document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
+}
+
+/**
+ * configuration step 3 - let the users input the mastodon account
+ */
+function loadStepMastodonAccount(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'block';
+    document.getElementById('nextPageButton').onclick = updateInterests;
+
+}
+
+
+/**
+ * initialize the interests page structure and functions
+ * Call when the interests page is loaded
+ */
+document.addEventListener("DOMContentLoaded", ()=>{
+    if (window.location.href.includes('interests.html')) {
+        createInterestsButtons();
+        fetchUsername();
+
+        document.getElementById("interestsTextButton").onclick = addInterest;
+
+        // get the steps:
+        // 1 -- interests
+        // 2 -- profile-img
+        // 3 -- Mastodon account
+        loadStepInterests();
+
+    }
+})

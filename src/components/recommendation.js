@@ -23,6 +23,43 @@ function hideLoadingGif(containerId) {
   }
 }
 
+function fetchBasicInformation(user){
+  const username = user.username;
+  const interests = user.interests;
+  const mastodonAccount = user.mastodonAccount;
+  const profile_img = user.profile_img;
+  let html = '';
+  
+  // set username
+  document.getElementById("username").setAttribute("value", username);
+  if (document.getElementById("userProfileUsername")){
+      document.getElementById("userProfileUsername").innerHTML = username;
+  }
+  
+  // set mastodon Account
+  document.getElementById("userProfileMastodonAccount").innerHTML = "<div>" + mastodonAccount +  "</div>"
+
+  // set interests text
+  Array.from(interests).forEach(interest=>{
+    html += '<div class=interestsLi>' + interest + '</div>';
+  });
+  document.getElementById("userProfileInterests").innerHTML =  html;
+
+
+  // set image
+  const container = document.getElementById("userProfileImage");
+  let profile_image = document.createElement("img");
+  profile_image.src = profile_img;
+  let smt = profile_image.src;
+  const image_url = smt.replace('/view', '/images/user-image');
+  profile_image.src = image_url+'.png';
+  profile_image.alt = "profile image";
+  profile_image.className = "profile-image";
+  container.appendChild(profile_image);  
+
+}
+
+
 async function fetchFollowerRecommendations(interests) {
   fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
@@ -151,6 +188,10 @@ async function fetchUserData() {
             break;
         }
       }
+
+
+      // set the basic information on the page
+      fetchBasicInformation(data.users[i]);
 
       if (data.users[i].interests && Array.isArray(data.users[i].interests) && data.users[i].interests.length > 0) {
         console.log("render follower and post");
