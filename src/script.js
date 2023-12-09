@@ -137,10 +137,11 @@ async function login() {
 
     if (data.success) {
       // Redirect to recommendations page on successful login
-      sessionStorage.setItem('showToast', 'true');
-  
+      sessionStorage.setItem("loginSuccess", "true");
+
       // After the toast, redirect to the recommendations page
-      let url = 'recommendations.html?username=' + encodeURIComponent(data.userName);
+      let url =
+        "recommendations.html?username=" + encodeURIComponent(data.userName);
       window.location.href = url;
     } else {
       alert(data.message);
@@ -216,13 +217,43 @@ async function register() {
    */
   const email = document.getElementById("email").value;
   if (!isValidEmail(email)) {
-    alert("Please enter a valid email address");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "error",
+      title: "Invalid Email Address!",
+    });
     return;
   }
 
   // make sure the password matches
   if (password !== confirmPassword) {
-    alert("Passwords do not match");
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "error",
+      title: "Passwords are not matched!",
+    });
     return;
   }
 
@@ -246,11 +277,26 @@ async function register() {
     const data = await response.json();
 
     if (data.success) {
+      sessionStorage.setItem("registerSuccess", "true");
       let url = "../view/interests.html?username=" + data.userName;
-      alert(data.message);
       window.location.href = url;
     } else {
-      alert(data.message);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: data.message,
+      });
     }
   } catch (error) {
     console.error("Error during registration:", error);

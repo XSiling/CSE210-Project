@@ -225,8 +225,8 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 window.onload = function () {
-  if (sessionStorage.getItem('showToast') === 'true') {
-    sessionStorage.removeItem('showToast');
+  if (sessionStorage.getItem('loginSuccess') === 'true') {
+    sessionStorage.removeItem('loginSuccess');
     const Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
