@@ -34,17 +34,17 @@
 }
 
 .follower-card-name-username-container {
-    display: flex;
-    flex-direction: row;
-    padding-left: 10px;
-    margin: 0;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  margin: 0;
 }
 
 .follower-card-followers-following-container {
-    display: flex;
-    flex-direction: row;
-    padding-left: 10px;
-    margin: 0;
+  display: flex;
+  flex-direction: row;
+  padding-left: 10px;
+  margin: 0;
 }
 
 .follower-card-avatar {
@@ -54,5 +54,26 @@
 }
 
 .follower-card-bio {
-    text-align: left;
+  text-align: left;
+}
+
+.follower-card-lower-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.follower-card-unfollow-button,
+.follower-card-follow-button {
+  margin-left: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.follower-card-profile-link:hover,
+.follower-card-follow-button:hover,
+.follower-card-unfollow-button:hover {
+  color: #01796f;
+  transform: scale(1.1);
 }

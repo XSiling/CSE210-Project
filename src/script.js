@@ -96,17 +96,30 @@ const interestsCategory1 = [
 ];
 const category1 = 9;
 
-// document.addEventListener('DOMContentLoaded', function() {
-//     checkLoginStatus();
-// });
 
-
-// Function to handle login
+/**
+ * Handles the login functionality.
+ * @async
+ * @function
+ */
 async function login() {
+    /**
+     * Gets the username from the input field.
+     * @type {string}
+     */
     const username = document.getElementById('username').value;
+
+    /**
+     * Gets the password from the input field.
+     * @type {string}
+     */
     const password = document.getElementById('password').value;
 
     try {
+        /**
+         * Sends a login request to the server.
+         * @type {Response}
+         */
         const response = await fetch('http://localhost:3000/login', {
             method: 'POST',
             headers: {
@@ -115,19 +128,15 @@ async function login() {
             body: JSON.stringify({ username, password }),
         });
 
+        /**
+         * Parses the JSON data from the response.
+         * @type {Object}
+         */
         const data = await response.json();
-
-
 
         if (data.success) {
             // Redirect to recommendations page on successful login
             let url = 'recommendations.html?username=' + data.userName;
-            // Array.from(data.interests).forEach((element)=>{
-            //     url += '&Interests=';
-            //     url += element;
-            // });
-            // url += '&mastodonAccount=';
-            // url += data.mastodonAccount;
             window.location.href = url;
         } else {
             alert(data.message);
@@ -137,39 +146,34 @@ async function login() {
     }
 }
 
-
-
-// function checkLoginStatus() {
-//     fetch('/check-login')
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.loggedIn) {
-
-//                 document.getElementById('loginButton').style.display = 'none';
-//                 // Additional actions based on login status
-//             }
-//         });
-// }
-
-// window.onload = checkLoginStatus; // Call this function on window load
-
-//Handling Logout
-// document.getElementById('logoutButton').addEventListener('click', () => {
-//     fetch('/logout')
-//         .then(response => response.json())
-//         .then(data => {
-//             if (data.success) {
-//                 window.location.reload(); // Reload the page after logout
-//             }
-//         });
-// });
-
-
-// Function to handle registration
+/**
+ * Handles the registration functionality.
+ * @async
+ * @function
+ */
 async function register() {
+    /**
+     * Gets the new username from the input field.
+     * @type {string}
+     */
     const username = document.getElementById('newUsername').value;
+
+    /**
+     * Gets the new password from the input field.
+     * @type {string}
+     */
     const password = document.getElementById('newPassword').value;
+
+    /**
+     * Gets the confirmed password from the input field.
+     * @type {string}
+     */
     const confirmPassword = document.getElementById('confirmPassword').value;
+
+    /**
+     * Gets the email from the input field.
+     * @type {string}
+     */
     const email = document.getElementById('email').value;
 
     // make sure the password matches
@@ -179,16 +183,24 @@ async function register() {
     }
 
     try {
+        /**
+         * Sends a registration request to the server.
+         * @type {Response}
+         */
         const response = await fetch('http://localhost:3000/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password, confirmPassword}),
+            body: JSON.stringify({ username, password, confirmPassword, email }),
         });
 
+        /**
+         * Parses the JSON data from the response.
+         * @type {Object}
+         */
         const data = await response.json();
-        console.log(data);
+
         if (data.success) {
             let url = '../view/interests.html?username=' + data.userName;
             alert(data.message);
@@ -201,10 +213,6 @@ async function register() {
     }
 }
 
-async function logOut() {
-  const url = "register.html";
-  window.location.href = url;
-}
 
 
 //Handling Logout
@@ -223,10 +231,102 @@ if (logoutButton) {
 
 
 // Function to update user interests
+/**
+ * Updates user interests.
+ * @async
+ * @function
+ */
 async function updateInterests() {
+    /**
+     * Gets the username from the input field.
+     * @type {string}
+     */
     const username = document.getElementById('username').value.split('&')[0];
+
+    /**
+     * Gets the Mastodon account from the input field.
+     * @type {string}
+     */
     const mastodonAccount = document.getElementById('mastodonInput').value;
 
+    /**
+     * Gets the profile image from the selected image.
+     * @type {string}
+     */
+    const profile_img = document.getElementsByClassName('selected-img')[0].id;
+
+    /**
+     * Gets the list of interest radio buttons.
+     * @type {NodeList}
+     */
+    const interestsList = document.getElementsByClassName("interestsRadio");
+
+    /**
+     * Array to store selected interests.
+     * @type {Array}
+     */
+    const interests = [];
+    
+    /**
+     * Array to store interests data.
+     * @type {Array}
+     */
+    let radiosData = [];
+
+    // Combine interestsData1 arrays
+    for (let i = 0; i < interestsData1.length; ++i) {
+        radiosData = radiosData.concat(interestsData1[i]);
+    }
+
+    // Check selected interests
+    for (let i = 0; i < interestsList.length; ++i) {
+        if (interestsList[i].checked) {
+            interests.push(radiosData[i]);
+        }
+    }
+    console.log("!");
+
+    try {
+        /**
+         * Sends a POST request to update user interests.
+         * @type {Response}
+         */
+        const response = await fetch('http://localhost:3000/interests', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, interests, mastodonAccount, profile_img }),
+        });
+    
+        /**
+         * Parses the JSON data from the response.
+         * @type {Object}
+         */
+        const data = await response.json();
+    
+        if (data.success) {
+            // Redirect to recommendations page on successful interests update
+            let url = 'recommendations.html?username=' + username;
+            window.location.href = url;
+        } else {
+            alert(data.message);
+        }
+    } catch (error) {
+        console.error('Error updating interests:', error);
+    }
+}
+
+/**
+ * @async
+ * Update the interests in recommendations page
+ */
+async function updateInterestsRecommendations() {
+    const username = document.getElementById('username').value.split('&')[0];
+    // const mastodonAccount = document.getElementById('mastodonInput').value;
+    // const profile_img = document.getElementsByClassName('selected-img')[0].id;
+    const mastodonAccount = undefined;
+    const profile_img = undefined;
     // need to modify here
     const interestsList = document.getElementsByClassName("interestsRadio");
     const interests = [];
@@ -250,7 +350,7 @@ async function updateInterests() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, interests, mastodonAccount }),
+            body: JSON.stringify({ username, interests, mastodonAccount, profile_img }),
         });
 
         const data = await response.json();
@@ -267,11 +367,9 @@ async function updateInterests() {
     }
 }
 
-function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
-
-
+/**
+* Scrolls to the top of the window smoothly.
+*/
 
 function checkLoginStatus() {
     console.log("check login status");
@@ -297,22 +395,9 @@ if (window.location.href.includes('login') || window.location.href.includes('reg
     window.onload = checkLoginStatus;
 }
 
-
-// // Call this function on window load for login.html
-// if (window.location.href.includes('http://127.0.0.1:5500/CSE210-Project/src/view/login.html')) {
-//     window.onload = checkLoginStatus;
-// }
-
-
-// window.onscroll = function () {
-//   if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-//     document.getElementById("backToTopButton").style.display = "block";
-//   } else {
-//     document.getElementById("backToTopButton").style.display = "none";
-//   }
-// };
-
-// Call loadRecommendations when the recommendations page is loaded
-// if (window.location.href.includes('recommendations.html')) {
-//     // loadRecommendations();
-// }
+/**
+* Scrolls to the top of the window smoothly.
+*/
+function scrollToTop() {
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
