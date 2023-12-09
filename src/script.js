@@ -176,6 +176,11 @@ window.onload = function() {
     checkLoginStatus();
 };
 
+function isValidEmail(email) {
+    const regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return regex.test(email);
+}
+
 /**
  * Handles the registration functionality.
  * @async
@@ -205,6 +210,10 @@ async function register() {
      * @type {string}
      */
     const email = document.getElementById('email').value;
+    if (!isValidEmail(email)) {
+        alert("Please enter a valid email address");
+        return;
+    }
 
     // make sure the password matches
     if (password !== confirmPassword) {
@@ -408,7 +417,7 @@ function initializeFormValidation(formId, submitButtonId, inputFieldIds, isLogin
             let new_password = document.getElementById("newPassword");
             submitBtn.disabled = inputFields.some(field => !field.value) || !new_password.checkValidity();
         }
-        
+
         if(submitBtn.disabled) {
             submitBtn.classList.add("disabled-button");
         } else {
