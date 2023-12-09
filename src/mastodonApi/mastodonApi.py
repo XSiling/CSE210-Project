@@ -102,8 +102,9 @@ def get_Auth_Code():
 @app.route('/follow_People', methods=['GET'])
 def follow_People():
     userMastodonURL = request.args.get('userMastodonURL')
-    followID = request.args.get('followID')
+    followUserURL = request.args.get('followUserURL')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    followID = mainClient.account_lookup(followUserURL)['id']
     userClient = userMastodonID_to_ClientMap[userMastodonID]
     userClient.account_follow(followID)
     return Response("Success")
@@ -117,10 +118,11 @@ def follow_People():
 @app.route('/unfollow_People', methods=['GET'])
 def unfollow_People():
     userMastodonURL = request.args.get('userMastodonURL')
-    unfollowID = request.args.get('unfollowID')
+    unfollowUserURL = request.args.get('unfollowUserURL')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    unfollowID = mainClient.account_lookup(unfollowUserURL)['id']
     userClient = userMastodonID_to_ClientMap[userMastodonID]
-    userClient.account_follow(unfollowID)
+    userClient.account_unfollow(unfollowID)
     return Response("Success")
 
 
