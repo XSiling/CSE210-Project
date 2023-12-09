@@ -382,7 +382,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
         document.getElementById("interestsTextButton").onclick = addInterest;
 
-        debugger;
         // get the steps:
         // 1 -- interests
         // 2 -- profile-img
