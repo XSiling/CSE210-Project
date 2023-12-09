@@ -1,4 +1,4 @@
-import {createInterestsButtons, expand, close, checkRadio} from "../components/interests.js"
+import { expand, close, checkRadio} from "../components/interests.js"
 import { flaskApikey,nodeApikey } from "../api/api.js";
 
 const interestsData = [
@@ -21,6 +21,71 @@ const category = 9;
 /**
  * Select the interest button according to text input;
  */
+export function createInterestsButtons(){
+    const container = document.getElementById("interestsButtons");
+    const datalistContainer = document.getElementById("interestsTextList");
+    // fetch from the database
+    // if not, predefined.
+    let line=0;
+
+    for(line; line<category; ++line){
+        //expand button
+        let container1 = document.createElement("div");
+        container1.setAttribute('class', 'interestsContainerLine')
+        // container1.className = "interestsContainer";
+
+        let containerLabel = document.createElement("div");
+        containerLabel.setAttribute("class", "interestsContainerLabel");
+        containerLabel.innerHTML = interestsCategory[line] + '<hr>';
+        container1.appendChild(containerLabel);
+
+        interestsData[line].forEach(radioText=>{
+            let container2 = document.createElement("div");
+            container2.setAttribute("class", "interestsContainer");
+
+            let radioLabel = document.createElement("label");
+            radioLabel.setAttribute("for", radioText);
+            radioLabel.setAttribute("class", "interestsLabel");
+            radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText +
+            '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
+            container2.appendChild(radioLabel);
+            container1.appendChild(container2);
+
+            // append the datalist here
+            let datalistOption = document.createElement("option");
+            datalistOption.setAttribute("value", radioText);
+            datalistOption.innerHTML = radioText;
+            datalistContainer.appendChild(datalistOption);
+        })
+
+        container.appendChild(container1);
+    }
+
+    // close button
+    console.log("here");
+    close();
+
+
+    document.onclick = function(event) {
+        let el = event.target;
+
+        if (el.id == "expandButton") {
+            expand();
+        }
+
+        if (el.id == "closeButton"){
+            close();
+        }
+
+        if (el.className == "interestsRadio"){
+            console.log(el.value, "clicked");
+            checkRadio(el);
+        }
+    };
+
+}
+
+
 
 function addInterest(){
     const interest = document.getElementById("interestsText").value;

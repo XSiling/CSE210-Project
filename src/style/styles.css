@@ -37,6 +37,76 @@ body {
   border-radius: 10px;
 }
 
+
+.triangle-left {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-right: 20px solid #6699cc;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  padding:0;
+}
+
+.triangle-left:hover {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-right: 25px solid #6699cc;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  padding:0;
+}
+
+
+.triangle-right {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-left: 20px solid #6699cc;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  padding:0;
+}
+
+.triangle-right:hover {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-left: 25px solid #6699cc;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  padding:0;
+}
+
+#interestsForm{
+  align-items:unset;
+}
+
 .interestsLi{
   /* float:left; */
   display:block;
@@ -48,6 +118,10 @@ body {
 
 .interests-form-container {
   max-width: 750px;
+}
+
+.inlineText{
+  display:inline-block;
 }
 
 #container-profile{
@@ -117,6 +191,7 @@ button {
     cursor: pointer;
     margin: 10px 0 0;
 }
+
 
 button.login-register-button {
     padding: 12px 20px;
@@ -232,9 +307,11 @@ i {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: left;
   font-size: 15px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 #container-profile #interestsButtons {
@@ -269,7 +346,7 @@ i {
 .container .interestsContainer{
     /* border: 3px solid #000; */
     border-radius: 5px;
-    display:inline-block;
+    display:none;
     /* padding-left: 5px; */
     /* padding-right: 5px; */
     margin-left: 5px;
