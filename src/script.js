@@ -395,7 +395,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 /**
  * Restrict user from login/register until all fields are filled
  */
-function initializeFormValidation(formId, submitButtonId, inputFieldIds) {
+function initializeFormValidation(formId, submitButtonId, inputFieldIds, isLogin) {
     let form = document.getElementById(formId);
     let submitBtn = document.getElementById(submitButtonId);
     let inputFields = inputFieldIds.map(id => document.getElementById(id));
@@ -404,8 +404,15 @@ function initializeFormValidation(formId, submitButtonId, inputFieldIds) {
         return;
     }
 
+    // Require password to be valid for registration button to be active
     function updateButtonState() {
-        submitBtn.disabled = inputFields.some(field => !field.value);
+        if(isLogin) {
+            submitBtn.disabled = inputFields.some(field => !field.value);
+        }
+        else {
+            let new_password = document.getElementById("newPassword");
+            submitBtn.disabled = inputFields.some(field => !field.value) || !new_password.checkValidity();
+        }
     }
 
     inputFields.forEach(field => field.addEventListener('input', updateButtonState));
@@ -415,10 +422,83 @@ function initializeFormValidation(formId, submitButtonId, inputFieldIds) {
 }
 
 /**
- * Initialize the form validation when the DOM is fully loaded
+ * Initialize the form and password validation when the DOM is fully loaded
  */
 document.addEventListener('DOMContentLoaded', function() {
-    initializeFormValidation('loginForm', 'login-submit', ['username', 'password']);
-    initializeFormValidation('registerForm', 'register-submit', ['newUsername', 'newPassword', 'confirmPassword', 'email']);
+    initializeFormValidation('loginForm', 'login-submit', ['username', 'password'], true);
+    initializeFormValidation('registerForm', 'register-submit', ['newUsername', 'newPassword', 'confirmPassword', 'email'], false);
+    initializePasswordValidation();
+
+    // Auto-bind 'enter' key to login/register button
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            document.querySelector('.login-register-button').click();
+        }
+    });
 });
 
+/**
+ * Display reactive guidelines for password validation
+ */
+function initializePasswordValidation() {
+    let new_password = document.getElementById("newPassword");
+    let password_lowercase = document.getElementById("password-lowercase");
+    let password_uppercase = document.getElementById("password-uppercase");
+    let password_number = document.getElementById("password-number");
+    let password_min_length = document.getElementById("password-min-length");
+
+    // Only work if form is register and not login
+    if (new_password && password_lowercase && password_uppercase && password_number && password_min_length) {
+        // Show password hint if user clicks into password box
+        new_password.onfocus = function() {
+            document.getElementById("password-message").style.display = "block";
+        }
+
+        // Hide password hint if user clicks out of input box
+        new_password.onblur = function() {
+            document.getElementById("password-message").style.display = "none";
+        }
+
+        // When the user starts to type something inside the password field
+        new_password.onkeyup = function() {
+            // Validate lowercase letters
+            let lowerCaseLetters = /[a-z]/g;
+            if(new_password.value.match(lowerCaseLetters)) {
+                password_lowercase.classList.remove("invalid");
+                password_lowercase.classList.add("valid");
+            } else {
+                password_lowercase.classList.remove("valid");
+                password_lowercase.classList.add("invalid");
+            }
+
+            // Validate capital letters
+            let upperCaseLetters = /[A-Z]/g;
+            if(new_password.value.match(upperCaseLetters)) {
+                password_uppercase.classList.remove("invalid");
+                password_uppercase.classList.add("valid");
+            } else {
+                password_uppercase.classList.remove("valid");
+                password_uppercase.classList.add("invalid");
+            }
+
+            // Validate numbers
+            let numbers = /[0-9]/g;
+            if(new_password.value.match(numbers)) {
+                password_number.classList.remove("invalid");
+                password_number.classList.add("valid");
+            } else {
+                password_number.classList.remove("valid");
+                password_number.classList.add("invalid");
+            }
+
+            // Validate length
+            if(new_password.value.length >= 8) {
+                password_min_length.classList.remove("invalid");
+                password_min_length.classList.add("valid");
+            } else {
+                password_min_length.classList.remove("valid");
+                password_min_length.classList.add("invalid");
+            }
+        }
+    }
+}
