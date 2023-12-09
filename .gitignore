@@ -135,3 +135,4 @@ pytooter_clientcre.secret
 pytooter_usercard.secret
 __pycache__/*
 recommendations.json
+.vscode
