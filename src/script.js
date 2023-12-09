@@ -281,12 +281,12 @@ async function updateInterests() {
         const data = await response.text();
         if (data === "False") {
             alert("User does not exist.");
-            return; // Stop the function if user does not exist
+            return;
         }
         console.log("User exists.");
     } catch (error) {
         console.error("Error checking user:", error);
-        return; // Stop the function in case of an error
+        return;
     }
 
     /**

@@ -215,7 +215,7 @@ async function fetchUserData() {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById('logOutButton').addEventListener('click', () => {
-    fetch('http://localhost:3000/logout')
+    fetch(`${nodeApikey}/logout`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
@@ -238,10 +238,6 @@ document.addEventListener("DOMContentLoaded", ()=>{
     profileWindow.style.display = 'block';
   })
 })
-
-async function getStatusSpan() {
-  console.log("False");
-}
 
 async function getCredential() {
   console.log("credential button clicked");
