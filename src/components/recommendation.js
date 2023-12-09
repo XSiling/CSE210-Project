@@ -3,9 +3,6 @@ import { renderRecommendationPost } from "./post.js";
 import { renderFollowerRecommendation } from "./account.js";
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
-// TODO
-// 1) Merge fetchFollower and fetchPost into one promise
-
 function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.createElement("img");
