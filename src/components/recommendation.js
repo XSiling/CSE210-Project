@@ -224,6 +224,28 @@ document.addEventListener("DOMContentLoaded", () => {
   getCredential();
 });
 
+window.onload = function () {
+  if (sessionStorage.getItem('showToast') === 'true') {
+    sessionStorage.removeItem('showToast');
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer);
+        toast.addEventListener('mouseleave', Swal.resumeTimer);
+      }
+    });
+
+    Toast.fire({
+      icon: 'success',
+      title: 'Signed in successfully'
+    });
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const openProfileButton = document.getElementById("openProfileButton");
   const url = window.location.href;
