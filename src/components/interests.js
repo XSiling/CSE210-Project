@@ -1,7 +1,5 @@
 import { flaskApikey, nodeApikey } from '../api/api.js';
 
-const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
-
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
@@ -130,7 +128,6 @@ async function fetchMastodon(){
  * Expand the compressed section of interests buttons
  * @exports
  */
-
 export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
@@ -145,7 +142,6 @@ export function expand(){
  * Close the expanded section of interests buttons
  * @exports
  */
-
 export function close(){
     console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
