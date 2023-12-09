@@ -341,8 +341,6 @@ function loadStepInterests(){
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'none';
     document.getElementById("nextPageButton").onclick = loadStepProfileImg;
-    
-
 }
 
 /**
@@ -370,7 +368,6 @@ function loadStepMastodonAccount(){
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'block';
     document.getElementById('nextPageButton').onclick = updateInterests;
-
 }
 
 
@@ -385,6 +382,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
 
         document.getElementById("interestsTextButton").onclick = addInterest;
 
+        debugger;
         // get the steps:
         // 1 -- interests
         // 2 -- profile-img
