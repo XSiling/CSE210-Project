@@ -193,13 +193,11 @@ async function fetchUserData() {
       fetchBasicInformation(data.users[i]);
 
       if (data.users[i].interests && Array.isArray(data.users[i].interests) && data.users[i].interests.length > 0) {
-        console.log("render follower and post");
         const interest = data.users[i].interests;
         await fetchFollowerRecommendations(interest);
         await fetchPostRecommendations(interest);
       }
       if (data.users[i].mastodonAccount?.trim()) {
-        console.log("render people");
         const userMastodonURL = data.users[i].mastodonAccount;
         await fetchPeopleRecommended(userMastodonURL);
       }
