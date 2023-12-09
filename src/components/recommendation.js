@@ -189,7 +189,6 @@ async function fetchUserData() {
         }
       }
 
-
       // set the basic information on the page
       fetchBasicInformation(data.users[i]);
 
