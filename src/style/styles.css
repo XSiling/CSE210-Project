@@ -8,26 +8,6 @@ body {
     padding: 0;
 }
 
-.valid {
-    color: green;
-}
-
-.invalid {
-    color: red;
-}
-
-.password-condition {
-    font-size: smaller;
-}
-
-#password-must-contain {
-    margin-top: 11px;
-}
-
-#password-message {
-    display: none;
-}
-
 .container {
   max-width: 95%;
   margin: 50px auto;
@@ -124,10 +104,6 @@ button.login-register-button {
     max-width: 300px;
     margin: 14px 0 4px;
     font-weight: bold
-}
-
-button:disabled {
-    background-color: gray;
 }
 
 a {
