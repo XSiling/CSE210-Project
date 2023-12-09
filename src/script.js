@@ -96,9 +96,9 @@ const interestsCategory1 = [
 ];
 const category1 = 9;
 
-document.addEventListener('DOMContentLoaded', function() {
-    checkLoginStatus();
-});
+// document.addEventListener('DOMContentLoaded', function() {
+//     checkLoginStatus();
+// });
 
 
 // Function to handle login
@@ -151,7 +151,7 @@ async function login() {
 //         });
 // }
 
-window.onload = checkLoginStatus; // Call this function on window load
+// window.onload = checkLoginStatus; // Call this function on window load
 
 //Handling Logout
 // document.getElementById('logoutButton').addEventListener('click', () => {
@@ -278,11 +278,12 @@ function checkLoginStatus() {
     fetch('http://localhost:3000/check-login', { credentials: 'include' }) // Ensure credentials are included for session cookies
         .then(response => response.json())
         .then(data => {
+            console.log(data);
             if (data.loggedIn) {
-                console.log("logged in");
-                let url = 'recommendations.html?username=' + data.user.username;
-                console.log(url);
-                window.location.href = url;
+                // console.log("logged in");
+                // let url = 'recommendations.html?username=' + data.user.username;
+                // console.log(url);
+                window.location.href = data.redirectUrl;
             }
         })
         .catch(error => {
@@ -291,8 +292,8 @@ function checkLoginStatus() {
 }
 
 // Call this function when the login page is loaded
-if (window.location.href.includes('login')) {
-    console.log("login");
+if (window.location.href.includes('login') || window.location.href.includes('register')) {
+    // console.log("login");
     window.onload = checkLoginStatus;
 }
 

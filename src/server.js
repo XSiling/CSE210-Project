@@ -17,7 +17,7 @@ app.use(session({
 }));
 
 let users = [];
-let active_users = [];
+let active_users = null;
 
 const corsOptions = {
   origin: 'http://127.0.0.1:5500', // Your client's origin
@@ -51,16 +51,16 @@ app.post("/register", async (req, res) => {
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
-  if (active_users.includes(username)) {
-    return res.redirect("/recommendations/" + username);
-  }
+  // if (active_users.includes(username)) {
+  //   return res.redirect("/recommendations/" + username);
+  // }
 
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
-  active_users.push(username);
+  active_users = username;
   const user = users.find((u) => u.username === username);
   req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
   console.log('Session after Registration:', req.session);
@@ -112,16 +112,16 @@ app.post("/login", async (req, res) => {
     }
 });
 
-app.get('/check-login', (req, res) => {
-    if (req.session.user) {
-        console.log("In check-login");
-        console.log(req.session.user);
+// app.get('/check-login', (req, res) => {
+//     if (req.session.user) {
+//         console.log("In check-login");
+//         console.log(req.session.user);
         
-        res.json({ loggedIn: true, user: req.session.user });
-    } else {
-        res.json({ loggedIn: false });
-    }
-});
+//         res.json({ loggedIn: true, user: req.session.user });
+//     } else {
+//         res.json({ loggedIn: false });
+//     }
+// });
 
 
 // Logout function
@@ -136,11 +136,18 @@ app.get('/logout', (req, res) => {
 
 
 app.get('/check-login', (req, res) => {
-    if (req.session.user) {
-        res.json({ loggedIn: true, user: req.session.user });
-    } else {
-        res.json({ loggedIn: false });
-    }
+  
+  if (active_users) {
+    return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_users});
+  } else{
+    res.json({ loggedIn: false, redirectUrl: "" })
+  }
+
+    // if (req.session.user) {
+    //     res.json({ loggedIn: true, user: req.session.user });
+    // } else {
+    //     res.json({ loggedIn: false });
+    // }
 });
 
 
