@@ -461,6 +461,8 @@ async function updateInterests() {
   }
 }
 
+
+
 /**
  * @async
  * Update the interests in recommendations page

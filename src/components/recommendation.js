@@ -200,6 +200,13 @@ async function fetchPeopleRecommended(userMastodonURL) {
     });
 }
 
+/**
+ * Open the following small section on the screen or close it
+ */
+function openFollowing(){
+
+}
+
 // Fetch interest and user account infos
 /**
  * Description
@@ -302,6 +309,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const profileWindow = document.getElementById("profileEdittion");
     profileWindow.style.display = "block";
   });
+
+  const openFollowingButton = document.getElementById("followingButton");
+  openFollowingButton.onclick = openFollowing;
 });
 
 function showMastodonToast() {

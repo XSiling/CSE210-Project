@@ -71,6 +71,27 @@ body {
   padding:0;
 }
 
+#followingButton {
+  position: fixed;
+  bottom: 150px;
+  right: 30px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  z-index: 1000;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#followingButton:hover {
+  padding: 15px 15px 15px 15px;
+}
+
+
+
 
 .triangle-right {
   max-width: 0;

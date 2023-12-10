@@ -104,6 +104,7 @@ export function renderFollowerRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
     try {
       const response = await fetch(
         `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -120,6 +121,31 @@ export function renderFollowerRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+
+    try{
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const following = recommendationData?.acct;
+
+      const response = await fetch(`${nodeApikey}/follow`,{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following
+        }),
+      });
+      const data = await response.json();
+      if (!data.success){
+        alert(data.message);
+      }
+    }catch(error){
+      console.log("Error updating the server of following");
+    }
+
     fetch(`${nodeApikey}/users`)
       .then((response) => response.json())
       .then((data) => {
@@ -172,6 +198,7 @@ export function renderFollowerRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
     try {
       const response = await fetch(
         `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -188,6 +215,29 @@ export function renderFollowerRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    try{
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const following = recommendationData?.acct;
+      const response = await fetch(`${nodeApikey}/unfollow`,{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following
+        })
+      });
+      const data = await response.json();
+      if (!data.success){
+        alert(data.message);
+      }
+    }catch(error){
+      console.log("Error updating the server of following");
+    }
+
     fetch(`${nodeApikey}/users`)
       .then((response) => response.json())
       .then((data) => {
