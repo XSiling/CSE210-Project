@@ -84,6 +84,7 @@ export function renderFollowerRecommendation(recommendationData) {
   const follow_btn = document.createElement("a");
   follow_btn.textContent = "Follow";
   follow_btn.className = "follower-card-follow-button";
+  follow_btn.title = 'Follow him/her';
 
   follow_btn.addEventListener("click", function () {
     fetch(`${nodeApikey}/users`)
@@ -119,6 +120,7 @@ export function renderFollowerRecommendation(recommendationData) {
   unfollow_btn.textContent = "UnFollow";
   unfollow_btn.className = "follower-card-unfollow-button";
   unfollow_btn.style.display = 'none';
+  unfollow_btn.title = 'Unfollow him/her';
 
   unfollow_btn.addEventListener("click", function () {
     fetch(`${nodeApikey}/users`)
