@@ -25,7 +25,7 @@ function showLoadingGif(containerId) {
 function hideLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.getElementById("loadingGif");
-  if (loadingGif) {
+  if (loadingGif && container.contains(loadingGif)) {
     container.removeChild(loadingGif);
   }
 }
@@ -35,7 +35,7 @@ function hideLoadingGif(containerId) {
  * @param {any} user
  * @returns {any}
  */
-function fetchBasicInformation(user){
+async function fetchBasicInformation(user){
   const username = user.username;
   const interests = user.interests;
   const mastodonAccount = user.mastodonAccount;
@@ -85,7 +85,7 @@ function fetchBasicInformation(user){
  * @returns {any}
  */
 async function fetchFollowerRecommendations(interests) {
-  fetch(`${flaskApikey}/get_recommendations`)
+  return fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -129,7 +129,7 @@ async function fetchFollowerRecommendations(interests) {
  * @returns {any}
  */
 async function fetchPostRecommendations(interests) {
-  fetch(`${flaskApikey}/get_recommendations`)
+  return fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -178,7 +178,7 @@ async function fetchPeopleRecommended(userMastodonURL) {
     userMastodonURL
   )}`;
 
-  fetch(url)
+  return fetch(url)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -227,10 +227,9 @@ async function fetchUserData() {
       }
     }
 
-
     // set the basic information on the page
-    fetchBasicInformation(data.users[i]);
-
+    await fetchBasicInformation(data.users[i]);
+    console.log(data.users[i]);
     if (
       data.users[i].interests &&
       Array.isArray(data.users[i].interests) &&
@@ -238,19 +237,18 @@ async function fetchUserData() {
     ) {
       const interest = data.users[i].interests;
       await fetchFollowerRecommendations(interest);
+      hideLoadingGif("accountContainer");
       await fetchPostRecommendations(interest);
+      hideLoadingGif("postContainer");
     }
     if (data.users[i].mastodonAccount?.trim()) {
       const userMastodonURL = data.users[i].mastodonAccount;
       await fetchPeopleRecommended(userMastodonURL);
+      hideLoadingGif("recommendationContainer");
     }
     console.log("render finish");
   } catch (error) {
     console.error("Error fetching user data:", error);
-  } finally {
-    hideLoadingGif("accountContainer");
-    hideLoadingGif("postContainer");
-    hideLoadingGif("recommendationContainer");
   }
 }
 
