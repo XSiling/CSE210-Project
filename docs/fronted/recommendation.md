@@ -1,48 +1,82 @@
-# Recommedation Functions Documentation
+# Recommendation Functions Documentation
 
 ## Overview
 
-This document provides details on the JavaScript functions used in the application, primarily for handling API requests and rendering content based on fetched data.
+This documentation elaborates on the JavaScript functions deployed in the application. The primary focus of these functions is to manage API requests and to render content dynamically based on the data retrieved.
 
 ## Functions
 
 ### `showLoadingGif(containerId)`
-Shows a loading GIF in a specified container.
+
+This function is responsible for displaying a loading GIF within a specified HTML container element. It is typically called before initiating an API request to give users visual feedback that data is being loaded.
+
 - **Parameters**: 
-  - `containerId` (String): The ID of the container where the loading GIF should be displayed.
-- **Usage**: Called before initiating an API request to indicate loading state.
+  - `containerId` (String): The ID of the HTML container where the loading GIF is to be displayed.
+
+- **Usage**: 
+  - Invoke this function before API requests to signal the start of a data fetch operation.
 
 ### `hideLoadingGif(containerId)`
-Hides the loading GIF in a specified container.
+
+Complementary to `showLoadingGif`, this function removes the loading GIF from the specified container, signifying that the loading process has completed.
+
 - **Parameters**: 
-  - `containerId` (String): The ID of the container from which the loading GIF should be removed.
-- **Usage**: Called after the completion of an API request to remove the loading state indicator.
+  - `containerId` (String): The ID of the HTML container from which the loading GIF should be removed.
+
+- **Usage**: 
+  - Call this function after an API request is completed to indicate that the content is now loaded.
 
 ### `fetchFollowerRecommendations(interests)`
-Fetches follower recommendations based on interests.
+
+Retrieves a list of follower recommendations based on an array of user interests, and then updates the UI accordingly.
+
 - **Parameters**: 
-  - `interests` (Array): A list of user interests.
-- **Usage**: Makes an API request to get recommended followers and updates the `accountContainer` with the fetched data.
+  - `interests` (Array): An array of strings representing user interests.
+
+- **Usage**: 
+  - Utilize this function to request follower recommendations from the backend and render them in the `accountContainer`.
 
 ### `fetchPostRecommendations(interests)`
-Fetches post recommendations based on interests.
+
+Obtains post recommendations by sending the user's interests to the backend, which returns relevant content.
+
 - **Parameters**: 
-  - `interests` (Array): A list of user interests.
-- **Usage**: Makes an API request to get recommended posts and updates the `postContainer` with the fetched data.
+  - `interests` (Array): An array of strings representing user interests.
+
+- **Usage**: 
+  - Employ this function to fetch post recommendations and display them within the `postContainer`.
 
 ### `fetchPeopleRecommended(userMastodonURL)`
-Fetches people recommendations.
+
+Fetches a list of recommended people by making an API call using the user's Mastodon URL.
+
 - **Parameters**: 
-  - `userMastodonURL` (String): The Mastodon URL of the user.
-- **Usage**: Makes an API request to get people recommendations based on the user's Mastodon URL and updates the `recommendationContainer`.
+  - `userMastodonURL` (String): A string containing the user's Mastodon URL.
+
+- **Usage**: 
+  - Use this function to obtain recommendations on people and populate the `recommendationContainer` with the results.
 
 ### `fetchUserData()`
-Fetches user data including interests and account information.
-- **Usage**: Called to fetch user data and then calls `fetchFollowerRecommendations`, `fetchPostRecommendations`, and `fetchPeopleRecommended` based on the fetched data.
+
+Gathers comprehensive user data, including interests and account details. It then triggers other fetching functions to retrieve tailored content based on the user's preferences and profile.
+
+- **Usage**: 
+  - Call this function to initiate the process of fetching and displaying user-specific data and recommendations upon page load.
 
 ### Event Listener on `DOMContentLoaded`
-- **Functionality**: Adds an event listener to `logOutButton` for logout functionality and calls `fetchUserData` to initiate data fetching on page load.
 
-## TODO
-1. Merge `fetchFollower` and `fetchPost` into one promise.
-2. Add a back-to-top button functionality.
+An event listener attached to the DOM which activates once the HTML document has been completely loaded and parsed. It includes logout functionality and initiates the data fetching process.
+
+- **Functionality**: 
+  - Adds click event handling to the `logOutButton`, enabling user logout.
+  - Calls `fetchUserData` to begin fetching user-specific information and recommendations.
+
+## Integration and Imports
+
+The functions are supported by various render utilities and key imports:
+
+```javascript
+import { renderPeopleRecommendation } from "./card.js";
+import { renderRecommendationPost } from "./post.js";
+import { renderFollowerRecommendation } from "./account.js";
+import { flaskApikey, nodeApikey } from "../api/api.js";

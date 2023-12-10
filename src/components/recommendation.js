@@ -3,6 +3,11 @@ import { renderRecommendationPost } from "./post.js";
 import { renderFollowerRecommendation } from "./account.js";
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Description
+ * @param {any} containerId
+ * @returns {any}
+ */
 function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.createElement("img");
@@ -12,6 +17,11 @@ function showLoadingGif(containerId) {
   container.appendChild(loadingGif);
 }
 
+/**
+ * Description
+ * @param {any} containerId
+ * @returns {any}
+ */
 function hideLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.getElementById("loadingGif");
@@ -20,6 +30,11 @@ function hideLoadingGif(containerId) {
   }
 }
 
+/**
+ * Description
+ * @param {any} user
+ * @returns {any}
+ */
 function fetchBasicInformation(user){
   const username = user.username;
   const interests = user.interests;
@@ -64,6 +79,11 @@ function fetchBasicInformation(user){
 }
 
 
+/**
+ * Description
+ * @param {any} interests
+ * @returns {any}
+ */
 async function fetchFollowerRecommendations(interests) {
   fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
@@ -103,6 +123,11 @@ async function fetchFollowerRecommendations(interests) {
     });
 }
 
+/**
+ * Description
+ * @param {any} interests
+ * @returns {any}
+ */
 async function fetchPostRecommendations(interests) {
   fetch(`${flaskApikey}/get_recommendations`)
     .then((response) => {
@@ -143,6 +168,11 @@ async function fetchPostRecommendations(interests) {
 }
 
 // Fetch recommendation list (5) from flask backend
+/**
+ * Description
+ * @param {any} userMastodonURL
+ * @returns {any}
+ */
 async function fetchPeopleRecommended(userMastodonURL) {
   const url = `${flaskApikey}/get_recommendedpeople?userMastodonURL=${encodeURIComponent(
     userMastodonURL
@@ -172,6 +202,10 @@ async function fetchPeopleRecommended(userMastodonURL) {
 }
 
 // Fetch interest and user account infos
+/**
+ * Description
+ * @returns {any}
+ */
 async function fetchUserData() {
   // Show loading GIFs
   showLoadingGif("accountContainer");
@@ -273,6 +307,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+/**
+ * Description
+ * @returns {any}
+ */
 async function getCredential() {
   // fetch user data
   let mastodonAccount;
