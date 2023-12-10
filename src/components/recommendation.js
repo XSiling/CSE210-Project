@@ -336,10 +336,40 @@ async function getCredential() {
             const data = await response.text();
             if (data === "True") {
               const btn = document.getElementById("get-credential-btn");
-              btn.textContent = 'Mastodon Credentialed';
+              btn.textContent = "Mastodon Credentialed";
             } else {
+              function showMastodonToast() {
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+              
+                Toast.fire({
+                  icon: "error",
+                  title: "Please Connect to Mastodon!",
+                });
+              }
               const btn = document.getElementById("get-credential-btn");
-              btn.textContent = 'Link to Mastodon';
+              btn.textContent = "Link to Mastodon";
+              const followBtns1 = document.getElementsByClassName(
+                "follower-card-follow-button"
+              );
+              Array.from(followBtns1).forEach((followBtn) => {
+                followBtn.addEventListener('click', showMastodonToast);
+              });
+              const followBtns2 = document.getElementsByClassName(
+                "people-card-follow-button"
+              );
+              Array.from(followBtns2).forEach((followBtn) => {
+                followBtn.addEventListener('click', showMastodonToast);
+              });
             }
           } catch (error) {
             console.error("Error fetching data:", error);
