@@ -17,6 +17,10 @@
   transform: scale(1.03);
 }
 
+.people-card-name {
+  font-weight: bold;
+}
+
 .people-card-upper-section {
   display: flex;
   flex-direction: row;
