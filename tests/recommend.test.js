@@ -23,7 +23,10 @@ describe('showLoadingGif', () => {
 describe('hideLoadingGif', () => {
   test('should remove the loading gif from the container', () => {
     const fakeLoadingGif = {};
-    const fakeContainer = { removeChild: jest.fn() };
+    const fakeContainer = { 
+      removeChild: jest.fn(),
+      contains: jest.fn().mockReturnValue(true)
+    };
     mockGetElementById
       .mockReturnValueOnce(fakeContainer)
       .mockReturnValueOnce(fakeLoadingGif);
