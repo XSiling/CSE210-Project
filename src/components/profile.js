@@ -1,5 +1,5 @@
 import { expand, close, checkRadio} from "../components/interests.js"
-import { flaskApikey,nodeApikey } from "../api/api.js";
+import { nodeApikey } from "../api/api.js";
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],

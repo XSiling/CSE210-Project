@@ -310,7 +310,7 @@ a {
   width:fit-content;
   word-wrap: unset;
   padding:0 10px 0 10px;
-  margin: 10px 10px 10px 10px;
+  margin: 0px 0px 0px 10px;
 
 }
 
@@ -319,7 +319,7 @@ a {
   font-size:12px;
   height:fit-content;
   padding:0 10px 0 10px;
-  margin: 10px 10px 10px 10px;
+  margin: 0px 0px 0px 10px;
 }
 
 .header-col-1{
@@ -488,8 +488,16 @@ i {
 
 #nextPageButton {
   font-size: 20px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
+
+
+#previousPageButton {
+  float:left;
+  font-size: 20px;
+  /* border-radius: 5px; */
+}
+
 
 .containerLabelButton{   
   font-size:10px;
