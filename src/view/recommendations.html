@@ -13,6 +13,34 @@
     <title>Recommendations</title>
   </head>
   <body>
+    <div class="header">
+      <div id="headerContainer">
+        <!-- website logo and name-->
+        <div id="userProfileLogo">
+          <img src="../images/logo-name.png" width="160em" src="logo">
+        </div>
+        <!-- empty -->
+        <div class="header-col-4"></div>
+        <div class="header-col-4"></div>
+        <!-- user name and mastodon account-->
+        <div id="userProfileUsername"></div>
+        <div id="userProfileMastodonAccount"></div>
+        <!-- user profile img -->
+        <div id="userProfileImage" height="20px"></div>
+        
+
+        <div class="header-col-1 button-wrapper">
+          <button class="edit-profile-btn" id="openProfileButton">
+            EditProfile
+            </button>
+            </div>
+            <div>
+                
+          <button id="logOutButton" type="button">LogOut</button>
+        </div>
+        </div>
+      </div>
+    </div>
     <div class="container">
       <div id="container-profile">
         <div id="main">
@@ -51,42 +79,14 @@
           </form>
         </div>
       </div>
-
       <div class="d-flex text-center">
-        <section
-          class="profile-section col-3 d-flex flex-column align-items-center"
-        >
-          <div class="logo-section">
-            <img src="../images/logo.png" alt="logo" id="logo">
-          </div>
-          <div id="userProfile">
-            <h2>PROFILE</h2>
-            <br />
-            <h4>Profile Image</h4>
-            <div id="userProfileImage"></div>
-            <br />
-            <h4>User Name</h4>
-            <div id="userProfileUsername"></div>
-            <br />
-            <h4>Interests</h4>
-            <div id="userProfileInterests"></div>
-            <br />
-            <h4>Mastodon Account</h4>
-            <div id="userProfileMastodonAccount"></div>
-            <br />
-            <h4>Followings</h4>
-            <div id="userFollowing"></div>
-          </div>
-          <button class="edit-profile-btn" id="openProfileButton">
-            Edit Profile
-          </button>
-
-          <button id="logOutButton" type="button">Log Out</button>
-        </section>
-        <div class="col-9">
+        <div class="fake-col-9">
           <section class="header-section">
             <h1>Recommendation</h1>
             <button id="get-credential-btn">Link to Mastodon</button>
+          </section>
+          <section class="interests-section">
+            <div id="userProfileInterests"></div>
           </section>
           <section class="recommendation-section">
             <div id="accountContainer"></div>

@@ -25,7 +25,7 @@ function fetchBasicInformation(user){
   const interests = user.interests;
   const mastodonAccount = user.mastodonAccount;
   const profile_img = user.profile_img;
-  let html = "";
+  let html = "<br/><h4> Get the recommendations for: ";
 
   // set username
   document.getElementById("username").setAttribute("value", username);
@@ -39,8 +39,15 @@ function fetchBasicInformation(user){
 
   // set interests text
   Array.from(interests).forEach((interest) => {
-    html += "<div class=interestsLi>" + interest + "</div>";
+    html += interest + " ";
   });
+
+  html += "</h4>"
+
+  if (interests.length == 0){
+    html = '<br/><h4> Oops, you did not select any interests! Get some by editting the profile. </h4>';
+  }
+
   document.getElementById("userProfileInterests").innerHTML = html;
 
   // set image

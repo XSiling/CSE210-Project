@@ -8,6 +8,7 @@ body {
     padding: 0;
 }
 
+
 .valid {
     color: green;
 }
@@ -101,6 +102,35 @@ body {
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
   padding:0;
+}
+
+.fake-col-9{
+  width:100%;
+  margin-top:60px;
+}
+
+
+.header{
+  width:100%;
+  min-height:40px;
+  position:fixed;
+  top:0;
+  padding-top:20px;
+  padding-left:50px;
+  line-height:60px;
+  z-index:999;
+  background-color: white;
+  border-color:#666666;
+  border-radius: 10px;
+  
+}
+
+#headerContainer{
+  display:flex;
+  overflow: nowrap;
+  white-space:wrap;
+  overflow-x:auto;
+  scrollbar-width: none;
 }
 
 #interestsForm{
@@ -250,6 +280,56 @@ a {
   flex-basis: 20px;
 }
 
+#userProfileLogo{
+  flex:4;
+  float:center;
+}
+
+#userProfileInterests{
+  display:inline-block;
+}
+
+#userProfileUsername{
+  flex:4;
+  text-align:right;
+}
+
+#userProfileMastodonAccount{
+  flex:4;
+  text-align:right;
+}
+
+#userProfileImage{
+  flex:4;
+  text-align:center;
+}
+
+#openProfileButton{
+  flex:1;
+  font-size:12px;
+  width:fit-content;
+  word-wrap: unset;
+  padding:0 10px 0 10px;
+  margin: 10px 10px 10px 10px;
+
+}
+
+#logOutButton{
+  flex:1;
+  font-size:12px;
+  height:fit-content;
+  padding:0 10px 0 10px;
+  margin: 10px 10px 10px 10px;
+}
+
+.header-col-1{
+  flex:1;
+}
+
+.header-col-4{
+  flex:4;
+  
+}
 #formDiv {
   flex-grow: 5;
   flex-basis: 20px;
@@ -259,6 +339,8 @@ a {
   flex-direction: column;
   justify-content: center;
 }
+
+
 
 #interests{
   display: flex;
