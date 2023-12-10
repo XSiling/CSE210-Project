@@ -222,7 +222,12 @@ async function fetchUserData() {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logOutButton").addEventListener("click", () => {
-    fetch(`${nodeApikey}/logout`)
+    fetch(`${nodeApikey}/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
@@ -277,7 +282,10 @@ async function getCredential() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    mastodonAccount = data?.users[0]?.mastodonAccount;
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const userIndex = data.users.findIndex(user => user.username === username);
+    mastodonAccount = data?.users[userIndex]?.mastodonAccount;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
@@ -328,10 +336,40 @@ async function getCredential() {
             const data = await response.text();
             if (data === "True") {
               const btn = document.getElementById("get-credential-btn");
-              btn.textContent = 'Mastodon Credentialed';
+              btn.textContent = "Mastodon Credentialed";
             } else {
+              function showMastodonToast() {
+                const Toast = Swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener("mouseenter", Swal.stopTimer);
+                    toast.addEventListener("mouseleave", Swal.resumeTimer);
+                  },
+                });
+              
+                Toast.fire({
+                  icon: "error",
+                  title: "Please Connect to Mastodon!",
+                });
+              }
               const btn = document.getElementById("get-credential-btn");
-              btn.textContent = 'Link to Mastodon';
+              btn.textContent = "Link to Mastodon";
+              const followBtns1 = document.getElementsByClassName(
+                "follower-card-follow-button"
+              );
+              Array.from(followBtns1).forEach((followBtn) => {
+                followBtn.addEventListener('click', showMastodonToast);
+              });
+              const followBtns2 = document.getElementsByClassName(
+                "people-card-follow-button"
+              );
+              Array.from(followBtns2).forEach((followBtn) => {
+                followBtn.addEventListener('click', showMastodonToast);
+              });
             }
           } catch (error) {
             console.error("Error fetching data:", error);
