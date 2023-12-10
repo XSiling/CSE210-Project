@@ -1,0 +1,20 @@
+.form-container {
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.label-username, .label-password {
+    display: block;
+    opacity: 0; /* 初始状态不可见 */
+    max-height: 0; /* 初始状态不占空间 */
+    overflow: hidden; /* 防止内容溢出 */
+    transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
+  }
+  
