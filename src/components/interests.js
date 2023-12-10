@@ -14,6 +14,18 @@ const interestsData = [
 const interestsCategory = [
     'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
 ]
+
+const interestsCategoryDescriptions = [
+    "Information and entertainment communication",
+    "Free time relaxation and enjoyment",
+    "Human community and interactions",
+    "Advancements in tools and systems",
+    "Financial systems and resources",
+    "Daily life and existence",
+    "Learning and knowledge acquisition",
+    "Leisure activities for enjoyment",
+    "Interpersonal connections and bonds"
+]
 const category = 9;
 
 /**
@@ -146,10 +158,41 @@ export function close(){
     for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
     }
+
     document.getElementById("expandButton").style.display = 'inline-block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
     fetchUserData();
+}
+
+function expandLine(element){
+    const line = element.parentNode.parentNode;
+    console.log(line);
+
+    if (element.name =="expand"){
+        element.className = 'triangle-left';
+        line.style.display = 'block';
+        line.childNodes.forEach((node)=>{
+            //debugger;
+            if (node.className == "interestsContainerLabel"){
+                element.name = "close"
+            }
+            if (node.className == "interestsContainer"){
+                node.style.display = "inline-block";
+            }
+        })
+    }else{
+        element.className = 'triangle-right';
+        line.style.display = 'inline-block';
+        line.childNodes.forEach((node)=>{
+            if (node.className == "interestsContainerLabel"){
+                element.name="expand";
+            }
+            if (node.className == "interestsContainer"){
+                node.style.display = "none";
+            }
+        })
+    }
 }
 
 
@@ -172,7 +215,7 @@ export function createInterestsButtons(){
 
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
-        containerLabel.innerHTML = interestsCategory[line] + '<button type="button" class="containerButton">EXPAND</button><hr>';
+        containerLabel.innerHTML = '<h3 class="inlineText">' + interestsCategory[line] + ': ' + interestsCategoryDescriptions[line] + '</h3><button type="button" class="triangle-right" name="expand"></button>';
         container1.appendChild(containerLabel);
 
         interestsData[line].forEach(radioText=>{
@@ -195,11 +238,17 @@ export function createInterestsButtons(){
         })
 
         container.appendChild(container1);
+
     }
+
+    // expand the first line
+    expandLine(container.childNodes[0].childNodes[0].childNodes[1]);
 
     // close button
     console.log("here");
     close();
+
+
 
 
     document.onclick = function(event) {
@@ -211,6 +260,10 @@ export function createInterestsButtons(){
 
         if (el.id == "closeButton"){
             close();
+        }
+
+        if (el.className == "triangle-right" || el.className=='triangle-left'){
+            expandLine(el);
         }
 
         if (el.className == "interestsRadio"){
@@ -237,7 +290,7 @@ export function checkRadio(el){
     })
 
     if (radioNumber > maxRadio){
-        window.alert("You can only choose up to 5 interests!");
+        alert("You can only choose up to 5 interests!");
         el.checked = false;
     }
 
@@ -369,7 +422,6 @@ function loadStepMastodonAccount(){
     accountStep.style.display = 'block';
     document.getElementById('nextPageButton').onclick = updateInterests;
 }
-
 
 /**
  * initialize the interests page structure and functions

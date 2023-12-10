@@ -12,7 +12,7 @@
       <div id="main">
         <form id="interestsForm">
           <div id="formDiv">
-            <div>
+            <div id="form-profile-img">
               <h2>CHOOSE YOUR PROFILE IMAGE</h2>
               <section class="profile-predefined-img-section">
                 <img
@@ -65,20 +65,44 @@
                 />
               </section>
             </div>
-            <div id="interestsDiv">
-              <input type="text" list="interestsTextList" name="interestsText" id="interestsText" />
-              <datalist id="interestsTextList">
 
-              </datalist>
-              <button
-                id="interestsTextButton"
-                type="button">
-                Select
-              </button>
-            </div>
-            <input type="hidden" id="username" name="username" value="user1" />
-            <div id="interests">
-              <div id="interestsButtons"></div>
+            <div id="form-interests">
+              <div>
+                <div id="headChoosePage">
+                  <h2>EXPLORE YOUR INTERESTS</h2>
+                </div>
+
+
+                <div class="centerDiv"><h3>Try to input some keyword here:</h3></div>
+
+                <div id="form-interests-textinput">
+                  <input type="text" list="interestsTextList" name="interestsText" id="interestsText" />
+                  <button
+                  id="interestsTextButton"
+                  type="button">
+                  SELECT
+                  </button>
+                  <datalist id="interestsTextList">
+
+                  </datalist>
+
+                  <input type="hidden" id="username" name="username" value="user1" />
+                </div>
+                <div id="interests">
+                  <div class="centerDiv"><h3>Or select from below:</h3></div>
+
+                  <div id="interestsButtons"></div>
+                  <div class="button-wrapper">
+                    <button type="button" id="expandButton">Discover More</button>
+                  </div>
+                  <div class="button-wrapper">
+                    <button type="button" id="closeButton">Collapse</button>
+                  </div>
+                </div>
+                
+
+
+              </div>
             </div>
             <!-- we don't offer changing activitypub account now, so delete it temporarily -->
             <!-- <br /> -->
