@@ -1,4 +1,4 @@
-import { flaskApikey, nodeApikey } from '../api/api.js';
+import { nodeApikey } from '../api/api.js';
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
@@ -87,52 +87,6 @@ function fetchUsername(){
     return username;
 }
 
-/**
- * Fetch the mastodon account of the user from server.
- * @async
-*/
-async function fetchMastodon(){
-    console.log("fetch mastodon account from server...");
-    try {
-        const response = await fetch(`${nodeApikey}/users`,{
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-        });
-        /**
-         * All the user information including username, interest, mastodonaccount
-         * @type {list}
-         */
-        const data = await response.json();
-
-        if (data.success){
-            // set the mastodon content into some UI
-            /**
-             * The username
-             * @type {string}
-             */
-            const username = fetchUsername();
-            /**
-             * The mastodon account
-             * @type {string}
-             */
-            let mastodonAccount = '';
-            for(let i=0; i<data.users.length; ++i){
-                if (data.users[i].username === username){
-                    mastodonAccount = data.users[i].mastodonAccount;
-                }
-            }
-            // const mastodonAccount = data.users.username.mastodonAccount;
-            document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
-            document.getElementById("userProfileMastodonAccount").innerHTML = "<div>" + mastodonAccount +  "</div>"
-        }else{
-            alert("fetching mastodon account failure");
-        }
-    }catch(error){
-        console.error('Error during fetching Mastodon Account');
-    }
-}
 
 /**
  * Expand the compressed section of interests buttons
@@ -296,65 +250,7 @@ export function checkRadio(el){
 
 }
 
-/**
- * Set the current interests buttons status with the server user status
- * @async
- */
-async function fetchCurrentInterests(){
 
-    console.log("fetch interests from server...");
-    try {
-        const response = await fetch(`${nodeApikey}/users`,{
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-
-        if (data.success){
-            // set the mastodon content into some UI
-            const username = fetchUsername();
-            var profile_img = undefined;
-            var html = "";
-            var interests = [];
-            for(var i=0; i<data.users.length; ++i){
-                if (data.users[i].username === username){
-                    interests = data.users[i].interests;
-                    profile_img = data.users[i].profile_img;
-                    break;
-                }
-            }
-            let radiosData = [];
-            for (let i=0; i< interestsData.length; ++i){
-                radiosData = radiosData.concat(interestsData[i]);
-            }
-            Array.from(interests).forEach(interest=>{
-                document.getElementById(interest).checked=true;
-                // html += '<li class="interestsLi">' + interest + "</li>";
-                html += '<div class=interestsLi>' + interest + '</div>';
-            });
-
-            document.getElementById("userProfileInterests").innerHTML =  html ;
-
-            // TODO:
-            const container = document.getElementById("userProfileImage");
-            let profile_image = document.createElement("img");
-            profile_image.src = profile_img;
-            let smt = profile_image.src;
-            const image_url = smt.replace('/view', '/images/user-image');
-            profile_image.src = image_url+'.png';
-            profile_image.alt = "profile image";
-            profile_image.className = "profile-image";
-            container.appendChild(profile_image);
-
-        }else{
-            alert("fetching user interests failure");
-        }
-    }catch(error){
-        console.error('Error during fetching user interests');
-    }
-}
 
 /**
  * Fetch the user data from server
@@ -393,6 +289,7 @@ function loadStepInterests(){
     interestsStep.style.display = 'block';
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'none';
     document.getElementById("nextPageButton").onclick = loadStepProfileImg;
 }
 
@@ -407,6 +304,8 @@ function loadStepProfileImg(){
     interestsStep.style.display = 'none';
     profileimgStep.style.display = 'block';
     accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'block';
+    document.getElementById("previousPageButton").onclick=loadStepInterests;
     document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
 }
 
@@ -420,6 +319,7 @@ function loadStepMastodonAccount(){
     interestsStep.style.display = 'none';
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'block';
+    document.getElementById("previousPageButton").onclick = loadStepProfileImg;
     document.getElementById('nextPageButton').onclick = updateInterests;
 }
 
