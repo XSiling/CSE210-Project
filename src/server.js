@@ -139,11 +139,11 @@ app.get('/check-login', (req, res) => {
 /**
  * Logout endpoint.
  * @function
- * @name GET/logout
+ * @name POST/logout
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-app.get('/logout', (req, res) => {
+app.post('/logout', (req, res) => {
     req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
 });
@@ -208,6 +208,7 @@ app.get("/recommendations/:username", (req, res) => {
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
 
+  console.log("happen");
   if (user) {
     // Dummy recommendations
     const recommendations = ["User 3", "User 4", "Group B"];

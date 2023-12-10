@@ -144,7 +144,22 @@ async function login() {
         "recommendations.html?username=" + encodeURIComponent(data.userName);
       window.location.href = url;
     } else {
-      alert(data.message);
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "Invalid username/password",
+      });
     }
   } catch (error) {
     console.error("Error during login:", error);
@@ -321,7 +336,26 @@ async function updateInterests() {
    */
   const mastodonAccount = document.getElementById("mastodonInput").value;
 
-  console.log("check account");
+  if (!mastodonAccount) {
+    const Toast = Swal.mixin({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 3000,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener("mouseenter", Swal.stopTimer);
+        toast.addEventListener("mouseleave", Swal.resumeTimer);
+      },
+    });
+
+    Toast.fire({
+      icon: "error",
+      title: "Enter Mastodon Account!",
+    });
+    return;
+  }
+
   try {
     const response = await fetch(
       `${flaskApikey}/check_User_Exists?userMastodonURL=${encodeURIComponent(
@@ -330,10 +364,25 @@ async function updateInterests() {
     );
     const data = await response.text();
     if (data === "False") {
-      alert("User does not exist.");
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener("mouseenter", Swal.stopTimer);
+          toast.addEventListener("mouseleave", Swal.resumeTimer);
+        },
+      });
+
+      Toast.fire({
+        icon: "error",
+        title: "User does not exist.",
+      });
       return;
     }
-    console.log("User exists.");
+    // console.log("User exists.");
   } catch (error) {
     console.error("Error checking user:", error);
     return;
