@@ -24,6 +24,10 @@
   margin: 0;
 }
 
+.follower-card-name {
+  font-weight: bold;
+}
+
 .follower-card-info-section {
   display: flex;
   flex-direction: column;

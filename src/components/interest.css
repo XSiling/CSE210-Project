@@ -51,3 +51,11 @@
   right: 0;
   font-size: 24px;
 }
+
+.non-clickable-div {
+  pointer-events: none;
+}
+
+.clickable-image {
+  pointer-events: auto;
+}

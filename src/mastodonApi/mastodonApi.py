@@ -90,14 +90,16 @@ def get_Auth_Code():
     # Error handling
     if 'error' in request.args:
         error_description = request.args.get('error_description', 'Unknown error')
-        return Response(f"Error during authorization: {error_description}")
+        # return Response(f"Error during authorization: {error_description}")
+        return Response("<script>window.close();</script>")
 
     if authCode and state:
         try:
             userClient = state_to_ClientMap[state]
             # Exchange the authorization code for a token
             userClient.log_in(code=authCode, redirect_uri="http://127.0.0.1:5000/get_Auth_Code")
-            return Response("Success. You can now close this window.")
+            # return Response("Success. You can now close this window.")
+            return Response("<script>window.close();</script>")
         except Exception as e:
             return Response(f"An error occurred: {str(e)}")
     else:
