@@ -222,7 +222,12 @@ async function fetchUserData() {
 
 document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("logOutButton").addEventListener("click", () => {
-    fetch(`${nodeApikey}/logout`)
+    fetch(`${nodeApikey}/logout`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
