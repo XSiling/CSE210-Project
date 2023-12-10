@@ -378,7 +378,7 @@ async function updateInterests() {
 
       Toast.fire({
         icon: "error",
-        title: "User does not exist.",
+        title: "Invalid Mastodon Account!",
       });
       return;
     }
