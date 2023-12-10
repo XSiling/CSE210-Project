@@ -499,6 +499,7 @@ i {
 }
 
 
+
 .containerLabelButton{   
   font-size:10px;
   
@@ -528,4 +529,40 @@ i {
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+.title-container {
+  margin-top: 6em;
+  background-color:#FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.waviy {
+  position: relative;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 60px;
+}
+
+.waviy span {
+  font-family: 'Alfa Slab One', cursive;
+  position: relative;
+  display: inline-block;
+  color: #000;
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(.1s * var(--i));
+  
+}
+
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-20px)
+  }
+}
+
 /* Add media queries for responsiveness if needed */
+
