@@ -208,6 +208,7 @@ app.get("/recommendations/:username", (req, res) => {
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
 
+  console.log("happen");
   if (user) {
     // Dummy recommendations
     const recommendations = ["User 3", "User 4", "Group B"];

@@ -282,7 +282,10 @@ async function getCredential() {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    mastodonAccount = data?.users[0]?.mastodonAccount;
+    const urlParams = new URLSearchParams(window.location.search);
+    const username = urlParams.get('username');
+    const userIndex = data.users.findIndex(user => user.username === username);
+    mastodonAccount = data?.users[userIndex]?.mastodonAccount;
   } catch (error) {
     console.error("Error fetching data:", error);
   }
