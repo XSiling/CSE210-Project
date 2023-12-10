@@ -488,8 +488,16 @@ i {
 
 #nextPageButton {
   font-size: 20px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
+
+
+#previousPageButton {
+  float:left;
+  font-size: 20px;
+  /* border-radius: 5px; */
+}
+
 
 .containerLabelButton{   
   font-size:10px;

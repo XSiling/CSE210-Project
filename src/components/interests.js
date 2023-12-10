@@ -289,6 +289,7 @@ function loadStepInterests(){
     interestsStep.style.display = 'block';
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'none';
     document.getElementById("nextPageButton").onclick = loadStepProfileImg;
 }
 
@@ -303,6 +304,8 @@ function loadStepProfileImg(){
     interestsStep.style.display = 'none';
     profileimgStep.style.display = 'block';
     accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'block';
+    document.getElementById("previousPageButton").onclick=loadStepInterests;
     document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
 }
 
@@ -316,6 +319,7 @@ function loadStepMastodonAccount(){
     interestsStep.style.display = 'none';
     profileimgStep.style.display = 'none';
     accountStep.style.display = 'block';
+    document.getElementById("previousPageButton").onclick = loadStepProfileImg;
     document.getElementById('nextPageButton').onclick = updateInterests;
 }
 
