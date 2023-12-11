@@ -103,21 +103,26 @@ export function renderPeopleRecommendation(recommendationData) {
     }
 
 
-    try {
-      const response = await fetch(
-        `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
-          mastodonAccount
-        )}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.text();
-      if (data !== "True") {
-        return;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    // try {
+    //   const response = await fetch(
+    //     `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
+    //       mastodonAccount
+    //     )}`
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! Status: ${response.status}`);
+    //   }
+    //   const data = await response.text();
+    //   if (data !== "True") {
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
+
+    const connected = document.getElementById("crediential-status").textContent;
+    if (connected === "False") {
+      return;
     }
 
     // update the server
@@ -203,23 +208,26 @@ export function renderPeopleRecommendation(recommendationData) {
       console.error("Error fetching data:", error);
     }
 
-    try {
-      const response = await fetch(
-        `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
-          mastodonAccount
-        )}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.text();
-      if (data !== "True") {
-        return;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
+    // try {
+    //   const response = await fetch(
+    //     `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
+    //       mastodonAccount
+    //     )}`
+    //   );
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! Status: ${response.status}`);
+    //   }
+    //   const data = await response.text();
+    //   if (data !== "True") {
+    //     return;
+    //   }
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
+    const connected = document.getElementById("crediential-status").textContent;
+    if (connected === "False") {
+      return;
     }
-
 
     try{
       const urlParams = new URLSearchParams(window.location.search);

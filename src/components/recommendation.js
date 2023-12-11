@@ -404,6 +404,8 @@ async function getCredential() {
       Array.from(followBtns2).forEach((followBtn) => {
         followBtn.removeEventListener("click", showMastodonToast);
       });
+      const status = document.getElementById("crediential-status");
+      status.textContent = "True";
       return;
     }
   } catch (error) {
@@ -451,6 +453,8 @@ async function getCredential() {
             Array.from(followBtns2).forEach((followBtn) => {
               followBtn.removeEventListener("click", showMastodonToast);
             });
+            const status = document.getElementById("crediential-status");
+            status.textContent = "True";
           } else {
             const btn = document.getElementById("get-credential-btn");
             btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mastodon" viewBox="0 0 16 16">
@@ -469,6 +473,8 @@ async function getCredential() {
             Array.from(followBtns2).forEach((followBtn) => {
               followBtn.addEventListener("click", showMastodonToast);
             });
+            const status = document.getElementById("crediential-status");
+            status.textContent = "False";
           }
         } catch (error) {
           console.error("Error fetching data:", error);
