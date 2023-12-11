@@ -8,6 +8,12 @@ const PORT = 3000;
 
 // Middleware setup
 app.use(bodyParser.json());
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500', // Your client's origin
+  credentials: true, // To allow cookies to be sent
+};
+
+app.use(cors(corsOptions));
 
 /**
  * User data structure.
@@ -135,7 +141,7 @@ app.get('/logout', (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.post('/logout', (req, res) => {
-    req.session.destroy();
+    active_user = null;
     res.json({ success: true, message: 'Logged out successfully' });
 });
 
