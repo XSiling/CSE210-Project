@@ -353,66 +353,6 @@ function showMastodonToast() {
   });
 }
 
-function followBtnFunction () {
-  fetch(`${nodeApikey}/users`)
-    .then((response) => response.json())
-    .then((data) => {
-      const users = data.users;
-      const userToFollow = users[0];
-
-      const userMastodonURL = userToFollow?.mastodonAccount;
-      const followUserURL = recommendationData?.acct;
-
-      const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
-        userMastodonURL
-      )}&followUserURL=${encodeURIComponent(followUserURL)}`;
-
-      fetch(followURL)
-        .then((response) => response.text())
-        .then((result) => {
-          console.log("Follow action result:", result);
-          follow_btn.style.display = 'none';
-          unfollow_btn.style.display = 'block';
-        })
-        .catch((error) => {
-          console.error("Error following user:", error);
-        });
-    })
-    .catch((error) => {
-      console.error("Error fetching users:", error);
-    });
-}
-
-function unfollowBtnFunction () {
-  fetch(`${nodeApikey}/users`)
-    .then((response) => response.json())
-    .then((data) => {
-      const users = data.users;
-      const userToFollow = users[0];
-
-      const userMastodonURL = userToFollow?.mastodonAccount;
-      const followUserURL = recommendationData?.acct;
-
-      const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
-        userMastodonURL
-      )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
-
-      fetch(followURL)
-        .then((response) => response.text())
-        .then((result) => {
-          console.log("unFollow action result:", result);
-          follow_btn.style.display = 'block';
-          unfollow_btn.style.display = 'none';
-        })
-        .catch((error) => {
-          console.error("Error following user:", error);
-        });
-    })
-    .catch((error) => {
-      console.error("Error fetching users:", error);
-    });
-}
-
 /**
  * Description
  * @returns {any}
