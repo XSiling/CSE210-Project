@@ -80,7 +80,8 @@ app.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
-  users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
+  users.push({ username, hashedPassword, interests: [], mastodonAccount: "", following:[] });
+
   active_user = username;
   const user = users.find((u) => u.username === username);
   res.json({
