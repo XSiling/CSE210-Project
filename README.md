@@ -53,9 +53,9 @@ Make sure you have the following installed on your machine:
     Open the project in Visual Studio Code and use the Live Server extension to launch the website.
 
     - Install the Live Server extension if you haven't already.
-    - Right-click on your HTML file and select "Open with Live Server."
+    - Right-click on the `/src/login.html` file and select "Open with Live Server."
 
-    This will open your website in a new browser window/tab.
+    This will open the website in a new browser window/tab.
 
 ## Additional Setup
 
