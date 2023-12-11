@@ -3,14 +3,15 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const fetch = require('node-fetch');
 const app = express();
 const PORT = 3000;
 
 // Middleware setup
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: 'http://127.0.0.1:5500', // Your client's origin
-  credentials: true, // To allow cookies to be sent
+  origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:3001'],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
@@ -31,6 +32,19 @@ app.use(cors(corsOptions));
 let users = [];
 let active_user = null;
 
+app.get('/convert-to-data-url', async (req, res) => {
+  const imageUrl = req.query.imageUrl;
+  try {
+    const response = await fetch(imageUrl);
+    const buffer = await response.buffer();
+    const base64 = buffer.toString('base64');
+    const mimeType = response.headers.get('content-type');
+    const dataUrl = `data:${mimeType};base64,${base64}`;
+    res.send(dataUrl);
+  } catch (error) {
+    res.status(500).send('Error converting image to Data URL');
+  }
+});
 
 /**
  * Registration endpoint.
