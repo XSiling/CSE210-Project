@@ -113,6 +113,8 @@ export function renderFollowerRecommendation(recommendationData) {
     try {
       const username = user.username;
       const following = recommendationData?.acct;
+      const userMastodonURL = user?.mastodonAccount;
+      const followUserURL = recommendationData?.acct;
 
       const response = await fetch(`${nodeApikey}/follow`, {
         method: "POST",
@@ -124,9 +126,11 @@ export function renderFollowerRecommendation(recommendationData) {
           following,
         }),
       });
+
       const data = await response.json();
       if (!data.success) {
         alert(data.message);
+        return;
       } else {
         // add that to following!
         const followingContainer = document.getElementById(
@@ -137,27 +141,24 @@ export function renderFollowerRecommendation(recommendationData) {
         followAccount.innerText = following;
         followingContainer.appendChild(followAccount);
       }
+
+      const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
+        userMastodonURL
+      )}&followUserURL=${encodeURIComponent(followUserURL)}`;
+
+      fetch(followURL)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log("Follow action result:", result);
+          follow_btn.style.display = "none";
+          unfollow_btn.style.display = "block";
+        })
+        .catch((error) => {
+          console.error("Error following user:", error);
+        });
     } catch (error) {
-      console.log("Error updating the server of following");
+      console.error("Something weird happened:", error);
     }
-
-    const userMastodonURL = user?.mastodonAccount;
-    const followUserURL = recommendationData?.acct;
-
-    const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
-      userMastodonURL
-    )}&followUserURL=${encodeURIComponent(followUserURL)}`;
-
-    fetch(followURL)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log("Follow action result:", result);
-        follow_btn.style.display = "none";
-        unfollow_btn.style.display = "block";
-      })
-      .catch((error) => {
-        console.error("Error following user:", error);
-      });
   });
 
   const unfollow_btn = document.createElement("a");
@@ -192,6 +193,9 @@ export function renderFollowerRecommendation(recommendationData) {
     try {
       const username = user.username;
       const following = recommendationData?.acct;
+      const userMastodonURL = user?.mastodonAccount;
+      const followUserURL = recommendationData?.acct;
+
       const response = await fetch(`${nodeApikey}/unfollow`, {
         method: "POST",
         headers: {
@@ -202,9 +206,11 @@ export function renderFollowerRecommendation(recommendationData) {
           following,
         }),
       });
+
       const data = await response.json();
       if (!data.success) {
         alert(data.message);
+        return;
       } else {
         // remove that from the followings!
         const followingContainer = document.getElementById(
@@ -216,27 +222,24 @@ export function renderFollowerRecommendation(recommendationData) {
           }
         });
       }
+
+      const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
+        userMastodonURL
+      )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
+
+      fetch(followURL)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log("unFollow action result:", result);
+          follow_btn.style.display = "block";
+          unfollow_btn.style.display = "none";
+        })
+        .catch((error) => {
+          console.error("Error following user:", error);
+        });
     } catch (error) {
-      console.log("Error updating the server of following");
+      console.error("Something weird happened:", error);
     }
-
-    const userMastodonURL = user.mastodonAccount;
-    const followUserURL = recommendationData?.acct;
-
-    const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
-      userMastodonURL
-    )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
-
-    fetch(followURL)
-      .then((response) => response.text())
-      .then((result) => {
-        console.log("unFollow action result:", result);
-        follow_btn.style.display = "block";
-        unfollow_btn.style.display = "none";
-      })
-      .catch((error) => {
-        console.error("Error following user:", error);
-      });
   });
 
   imgContainer.appendChild(avatar);
