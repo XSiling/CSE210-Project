@@ -40,13 +40,16 @@ Make sure you have the following installed on your machine:
 
 4. **Start the Server:**
 
-    Launch the Node.js server using the following command.
+    Launch the servers using the following commands in different terminal instances.
 
     ```bash
-    node src/server.js
+    npm run server1
+    ```
+    ```bash
+    npm run server2
     ```
 
-    The server will start running at `http://localhost:3000`.
+    The servers will start running.
 
 5. **Launch the Website:**
 
