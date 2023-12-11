@@ -1,6 +1,5 @@
 // Express.js Initializations
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const fetch = require('node-fetch');
