@@ -5,34 +5,15 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
-const session = require('express-session');
-const fetch = require('node-fetch');
 
 // Middleware setup
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: 'http://127.0.0.1:5500', // Your client's origin
+  credentials: true, // To allow cookies to be sent
+};
 
-// Session setup
-app.use(session({
-    secret: 'negative_10x_developers',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
-
-app.get('/convert-to-data-url', async (req, res) => {
-  const imageUrl = req.query.imageUrl;
-  try {
-    const response = await fetch(imageUrl);
-    const buffer = await response.buffer();
-    const base64 = buffer.toString('base64');
-    const mimeType = response.headers.get('content-type');
-    const dataUrl = `data:${mimeType};base64,${base64}`;
-    res.send(dataUrl);
-  } catch (error) {
-    res.status(500).send('Error converting image to Data URL');
-  }
-});
+app.use(cors(corsOptions));
 
 /**
  * User data structure.
@@ -48,6 +29,8 @@ app.get('/convert-to-data-url', async (req, res) => {
 /** @type {User[]}*/
 
 let users = [];
+let active_user = null;
+
 
 /**
  * Registration endpoint.
@@ -79,19 +62,21 @@ app.post("/register", async (req, res) => {
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
-
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "", following:[] });
 
+  active_user = username;
+  const user = users.find((u) => u.username === username);
   res.json({
     success: true,
     message: "Registration successful",
     userName: username,
   });
 });
+
 
 /**
  * Login endpoint.
@@ -101,6 +86,7 @@ app.post("/register", async (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.post("/login", async (req, res) => {
+    console.log("In login");
   try {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
@@ -108,19 +94,18 @@ app.post("/login", async (req, res) => {
     if (user) {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
-
-      if (match) {
-        req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
-        res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
-      } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+            if (match) {
+                active_user = username
+                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
+            } else {
+                res.status(401).json({ success: false, message: 'Invalid credentials' });
+            }
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
 });
 
 /**
@@ -131,13 +116,24 @@ app.post("/login", async (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get('/check-login', (req, res) => {
-    if (req.session.user) {
-        res.json({ loggedIn: true, user: req.session.user });
-    } else {
-        res.json({ loggedIn: false });
-    }
+  if (active_user) {
+    return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_user});
+  } else{
+    res.json({ loggedIn: false, redirectUrl: "" })
+  }
 });
 
+/**
+ * Logout endpoint.
+ * @function
+ * @name GET/logout
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
+app.get('/logout', (req, res) => {
+    active_user = null;
+    res.json({ success: true, message: 'Logged out successfully' });
+});
 /**
  * Logout endpoint.
  * @function
@@ -146,7 +142,7 @@ app.get('/check-login', (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.post('/logout', (req, res) => {
-    req.session.destroy();
+    active_user = null;
     res.json({ success: true, message: 'Logged out successfully' });
 });
 
