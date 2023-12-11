@@ -8,7 +8,7 @@ import { flaskApikey, nodeApikey } from "../api/api.js";
  * @param {any} containerId
  * @returns {any}
  */
-function showLoadingGif(containerId) {
+export function showLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.createElement("img");
   loadingGif.setAttribute("src", "../images/loading.gif");
@@ -22,7 +22,7 @@ function showLoadingGif(containerId) {
  * @param {any} containerId
  * @returns {any}
  */
-function hideLoadingGif(containerId) {
+export function hideLoadingGif(containerId) {
   const container = document.getElementById(containerId);
   const loadingGif = document.getElementById("loadingGif");
   if (loadingGif && container.contains(loadingGif)) {
@@ -35,8 +35,7 @@ function hideLoadingGif(containerId) {
  * @param {any} user
  * @returns {any}
  */
-async function fetchBasicInformation(user) {
-
+export async function fetchBasicInformation(user) {
   const username = user.username;
   const interests = user.interests;
   const mastodonAccount = user.mastodonAccount;
