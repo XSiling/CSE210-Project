@@ -5,19 +5,9 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const app = express();
 const PORT = 3000;
-const session = require('express-session');
 
 // Middleware setup
 app.use(bodyParser.json());
-app.use(cors());
-
-// Session setup
-app.use(session({
-    secret: 'negative_10x_developers',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
 
 /**
  * User data structure.
@@ -31,14 +21,7 @@ app.use(session({
 
 /** @type {User[]} */
 let users = [];
-let active_users = null;
-
-const corsOptions = {
-  origin: 'http://127.0.0.1:5500', // Your client's origin
-  credentials: true, // To allow cookies to be sent
-};
-
-app.use(cors(corsOptions));
+let active_user = null;
 
 
 /**
@@ -71,16 +54,12 @@ app.post("/register", async (req, res) => {
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
-  // if (active_users.includes(username)) {
-  //   return res.redirect("/recommendations/" + username);
-  // }
-
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
-  active_users = username;
+  active_user = username;
   const user = users.find((u) => u.username === username);
   req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
   console.log('Session after Registration:', req.session);
@@ -109,13 +88,6 @@ app.post("/login", async (req, res) => {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
             if (match) {
-              if (active_users.includes(username)) {
-                return res.redirect("/recommendations/" + username);
-            }
-                active_users.push(username);
-                req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
-                console.log("Login successful")
-                console.log('Session after login:', req.session);
                 res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid credentials' });
@@ -128,17 +100,6 @@ app.post("/login", async (req, res) => {
     }
 });
 
-
-// Logout function
-app.get('/logout', (req, res) => {
-  const index = active_users.indexOf(req.session.user.username);
-  if (index > -1) {
-      active_users.splice(index, 1);
-  }
-    req.session.destroy();
-    res.json({ success: true, message: 'Logged out successfully' });
-});
-
 /**
  * Check login status endpoint.
  * @function
@@ -147,18 +108,11 @@ app.get('/logout', (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get('/check-login', (req, res) => {
-  
-  if (active_users) {
-    return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_users});
+  if (active_user) {
+    return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_user});
   } else{
     res.json({ loggedIn: false, redirectUrl: "" })
   }
-
-    // if (req.session.user) {
-    //     res.json({ loggedIn: true, user: req.session.user });
-    // } else {
-    //     res.json({ loggedIn: false });
-    // }
 });
 
 /**
@@ -169,7 +123,7 @@ app.get('/check-login', (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get('/logout', (req, res) => {
-    req.session.destroy();
+    active_user = null;
     res.json({ success: true, message: 'Logged out successfully' });
 });
 

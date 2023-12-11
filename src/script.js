@@ -378,9 +378,6 @@ function checkLoginStatus() {
         .then(data => {
             console.log(data);
             if (data.loggedIn) {
-                // console.log("logged in");
-                // let url = 'recommendations.html?username=' + data.user.username;
-                // console.log(url);
                 window.location.href = data.redirectUrl;
             }
         })
@@ -391,7 +388,6 @@ function checkLoginStatus() {
 
 // Call this function when the login page is loaded
 if (window.location.href.includes('login') || window.location.href.includes('register')) {
-    // console.log("login");
     window.onload = checkLoginStatus;
 }
 
