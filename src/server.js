@@ -63,8 +63,6 @@ app.post("/register", async (req, res) => {
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
   active_user = username;
   const user = users.find((u) => u.username === username);
-  req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
-  console.log('Session after Registration:', req.session);
   res.json({
     success: true,
     message: "Registration successful",
@@ -90,6 +88,7 @@ app.post("/login", async (req, res) => {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
             if (match) {
+                active_user = username
                 res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
             } else {
                 res.status(401).json({ success: false, message: 'Invalid credentials' });
