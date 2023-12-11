@@ -101,6 +101,8 @@ export function renderPeopleRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+
     try {
       const response = await fetch(
         `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -117,6 +119,37 @@ export function renderPeopleRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    // update the server
+    try{
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const following = recommendationData?.acct;
+      const response = await fetch(`${nodeApikey}/follow`,{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following
+        })
+      });
+      const data = await response.json();
+      if (!data.success){
+        alert(data.message);
+      }else{
+        // add that to following!
+        const followingContainer = document.getElementById("followingSectionContent");
+        let followAccount = document.createElement("div");
+        followAccount.innerHTML = following;
+        followAccount.innerText = following;
+        followingContainer.appendChild(followAccount);
+      }
+    }catch(error){
+      console.log("Error updating the server of following");
+    }
+    
     fetch(`${nodeApikey}/users`)
       .then((response) => response.json())
       .then((data) => {
@@ -129,7 +162,7 @@ export function renderPeopleRecommendation(recommendationData) {
         const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
           userMastodonURL
         )}&followUserURL=${encodeURIComponent(followUserURL)}`;
-
+          
         fetch(followURL)
           .then((response) => response.text())
           .then((result) => {
@@ -169,6 +202,7 @@ export function renderPeopleRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
     try {
       const response = await fetch(
         `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -185,6 +219,39 @@ export function renderPeopleRecommendation(recommendationData) {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+
+    try{
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get("username");
+      const following = recommendationData?.acct;
+      const response = await fetch(`${nodeApikey}/unfollow`,{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following
+        })
+      });
+      const data = await response.json();
+      if (!data.success){
+        alert(data.message);
+      }else{
+        // remove that from the followings!
+        const followingContainer = document.getElementById("followingSectionContent");
+        followingContainer.childNodes.forEach((node)=>{
+          if (node.innerHTML === following){
+            followingContainer.removeChild(node);
+          }
+        })
+      }
+    }catch(error){
+      console.log("Error updating the server of following");
+    }
+
+
     fetch(`${nodeApikey}/users`)
       .then((response) => response.json())
       .then((data) => {
