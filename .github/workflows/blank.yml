@@ -36,9 +36,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Copy Configs to Home
+        run: cp configs/.babelrc configs/jest.config.js .
+
       # Run tests
       - name: Run tests
         run: npm test
+      
+      - name: Remove Configs
+        run: rm .babelrc jest.config.js
 
 
   python-tests:
