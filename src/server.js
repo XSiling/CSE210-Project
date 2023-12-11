@@ -8,7 +8,7 @@ const app = express();
 const PORT = 3000;
 
 // Middleware setup
-app.use(bodyParser.json());
+app.use(express.json());
 const corsOptions = {
   origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:3001'],
   credentials: true,
