@@ -32,17 +32,17 @@ app.use(cors(corsOptions));
 let users = [];
 let active_user = null;
 
-app.get('/convert-to-data-url', async (req, res) => {
-  const imageUrl = req.query.imageUrl;
+app.get('/proxy', async (req, res) => {
+  const url = req.query.url;
   try {
-    const response = await fetch(imageUrl);
-    const buffer = await response.buffer();
-    const base64 = buffer.toString('base64');
-    const mimeType = response.headers.get('content-type');
-    const dataUrl = `data:${mimeType};base64,${base64}`;
-    res.send(dataUrl);
+      const response = await fetch(url);
+      const data = await response.buffer();
+      res.set('Access-Control-Allow-Origin', '*');
+      res.set('Content-Type', response.headers.get('content-type'));
+      res.send(data);
   } catch (error) {
-    res.status(500).send('Error converting image to Data URL');
+      console.error('Error during fetch:', error);
+      res.status(500).send('Error fetching resource');
   }
 });
 

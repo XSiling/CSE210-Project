@@ -1,27 +1,5 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
-function fetchImageDataUrl(imageUrl, callback) {
-  const requestUrl = `${nodeApikey}/convert-to-data-url?imageUrl=${encodeURIComponent(
-    imageUrl
-  )}`;
-  // console.log('Requesting data URL from:', requestUrl);
-  fetch(requestUrl)
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then((dataUrl) => {
-      // console.log('Received data URL:', dataUrl);
-      callback(dataUrl);
-    })
-    .catch((error) => {
-      console.error("Error fetching Data URL:", error);
-      callback(null);
-    });
-}
-
 export function renderFollowerRecommendation(recommendationData) {
   const card = document.createElement("section");
   card.className = "follower-card";
@@ -39,13 +17,10 @@ export function renderFollowerRecommendation(recommendationData) {
   infoContainer.className = "follower-card-info-section";
 
   const avatar = document.createElement("img");
-  fetchImageDataUrl(recommendationData.avatar, function (dataUrl) {
-    if (dataUrl) {
-      avatar.src = dataUrl;
-    } else {
-      avatar.src = "../images/default.png";
-    }
-  });
+  avatar.crossOrigin = "anonymous";
+  const originalUrl = recommendationData.avatar;
+  const proxyUrl = `${nodeApikey}/proxy?url=${encodeURIComponent(originalUrl)}`;
+  avatar.src = proxyUrl;
   avatar.alt = "Avatar";
   avatar.className = "follower-card-avatar";
 
