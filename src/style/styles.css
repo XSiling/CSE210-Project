@@ -563,5 +563,16 @@ i {
   }
 }
 
+footer p {
+  font-size: 14px; 
+  color: #333; 
+  text-align: center;
+  
+}
+
+.log-intro{
+  color: #333; /* 设置文本颜色 */
+  text-align: center;
+}
 /* Add media queries for responsiveness if needed */
 
