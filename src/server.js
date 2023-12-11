@@ -126,6 +126,8 @@ app.get('/check-login', (req, res) => {
  */
 app.get('/logout', (req, res) => {
     active_user = null;
+    res.json({ success: true, message: 'Logged out successfully' });
+});
 app.post('/logout', (req, res) => {
     req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
