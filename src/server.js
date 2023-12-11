@@ -17,9 +17,11 @@ app.use(bodyParser.json());
  * @property {string[]} interests - Array of user interests.
  * @property {string} mastodonAccount - User's Mastodon account.
  * @property {string} profile_img - User's profile image.
+ * @property {string[]} following - Array of user followings
  */
 
-/** @type {User[]} */
+/** @type {User[]}*/
+
 let users = [];
 let active_user = null;
 
@@ -118,12 +120,14 @@ app.get('/check-login', (req, res) => {
 /**
  * Logout endpoint.
  * @function
- * @name GET/logout
+ * @name POST/logout
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 app.get('/logout', (req, res) => {
     active_user = null;
+app.post('/logout', (req, res) => {
+    req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
 });
 
@@ -142,11 +146,60 @@ app.get('/users', (req, res) => {
       interests: user.interests,
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
+      following: user.following
+      // followers: user.followers,
     };
   });
 
   res.json({ success: true, users: safeUserData });
 });
+
+/**
+ * Update user following
+ */
+app.post("/follow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      users[userIndex].following.push(account);
+      res.json({ success: true, message: "Has updated the following."});
+    }else{
+      res.json({ success: false, message: "The user has already followed, check the code."});
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code."});
+  }
+})
+
+/**
+ * Update user following by unfollow
+ */
+app.post("/unfollow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      res.json({ success: false, message: "The user has not already followed, check the code." });
+    }else{
+      users[userIndex].following.splice(followIndex, 1);
+      res.json({ success: true, message: "Has updated the following." });
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code." });
+  }
+
+})
+
 
 /**
  * Update user interests endpoint.
@@ -186,6 +239,7 @@ app.get("/recommendations/:username", (req, res) => {
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
 
+  console.log("happen");
   if (user) {
     // Dummy recommendations
     const recommendations = ["User 3", "User 4", "Group B"];

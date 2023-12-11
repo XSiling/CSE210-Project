@@ -1,6 +1,4 @@
-import { flaskApikey, nodeApikey } from '../api/api.js';
-
-const PREDEFINED_IMAGE_URL = "/src/images/user-image/";
+import { nodeApikey } from '../api/api.js';
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
@@ -15,6 +13,18 @@ const interestsData = [
 ]
 const interestsCategory = [
     'Media', 'Leisure', 'Society', 'Technology', 'Economy', 'Living', 'Education', 'Recreation', 'Relationship'
+]
+
+const interestsCategoryDescriptions = [
+    "Information and entertainment communication",
+    "Free time relaxation and enjoyment",
+    "Human community and interactions",
+    "Advancements in tools and systems",
+    "Financial systems and resources",
+    "Daily life and existence",
+    "Learning and knowledge acquisition",
+    "Leisure activities for enjoyment",
+    "Interpersonal connections and bonds"
 ]
 const category = 9;
 
@@ -70,8 +80,6 @@ function fetchUsername(){
         username = parent.window.location.href.split('=')[1].split('&')[0];
     }
 
-    
-
     document.getElementById("username").setAttribute("value", username);
     if (document.getElementById("userProfileUsername")){
         document.getElementById("userProfileUsername").innerHTML = username;
@@ -79,67 +87,18 @@ function fetchUsername(){
     return username;
 }
 
-/**
- * Fetch the mastodon account of the user from server.
- * @async
-*/
-async function fetchMastodon(){
-    console.log("fetch mastodon account from server...");
-    try {
-        const response = await fetch(`${nodeApikey}/users`,{
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-        });
-        /**
-         * All the user information including username, interest, mastodonaccount
-         * @type {list}
-         */
-        const data = await response.json();
-
-        if (data.success){
-            // set the mastodon content into some UI
-            /**
-             * The username
-             * @type {string}
-             */
-            const username = fetchUsername();
-            /**
-             * The mastodon account
-             * @type {string}
-             */
-            let mastodonAccount = '';
-            for(let i=0; i<data.users.length; ++i){
-                if (data.users[i].username === username){
-                    mastodonAccount = data.users[i].mastodonAccount;
-                }
-            }
-            // const mastodonAccount = data.users.username.mastodonAccount;
-            document.getElementById("mastodonInput").setAttribute("value", mastodonAccount);
-            document.getElementById("userProfileMastodonAccount").innerHTML = "<div>" + mastodonAccount +  "</div>"
-        }else{
-            alert("fetching mastodon account failure");
-        }
-    }catch(error){
-        console.error('Error during fetching Mastodon Account');
-    }
-
-
-}
 
 /**
  * Expand the compressed section of interests buttons
  * @exports
  */
-
 export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5; i<category;++i){
         elements[i].style.display = 'block';
     }
     document.getElementById("expandButton").style.display = 'none';
-    document.getElementById("closeButton").style.display = 'block';
+    document.getElementById("closeButton").style.display = 'inline-block';
 }
 
 
@@ -147,17 +106,47 @@ export function expand(){
  * Close the expanded section of interests buttons
  * @exports
  */
-
 export function close(){
     console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
     }
-    document.getElementById("expandButton").style.display = 'block';
+
+    document.getElementById("expandButton").style.display = 'inline-block';
     document.getElementById("closeButton").style.display = 'none';
     console.log("close!");
     fetchUserData();
+}
+
+function expandLine(element){
+    const line = element.parentNode.parentNode;
+    console.log(line);
+
+    if (element.name =="expand"){
+        element.className = 'triangle-left';
+        line.style.display = 'block';
+        line.childNodes.forEach((node)=>{
+            //debugger;
+            if (node.className == "interestsContainerLabel"){
+                element.name = "close"
+            }
+            if (node.className == "interestsContainer"){
+                node.style.display = "inline-block";
+            }
+        })
+    }else{
+        element.className = 'triangle-right';
+        line.style.display = 'inline-block';
+        line.childNodes.forEach((node)=>{
+            if (node.className == "interestsContainerLabel"){
+                element.name="expand";
+            }
+            if (node.className == "interestsContainer"){
+                node.style.display = "none";
+            }
+        })
+    }
 }
 
 
@@ -167,29 +156,20 @@ export function close(){
  */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
-
+    const datalistContainer = document.getElementById("interestsTextList");
     // fetch from the database
     // if not, predefined.
     let line=0;
 
     for(line; line<category; ++line){
         //expand button
-        if(line==5){
-            let expandButton = document.createElement("button");
-            // expandButton.setAttribute("onclick", "expand()");
-            expandButton.setAttribute("type", "button");
-            expandButton.setAttribute("id", "expandButton");
-            expandButton.innerHTML="EXPAND";
-            container.appendChild(expandButton);
-        }
-
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
         // container1.className = "interestsContainer";
 
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
-        containerLabel.innerHTML = interestsCategory[line] + "<hr>";
+        containerLabel.innerHTML = '<h3 class="inlineText">' + interestsCategory[line] + ': ' + interestsCategoryDescriptions[line] + '</h3><button type="button" class="triangle-right" name="expand"></button>';
         container1.appendChild(containerLabel);
 
         interestsData[line].forEach(radioText=>{
@@ -203,21 +183,26 @@ export function createInterestsButtons(){
             '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
+
+            // append the datalist here
+            let datalistOption = document.createElement("option");
+            datalistOption.setAttribute("value", radioText);
+            datalistOption.innerHTML = radioText;
+            datalistContainer.appendChild(datalistOption);
         })
 
         container.appendChild(container1);
+
     }
 
-    // close button
-    let closeButton = document.createElement("button");
-    // closeButton.setAttribute("onclick", "close()");
-    closeButton.setAttribute("type", "button");
-    closeButton.setAttribute("id", "closeButton");
-    closeButton.innerHTML = "CLOSE";
-    container.appendChild(closeButton);
+    // expand the first line
+    expandLine(container.childNodes[0].childNodes[0].childNodes[1]);
 
+    // close button
     console.log("here");
     close();
+
+
 
 
     document.onclick = function(event) {
@@ -229,6 +214,10 @@ export function createInterestsButtons(){
 
         if (el.id == "closeButton"){
             close();
+        }
+
+        if (el.className == "triangle-right" || el.className=='triangle-left'){
+            expandLine(el);
         }
 
         if (el.className == "interestsRadio"){
@@ -255,71 +244,13 @@ export function checkRadio(el){
     })
 
     if (radioNumber > maxRadio){
-        window.alert("You can only choose up to 5 interests!");
+        alert("You can only choose up to 5 interests!");
         el.checked = false;
     }
 
 }
 
-/**
- * Set the current interests buttons status with the server user status
- * @async
- */
-async function fetchCurrentInterests(){
 
-    console.log("fetch interests from server...");
-    try {
-        const response = await fetch(`${nodeApikey}/users`,{
-            method: 'GET',
-            headers:{
-                'Content-Type': 'application/json',
-            },
-        });
-        const data = await response.json();
-
-        if (data.success){
-            // set the mastodon content into some UI
-            const username = fetchUsername();
-            var profile_img = undefined;
-            var html = "";
-            var interests = [];
-            for(var i=0; i<data.users.length; ++i){
-                if (data.users[i].username === username){
-                    interests = data.users[i].interests;
-                    profile_img = data.users[i].profile_img;
-                    break;
-                }
-            }
-            let radiosData = [];
-            for (let i=0; i< interestsData.length; ++i){
-                radiosData = radiosData.concat(interestsData[i]);
-            }
-            Array.from(interests).forEach(interest=>{
-                document.getElementById(interest).checked=true;
-                // html += '<li class="interestsLi">' + interest + "</li>";
-                html += '<div class=interestsLi>' + interest + '</div>';
-            });
-
-            document.getElementById("userProfileInterests").innerHTML =  html ;
-
-            // TODO:
-            const container = document.getElementById("userProfileImage");
-            let profile_image = document.createElement("img");
-            profile_image.src = profile_img;
-            let smt = profile_image.src;
-            const image_url = smt.replace('/view', '/images/user-image');
-            profile_image.src = image_url+'.png';
-            profile_image.alt = "profile image";
-            profile_image.className = "profile-image";
-            container.appendChild(profile_image);
-
-        }else{
-            alert("fetching user interests failure");
-        }
-    }catch(error){
-        console.error('Error during fetching user interests');
-    }
-}
 
 /**
  * Fetch the user data from server
@@ -339,38 +270,96 @@ async function fetchUserData() {
                 index = i;
             }
         }
-        const img = data.users[index].profile_img;
+        const img = data?.users[index]?.profile_img;
         const selected_avatar = document.getElementById(img);
         selected_avatar?.classList?.add('selected-img');
     } catch (error) {
         console.error('Error fetching user data:', error);
     }
+}
+
+
+/**
+ * configuration step 1 - let the users select interests by datalist or checkboxes.
+ */
+function loadStepInterests(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'block';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'none';
+    document.getElementById("nextPageButton").onclick = loadStepProfileImg;
+}
+
+/**
+ * configuration step 2 - let the users choose the profile img.
+ */
+function loadStepProfileImg(){
+    //debugger;
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'block';
+    accountStep.style.display = 'none';
+    document.getElementById("previousPageButton").style.display = 'block';
+    document.getElementById("previousPageButton").onclick=loadStepInterests;
+    document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
+}
+
+/**
+ * configuration step 3 - let the users input the mastodon account
+ */
+function loadStepMastodonAccount(){
+    const interestsStep = document.getElementById("form-interests");
+    const profileimgStep = document.getElementById("form-profile-img");
+    const accountStep = document.getElementById("form-account");
+    interestsStep.style.display = 'none';
+    profileimgStep.style.display = 'none';
+    accountStep.style.display = 'block';
+    document.getElementById("previousPageButton").onclick = loadStepProfileImg;
+    document.getElementById('nextPageButton').onclick = updateInterests;
+}
+
+/**
+ * initialize the interests page structure and functions
+ * Call when the interests page is loaded
+ */
+document.addEventListener("DOMContentLoaded", ()=>{
+    if (window.location.href.includes('interests.html')) {
+        createInterestsButtons();
+        fetchUsername();
+
+        document.getElementById("interestsTextButton").onclick = addInterest;
+
+        // get the steps:
+        // 1 -- interests
+        // 2 -- profile-img
+        // 3 -- Mastodon account
+        loadStepInterests();
+    }
+})
+
+window.onload = function () {
+    if (sessionStorage.getItem('registerSuccess') === 'true') {
+      sessionStorage.removeItem('registerSuccess');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+  
+      Toast.fire({
+        icon: 'success',
+        title: 'Register successfully'
+      });
+    }
   }
-
-// Call when the interests page is loaded
-if (window.location.href.includes('interests.html')) {
-    createInterestsButtons();
-    fetchUsername();
-}
-
-if (window.location.href.includes("recommendations.html")){
-    createInterestsButtons();
-
-    // //update the website situations
-    fetchUsername();
-    fetchMastodon();
-    fetchCurrentInterests();
-    // document.getElementById("openProfileButton").onclick = editProfile;
-    document.getElementById("interestsTextButton").onclick = closeProfile;
-    function editProfile(){
-        const smallWindow = document.getElementById("container-profile");
-        smallWindow.style.display = 'block';
-    }
-
-    function closeProfile(){
-        const smallWindow = document.getElementById('container-profile');
-        smallWindow.style.display = 'none';
-        //update the interests
-        updateInterestsRecommendations();
-    }
-}

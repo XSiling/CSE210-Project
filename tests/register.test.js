@@ -25,7 +25,7 @@ describe('POST /register', () => {
     });
 
     it('should handle duplicate usernames', async () => {
-        const existingUser = { username: 'existinguser', hashedPassword: 'hashedpass', interests: [] };
+        const existingUser = { username: 'existinguser', hashedPassword: 'hashedpass', interests: [], following: [] };
         users.push(existingUser);
 
         const response = await request(server)

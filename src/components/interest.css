@@ -1,16 +1,61 @@
+#form-profile-img h1 {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
 .profile-predefined-img-section {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 30px;
+}
+
+.profile-image-container {
+  width: 20%;
+  height: auto;
+  margin-bottom: 15px;
 }
 
 .profile-predefined-img {
-    width: 23%;
-    height: 120px;
-    margin-bottom: 15px;
+  width: 100%;
+  height: auto;
 }
 
 .selected-img {
-    border: 8px solid #4CAF50;
+  border: 3px solid #4caf50;
+}
+
+.selected-img {
+  background-color: #d8ead8;
+}
+
+.selected-img {
+  transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+
+.selected-img {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.profile-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+.profile-image-container.selected::after {
+  content: "🐕";
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 24px;
+}
+
+.non-clickable-div {
+  pointer-events: none;
+}
+
+.clickable-image {
+  pointer-events: auto;
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/*" href="../images/logo.png" sizes="32x32">
     <link rel="stylesheet" href="../style/styles.css">
     <title>Register</title>
 </head>
@@ -13,16 +14,32 @@
             <label for="newUsername">New Username</label>
             <input type="text" id="newUsername" name="username" placeholder="Username" required>
             <label for="newPassword">New Password</label>
-            <input type="password" id="newPassword" name="password" placeholder="Password" required>
+            <input type="password" id="newPassword" name="password" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <div id="password-message">
+                <h3 id="password-must-contain">Password must contain:</h3>
+                <p id="password-lowercase" class="password-condition invalid">At least
+                    <b>one lowercase letter (a-z)</b>
+                </p>
+                <p id="password-uppercase" class="password-condition invalid">At least
+                    <b>one uppercase letter (A-Z)</b>
+                </p>
+                <p id="password-number" class="password-condition invalid">At least
+                    <b>one number (0-9)</b>
+                </p>
+                <p id="password-min-length" class="password-condition invalid">At least
+                    <b>8 characters</b>
+                </p>
+            </div>
             <label for="confirmPassword">Confirm Password</label>
             <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
             <label for="email">Email Address</label>
             <input type="email" id="email" name="email" placeholder="Email" required>
-            <button type="button" class="login-register-button" onclick="register()">Register</button>
+            <button type="button" id="register-submit" class="login-register-button" onclick="register()">Register</button>
             <p>Already have an account? <a href="login.html">Login here</a></p>
         </form>
     </div>
 
     <script src="../script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
