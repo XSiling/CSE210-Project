@@ -98,6 +98,7 @@ const interestsCategory1 = [
 ];
 const category1 = 9;
 
+
 /**
  * Handles the login functionality.
  * @async
@@ -170,6 +171,7 @@ async function login() {
  * Checks the login status and performs actions based on it.
  * @function
  */
+
 
 /**
  * Automatically focus user to the "username" input field if exists
@@ -308,26 +310,21 @@ async function register() {
   }
 }
 
+
 //Handling Logout
-async function logout() {
-  fetch(`${nodeApikey}/logout`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then((response) => response.json())
-    .then(async (data) => {
-      console.log(data);
-      if (data.success) {
-        await checkLoginStatus();
-        window.location.href = 'login.html';
-      }
-    })
-    .catch((error) => {
-      console.error("Logout failed", error);
+const logoutButton = document.getElementById('logoutButton');
+if (logoutButton) {
+    logoutButton.addEventListener('click', () => {
+        fetch('/logout')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.reload(); // Reload the page after logout
+                }
+            });
     });
 }
+
 
 // Function to update user interests
 /**
@@ -473,6 +470,8 @@ async function updateInterests() {
   }
 }
 
+
+
 /**
  * @async
  * Update the interests in recommendations page
@@ -533,28 +532,26 @@ async function updateInterestsRecommendations() {
  * @function
  */
 
-async function checkLoginStatus() {
-  console.log("check login status");
-  return fetch("http://localhost:3000/check-login", { credentials: "include" }) // Ensure credentials are included for session cookies
-    .then((response) => response.json())
-    .then((data) => {
-      console.log(data);
-      if (data.loggedIn) {
-        window.location.href = data.redirectUrl;
-      }
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+
+function checkLoginStatus() {
+    console.log("check login status");
+    fetch('http://localhost:3000/check-login', { credentials: 'include' }) // Ensure credentials are included for session cookies
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            if (data.loggedIn) {
+                window.location.href = data.redirectUrl;
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 // Call this function when the login page is loaded
-// if (
-//   window.location.href.includes("login") ||
-//   window.location.href.includes("register")
-// ) {
-//   window.onload = checkLoginStatus;
-// }
+if (window.location.href.includes('login') || window.location.href.includes('register')) {
+    window.onload = checkLoginStatus;
+}
 
 /**
  * Scrolls to the top of the window smoothly.

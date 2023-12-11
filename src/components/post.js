@@ -1,5 +1,25 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+function fetchImageDataUrl(imageUrl, callback) {
+  const requestUrl = `${nodeApikey}/convert-to-data-url?imageUrl=${encodeURIComponent(imageUrl)}`;
+  // console.log('Requesting data URL from:', requestUrl);
+  fetch(requestUrl)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(dataUrl => {
+      // console.log('Received data URL:', dataUrl);
+      callback(dataUrl);
+    })
+    .catch(error => {
+      console.error('Error fetching Data URL:', error);
+      callback(null);
+    });
+}
+
 export function renderRecommendationPost(recommendAccount) {
   const card = document.createElement("article");
   card.className = "post-card";
@@ -25,10 +45,13 @@ export function renderRecommendationPost(recommendAccount) {
   user_info.appendChild(email);
 
   const avatar = document.createElement("img");
-  avatar.crossOrigin = "anonymous";
-  const originalUrl = recommendAccount?.account?.avatar;
-  const proxyUrl = `${nodeApikey}/proxy?url=${encodeURIComponent(originalUrl)}`;
-  avatar.src = proxyUrl;
+  fetchImageDataUrl(recommendAccount?.account?.avatar, function(dataUrl) {
+    if (dataUrl) {
+      avatar.src = dataUrl;
+    } else {
+      avatar.src = '../images/default.png';
+    }
+  });
   avatar.alt = "Avatar";
   avatar.className = "post-card-avatar";
 
@@ -52,40 +75,19 @@ export function renderRecommendationPost(recommendAccount) {
 
   content_section.appendChild(content);
 
-  function getVideoMimeType(src) {
-    if (src.endsWith('.mp4')) {
-      return 'video/mp4';
-    } else if (src.endsWith('.webm')) {
-      return 'video/webm';
-    } else if (src.endsWith('.ogv')) {
-      return 'video/ogg';
-    }
-    return '';
-  }
-
   if (recommendAccount?.media_attachments[0]?.url) {
-    let src = recommendAccount?.media_attachments[0]?.url;
-    if (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.ogv')) {
-      const content_attach = document.createElement("video");
-      content_attach.setAttribute('controls', '');
-      content_attach.crossOrigin = "anonymous";
-      const proxyUrl = `${nodeApikey}/proxy?url=${encodeURIComponent(src)}`;
-      const sourceElement = document.createElement('source');
-      sourceElement.src = proxyUrl;
-      sourceElement.alt = "content attachment";
-      sourceElement.type = getVideoMimeType(src);
-      content_attach.className = "post-card-content-attach";
-      content_attach.appendChild(sourceElement);
-      content_section.appendChild(content_attach);
-    } else if (src.endsWith('.jpg') || src.endsWith('.png') || src.endsWith('.gif')) {
-      const content_attach = document.createElement("img");
-      content_attach.crossOrigin = "anonymous";
-      const proxyUrl = `${nodeApikey}/proxy?url=${encodeURIComponent(src)}`;
-      content_attach.src = proxyUrl;
-      content_attach.alt = "content attachment";
-      content_attach.className = "post-card-content-attach";
-      content_section.appendChild(content_attach);
-    }
+    const content_attach = document.createElement("img");
+    fetchImageDataUrl(recommendAccount.media_attachments[0]?.url, function(dataUrl) {
+      if (dataUrl) {
+        content_attach.src = dataUrl;
+      } else {
+        content_attach.src = '';
+        content_attach.style.display = 'none';
+      }
+    });
+    content_attach.alt = "content attachment";
+    content_attach.className = "post-card-content-attach";
+    content_section.appendChild(content_attach);
   }
 
   const content_info_section = document.createElement("span");
