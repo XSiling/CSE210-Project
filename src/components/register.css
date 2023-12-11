@@ -11,7 +11,9 @@ input {
 }
 
 .label-username,
-.label-password {
+.label-password,
+.label-comfirm-password,
+.label-email {
   display: block;
   opacity: 0;
   max-height: 0;
