@@ -1,25 +1,5 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
-function fetchImageDataUrl(imageUrl, callback) {
-  const requestUrl = `${nodeApikey}/convert-to-data-url?imageUrl=${encodeURIComponent(imageUrl)}`;
-  // console.log('Requesting data URL from:', requestUrl);
-  fetch(requestUrl)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.text();
-    })
-    .then(dataUrl => {
-      // console.log('Received data URL:', dataUrl);
-      callback(dataUrl);
-    })
-    .catch(error => {
-      console.error('Error fetching Data URL:', error);
-      callback(null);
-    });
-}
-
 export function renderPeopleRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'people-card';
@@ -37,13 +17,10 @@ export function renderPeopleRecommendation(recommendationData) {
   infoContainer.className = 'people-card-info-section';
 
   const avatar = document.createElement('img');
-  fetchImageDataUrl(recommendationData.avatar, function(dataUrl) {
-    if (dataUrl) {
-      avatar.src = dataUrl;
-    } else {
-      avatar.src = '../images/default.png';
-    }
-  });
+  avatar.crossOrigin = "anonymous";
+  const originalUrl = recommendationData.avatar;
+  const proxyUrl = `${nodeApikey}/proxy?url=${encodeURIComponent(originalUrl)}`;
+  avatar.src = proxyUrl;
   avatar.alt = 'Avatar';
   avatar.className = 'people-card-avatar';
 
@@ -85,7 +62,8 @@ export function renderPeopleRecommendation(recommendationData) {
   follow_btn.title = 'Follow him/her';
 
   follow_btn.addEventListener("click", async function () {
-    let mastodonAccount;
+    follow_btn.innerHTML = `<img class="loading-image" src='../images/loading-1.svg' alt='loading' height='50px' width='auto'/>`;
+    let user;
     try {
       const response = await fetch(`${nodeApikey}/users`);
       if (!response.ok) {
@@ -97,53 +75,66 @@ export function renderPeopleRecommendation(recommendationData) {
       const userIndex = data.users.findIndex(
         (user) => user.username === username
       );
-      mastodonAccount = data?.users[userIndex]?.mastodonAccount;
+      user = data?.users[userIndex];
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    const connected = document.getElementById("crediential-status").textContent;
+    if (connected === "False") {
+      return;
+    }
+
     try {
-      const response = await fetch(
-        `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
-          mastodonAccount
-        )}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.text();
-      if (data !== "True") {
-        return;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    fetch(`${nodeApikey}/users`)
-      .then((response) => response.json())
-      .then((data) => {
-        const users = data.users;
-        const userToFollow = users[0];
+      const username = user.username;
+      const following = recommendationData?.acct;
+      const userMastodonURL = user?.mastodonAccount;
+      const followUserURL = recommendationData?.acct;
 
-        const userMastodonURL = userToFollow?.mastodonAccount;
-        const followUserURL = recommendationData?.acct;
-
-        const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
-          userMastodonURL
-        )}&followUserURL=${encodeURIComponent(followUserURL)}`;
-
-        fetch(followURL)
-          .then((response) => response.text())
-          .then((result) => {
-            console.log("Follow action result:", result);
-            follow_btn.style.display = 'none';
-            unfollow_btn.style.display = 'block';
-          })
-          .catch((error) => {
-            console.error("Error following user:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
+      const response = await fetch(`${nodeApikey}/follow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following,
+        }),
       });
+
+      const data = await response.json();
+      if (!data.success) {
+        alert(data.message);
+        return;
+      } else {
+        // add that to following!
+        const followingContainer = document.getElementById(
+          "followingSectionContent"
+        );
+        let followAccount = document.createElement("div");
+        followAccount.innerHTML = following;
+        followAccount.innerText = following;
+        followingContainer.appendChild(followAccount);
+      }
+
+      const followURL = `${flaskApikey}/follow_People?userMastodonURL=${encodeURIComponent(
+        userMastodonURL
+      )}&followUserURL=${encodeURIComponent(followUserURL)}`;
+
+      fetch(followURL)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log("Follow action result:", result);
+          follow_btn.textContent = "Follow";
+          follow_btn.style.display = "none";
+          unfollow_btn.style.display = "block";
+        })
+        .catch((error) => {
+          console.error("Error following user:", error);
+        });
+    } catch (error) {
+      console.error("Something weird happened:", error);
+    }
   });
 
   const unfollow_btn = document.createElement("a");
@@ -153,7 +144,8 @@ export function renderPeopleRecommendation(recommendationData) {
   unfollow_btn.title = 'Unfollow him/her';
 
   unfollow_btn.addEventListener("click", async function () {
-    let mastodonAccount;
+    unfollow_btn.innerHTML = `<img class="loading-image" src='../images/loading-1.svg' alt='loading' height='50px' width='auto'/>`;
+    let user;
     try {
       const response = await fetch(`${nodeApikey}/users`);
       if (!response.ok) {
@@ -165,53 +157,67 @@ export function renderPeopleRecommendation(recommendationData) {
       const userIndex = data.users.findIndex(
         (user) => user.username === username
       );
-      mastodonAccount = data?.users[userIndex]?.mastodonAccount;
+      user = data?.users[userIndex];
     } catch (error) {
       console.error("Error fetching data:", error);
     }
+
+    const connected = document.getElementById("crediential-status").textContent;
+    if (connected === "False") {
+      return;
+    }
+
     try {
-      const response = await fetch(
-        `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
-          mastodonAccount
-        )}`
-      );
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      const data = await response.text();
-      if (data !== "True") {
-        return;
-      }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    fetch(`${nodeApikey}/users`)
-      .then((response) => response.json())
-      .then((data) => {
-        const users = data.users;
-        const userToFollow = users[0];
+      const username = user.username;
+      const following = recommendationData?.acct;
+      const userMastodonURL = user?.mastodonAccount;
+      const followUserURL = recommendationData?.acct;
 
-        const userMastodonURL = userToFollow?.mastodonAccount;
-        const followUserURL = recommendationData?.acct;
-
-        const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
-          userMastodonURL
-        )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
-
-        fetch(followURL)
-          .then((response) => response.text())
-          .then((result) => {
-            console.log("unFollow action result:", result);
-            follow_btn.style.display = 'block';
-            unfollow_btn.style.display = 'none';
-          })
-          .catch((error) => {
-            console.error("Error following user:", error);
-          });
-      })
-      .catch((error) => {
-        console.error("Error fetching users:", error);
+      const response = await fetch(`${nodeApikey}/unfollow`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          following,
+        }),
       });
+
+      const data = await response.json();
+      if (!data.success) {
+        alert(data.message);
+        return;
+      } else {
+        // remove that from the followings!
+        const followingContainer = document.getElementById(
+          "followingSectionContent"
+        );
+        followingContainer.childNodes.forEach((node) => {
+          if (node.innerHTML === following) {
+            followingContainer.removeChild(node);
+          }
+        });
+      }
+
+      const followURL = `${flaskApikey}/unfollow_People?userMastodonURL=${encodeURIComponent(
+        userMastodonURL
+      )}&unfollowUserURL=${encodeURIComponent(followUserURL)}`;
+
+      fetch(followURL)
+        .then((response) => response.text())
+        .then((result) => {
+          console.log("unFollow action result:", result);
+          follow_btn.style.display = "block";
+          unfollow_btn.style.display = "none";
+          unfollow_btn.textContent = "Unfollow";
+        })
+        .catch((error) => {
+          console.error("Error following user:", error);
+        });
+    } catch (error) {
+      console.error("Something weird happened:", error);
+    }
   });
 
   imgContainer.appendChild(avatar);

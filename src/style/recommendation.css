@@ -39,6 +39,10 @@
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
+#backToTopButton:hover {
+  padding:15px 15px 15px 15px;
+}
+
 #logo {
   width: 15em;
   max-width: 20em;
@@ -48,4 +52,13 @@
 #get-credential-btn {
   padding: 5px;
   margin: 0;
+}
+
+.unselectable {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.loading-image {
+  margin-top: -20px;
 }

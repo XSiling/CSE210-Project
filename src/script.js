@@ -170,16 +170,6 @@ async function login() {
  * Checks the login status and performs actions based on it.
  * @function
  */
-function checkLoginStatus() {
-  fetch("http://localhost:3000/check-login")
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.loggedIn) {
-        document.getElementById("loginButton").style.display = "none";
-        // Additional actions based on login status
-      }
-    });
-}
 
 /**
  * Automatically focus user to the "username" input field if exists
@@ -318,6 +308,28 @@ async function register() {
   }
 }
 
+//Handling Logout
+async function logout() {
+  fetch(`${nodeApikey}/logout`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then(async (data) => {
+      console.log(data);
+      if (data.success) {
+        await checkLoginStatus();
+        window.location.href = 'login.html';
+      }
+    })
+    .catch((error) => {
+      console.error("Logout failed", error);
+    });
+}
+
+// Function to update user interests
 /**
  * Updates user interests.
  * @async
@@ -515,6 +527,34 @@ async function updateInterestsRecommendations() {
     console.error("Error updating interests:", error);
   }
 }
+
+/**
+ * Checks the login status and performs actions based on it.
+ * @function
+ */
+
+async function checkLoginStatus() {
+  console.log("check login status");
+  return fetch("http://localhost:3000/check-login", { credentials: "include" }) // Ensure credentials are included for session cookies
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      if (data.loggedIn) {
+        window.location.href = data.redirectUrl;
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
+// Call this function when the login page is loaded
+// if (
+//   window.location.href.includes("login") ||
+//   window.location.href.includes("register")
+// ) {
+//   window.onload = checkLoginStatus;
+// }
 
 /**
  * Scrolls to the top of the window smoothly.
