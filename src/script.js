@@ -171,16 +171,7 @@ async function login() {
  * Checks the login status and performs actions based on it.
  * @function
  */
-function checkLoginStatus() {
-  fetch("http://localhost:3000/check-login")
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.loggedIn) {
-        document.getElementById("loginButton").style.display = "none";
-        // Additional actions based on login status
-      }
-    });
-}
+
 
 /**
  * Automatically focus user to the "username" input field if exists
@@ -537,8 +528,10 @@ async function updateInterestsRecommendations() {
 }
 
 /**
-* Scrolls to the top of the window smoothly.
-*/
+ * Checks the login status and performs actions based on it.
+ * @function
+ */
+
 
 function checkLoginStatus() {
     console.log("check login status");
