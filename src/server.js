@@ -42,9 +42,11 @@ app.get('/convert-to-data-url', async (req, res) => {
  * @property {string[]} interests - Array of user interests.
  * @property {string} mastodonAccount - User's Mastodon account.
  * @property {string} profile_img - User's profile image.
+ * @property {string[]} following - Array of user followings
  */
 
-/** @type {User[]} */
+/** @type {User[]}*/
+
 let users = [];
 
 /**
@@ -82,7 +84,7 @@ app.post("/register", async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
-  users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
+  users.push({ username, hashedPassword, interests: [], mastodonAccount: "", following:[] });
 
   res.json({
     success: true,
@@ -163,12 +165,60 @@ app.get('/users', (req, res) => {
       interests: user.interests,
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
+      following: user.following
       // followers: user.followers,
     };
   });
 
   res.json({ success: true, users: safeUserData });
 });
+
+/**
+ * Update user following
+ */
+app.post("/follow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      users[userIndex].following.push(account);
+      res.json({ success: true, message: "Has updated the following."});
+    }else{
+      res.json({ success: false, message: "The user has already followed, check the code."});
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code."});
+  }
+})
+
+/**
+ * Update user following by unfollow
+ */
+app.post("/unfollow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      res.json({ success: false, message: "The user has not already followed, check the code." });
+    }else{
+      users[userIndex].following.splice(followIndex, 1);
+      res.json({ success: true, message: "Has updated the following." });
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code." });
+  }
+
+})
+
 
 /**
  * Update user interests endpoint.
