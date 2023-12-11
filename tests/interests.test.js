@@ -9,7 +9,7 @@ describe('POST /interests', () => {
 
     beforeEach(() => {
         // Setup a mock users array before each test
-        const existingUser = { username: 'existingUser', hashedPassword: bcrypt.hash('testpassword', 10), interests: ['Emotion', 'Fun'] };
+        const existingUser = { username: 'existingUser', hashedPassword: bcrypt.hash('testpassword', 10), interests: ['Emotion', 'Fun'], following:[] };
         users.push(existingUser);
     });
 
