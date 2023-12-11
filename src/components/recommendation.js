@@ -81,12 +81,17 @@ export async function fetchBasicInformation(user) {
   // set following
 
   const followingContainer = document.getElementById("followingSectionContent");
+
+  if(following === undefined){
+    console.log("undefined following, some errors have happended.");
+  }else{
   Array.from(following).forEach((account) => {
     let followAccount = document.createElement("div");
     followAccount.innerHTML = account;
     followAccount.innerText = account;
     followingContainer.appendChild(followAccount);
   })
+}
 
 }
 
