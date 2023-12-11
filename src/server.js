@@ -120,7 +120,7 @@ app.get('/check-login', (req, res) => {
 /**
  * Logout endpoint.
  * @function
- * @name POST/logout
+ * @name GET/logout
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
@@ -128,6 +128,13 @@ app.get('/logout', (req, res) => {
     active_user = null;
     res.json({ success: true, message: 'Logged out successfully' });
 });
+/**
+ * Logout endpoint.
+ * @function
+ * @name POST/logout
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
+ */
 app.post('/logout', (req, res) => {
     req.session.destroy();
     res.json({ success: true, message: 'Logged out successfully' });
