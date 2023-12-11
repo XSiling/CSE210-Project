@@ -36,10 +36,12 @@ function hideLoadingGif(containerId) {
  * @returns {any}
  */
 async function fetchBasicInformation(user) {
+
   const username = user.username;
   const interests = user.interests;
   const mastodonAccount = user.mastodonAccount;
   const profile_img = user.profile_img;
+  const following = user.following;
   let html = "<br/><h4> Get the recommendations for: ";
 
   // set username
@@ -76,6 +78,17 @@ async function fetchBasicInformation(user) {
   profile_image.alt = "profile image";
   profile_image.className = "profile-image";
   container.appendChild(profile_image);
+
+  // set following
+
+  const followingContainer = document.getElementById("followingSectionContent");
+  Array.from(following).forEach((account) => {
+    let followAccount = document.createElement("div");
+    followAccount.innerHTML = account;
+    followAccount.innerText = account;
+    followingContainer.appendChild(followAccount);
+  })
+
 }
 
 /**
@@ -204,6 +217,9 @@ async function fetchPeopleRecommended(userMastodonURL) {
  * Open the following small section on the screen or close it
  */
 function openFollowing(){
+  //fetch user data first
+  const container = document.getElementById("followingSectionContent");
+  container.style.display = container.style.display === 'flex'? 'none':'flex';
 
 }
 

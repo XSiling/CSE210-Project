@@ -71,10 +71,30 @@ body {
   padding:0;
 }
 
+#followingSection{
+  position: fixed;
+  bottom: 300px;
+  right: 30px;
+}
+
+#followingSectionContent{
+  background-color:white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 50px auto;
+  padding: 20px;
+  display:none;
+  flex-direction:column;
+  overflow-y:auto;
+  max-height:200px;
+
+}
+
 #followingButton {
   position: fixed;
   bottom: 150px;
-  right: 30px;
+  right:30px;
+  float:right;
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   z-index: 1000;

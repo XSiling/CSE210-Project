@@ -141,6 +141,13 @@ export function renderFollowerRecommendation(recommendationData) {
       const data = await response.json();
       if (!data.success){
         alert(data.message);
+      }else{
+        // add that to following!
+        const followingContainer = document.getElementById("followingSectionContent");
+        let followAccount = document.createElement("div");
+        followAccount.innerHTML = following;
+        followAccount.innerText = following;
+        followingContainer.appendChild(followAccount);
       }
     }catch(error){
       console.log("Error updating the server of following");
@@ -233,6 +240,14 @@ export function renderFollowerRecommendation(recommendationData) {
       const data = await response.json();
       if (!data.success){
         alert(data.message);
+      }else{
+        // remove that from the followings!
+        const followingContainer = document.getElementById("followingSectionContent");
+        followingContainer.childNodes.forEach((node)=>{
+          if (node.innerHTML === following){
+            followingContainer.removeChild(node);
+          }
+        })
       }
     }catch(error){
       console.log("Error updating the server of following");
