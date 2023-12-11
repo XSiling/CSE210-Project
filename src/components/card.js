@@ -85,6 +85,7 @@ export function renderPeopleRecommendation(recommendationData) {
   follow_btn.title = 'Follow him/her';
 
   follow_btn.addEventListener("click", async function () {
+    follow_btn.innerHTML = `<img src='../images/loading-1.svg' alt='loading' height='50px' width='auto'/>`;
     let user;
     try {
       const response = await fetch(`${nodeApikey}/users`);
@@ -147,6 +148,7 @@ export function renderPeopleRecommendation(recommendationData) {
         .then((response) => response.text())
         .then((result) => {
           console.log("Follow action result:", result);
+          follow_btn.textContent = "Follow";
           follow_btn.style.display = "none";
           unfollow_btn.style.display = "block";
         })
@@ -165,6 +167,7 @@ export function renderPeopleRecommendation(recommendationData) {
   unfollow_btn.title = 'Unfollow him/her';
 
   unfollow_btn.addEventListener("click", async function () {
+    unfollow_btn.innerHTML = `<img src='../images/loading-1.svg' alt='loading' height='50px' width='auto'/>`;
     let user;
     try {
       const response = await fetch(`${nodeApikey}/users`);
@@ -230,6 +233,7 @@ export function renderPeopleRecommendation(recommendationData) {
           console.log("unFollow action result:", result);
           follow_btn.style.display = "block";
           unfollow_btn.style.display = "none";
+          unfollow_btn.textContent = "Unfollow";
         })
         .catch((error) => {
           console.error("Error following user:", error);
