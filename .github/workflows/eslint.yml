@@ -25,5 +25,9 @@ jobs:
         run: npm install
       - name: install-eslint
         run: npm install -g eslint
+      - name: Copy Config to Home
+        run: cp configs/.eslintrc.js .
       - name: ESLint
         run: npm run fix .
+      - name: Remove Config
+        run: rm .eslintrc.js

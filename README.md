@@ -40,22 +40,25 @@ Make sure you have the following installed on your machine:
 
 4. **Start the Server:**
 
-    Launch the Node.js server using the following command.
+    Launch the servers using the following commands in different terminal instances.
 
     ```bash
-    node src/server.js
+    npm run server1
+    ```
+    ```bash
+    npm run server2
     ```
 
-    The server will start running at `http://localhost:3000`.
+    The servers will start running.
 
 5. **Launch the Website:**
 
     Open the project in Visual Studio Code and use the Live Server extension to launch the website.
 
     - Install the Live Server extension if you haven't already.
-    - Right-click on your HTML file and select "Open with Live Server."
+    - Right-click on the `/src/login.html` file and select "Open with Live Server."
 
-    This will open your website in a new browser window/tab.
+    This will open the website in a new browser window/tab.
 
 ## Additional Setup
 
