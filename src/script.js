@@ -482,6 +482,7 @@ async function updateInterestsRecommendations() {
       interests.push(radiosData[i]);
     }
   }
+
   try {
     const response = await fetch("http://localhost:3000/interests", {
       method: "POST",

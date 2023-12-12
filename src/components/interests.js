@@ -186,7 +186,6 @@ export function createInterestsButtons(){
     }
 
     expandLine(container.childNodes[0].childNodes[0].childNodes[1]);
-
     close();
 
 
