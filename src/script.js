@@ -318,7 +318,6 @@ async function logout() {
   })
     .then((response) => response.json())
     .then(async (data) => {
-      console.log(data);
       if (data.success) {
         await checkLoginStatus();
         window.location.href = 'login.html';
@@ -394,7 +393,6 @@ async function updateInterests() {
       });
       return;
     }
-    // console.log("User exists.");
   } catch (error) {
     console.error("Error checking user:", error);
     return;
@@ -435,7 +433,6 @@ async function updateInterests() {
       interests.push(radiosData[i]);
     }
   }
-  console.log("!");
 
   try {
     /**
@@ -497,7 +494,6 @@ async function updateInterestsRecommendations() {
       interests.push(radiosData[i]);
     }
   }
-  console.log("!");
 
   try {
     // Send a POST request to local server containing user:interests info
@@ -534,11 +530,9 @@ async function updateInterestsRecommendations() {
  */
 
 async function checkLoginStatus() {
-  console.log("check login status");
   return fetch("http://localhost:3000/check-login", { credentials: "include" }) // Ensure credentials are included for session cookies
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.loggedIn) {
         window.location.href = data.redirectUrl;
       }
@@ -547,14 +541,6 @@ async function checkLoginStatus() {
       console.error("Error:", error);
     });
 }
-
-// Call this function when the login page is loaded
-// if (
-//   window.location.href.includes("login") ||
-//   window.location.href.includes("register")
-// ) {
-//   window.onload = checkLoginStatus;
-// }
 
 /**
  * Scrolls to the top of the window smoothly.

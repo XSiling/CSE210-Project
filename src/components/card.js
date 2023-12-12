@@ -124,7 +124,6 @@ export function renderPeopleRecommendation(recommendationData) {
       fetch(followURL)
         .then((response) => response.text())
         .then((result) => {
-          console.log("Follow action result:", result);
           follow_btn.textContent = "Follow";
           follow_btn.style.display = "none";
           unfollow_btn.style.display = "block";
@@ -207,7 +206,6 @@ export function renderPeopleRecommendation(recommendationData) {
       fetch(followURL)
         .then((response) => response.text())
         .then((result) => {
-          console.log("unFollow action result:", result);
           follow_btn.style.display = "block";
           unfollow_btn.style.display = "none";
           unfollow_btn.textContent = "Unfollow";
