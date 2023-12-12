@@ -65,7 +65,6 @@ function addInterest(){
  * fetch the user name from the url.
  * @returns the user name string
  */
-
 function fetchUsername(){
     /**
      * The username
