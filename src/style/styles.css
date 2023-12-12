@@ -8,6 +8,27 @@ body {
     padding: 0;
 }
 
+
+.valid {
+    color: green;
+}
+
+.invalid {
+    color: red;
+}
+
+.password-condition {
+    font-size: smaller;
+}
+
+#password-must-contain {
+    margin-top: 11px;
+}
+
+#password-message {
+    display: none;
+}
+
 .container {
   max-width: 95%;
   margin: 50px auto;
@@ -15,6 +36,146 @@ body {
   background-color: #f4f4f4;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
+}
+
+
+.triangle-left {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-right: 20px solid #6699cc;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  padding:0;
+}
+
+.triangle-left:hover {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-right: 25px solid #6699cc;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  padding:0;
+}
+
+#followingSection{
+  position: fixed;
+  bottom: 300px;
+  right: 30px;
+}
+
+#followingSectionContent{
+  background-color:white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  margin: 50px auto;
+  padding: 20px;
+  display:none;
+  flex-direction:column;
+  overflow-y:auto;
+  max-height:200px;
+
+}
+
+#followingButton {
+  position: fixed;
+  bottom: 150px;
+  right:30px;
+  float:right;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  z-index: 1000;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#followingButton:hover {
+  padding: 15px 15px 15px 15px;
+}
+
+
+
+
+.triangle-right {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-left: 20px solid #6699cc;
+  border-top: 12px solid transparent;
+  border-bottom: 12px solid transparent;
+  padding:0;
+}
+
+.triangle-right:hover {
+  max-width: 0;
+  color: #fff;
+  border: none;
+  border-radius: 0px;
+  cursor: pointer;
+  margin: 10px 10px 10px 10px;
+  background-color:white;
+  width: 0;
+  height: 0;
+  border-left: 25px solid #6699cc;
+  border-top: 15px solid transparent;
+  border-bottom: 15px solid transparent;
+  padding:0;
+}
+
+.fake-col-9{
+  width:100%;
+  margin-top:60px;
+}
+
+
+.header{
+  width:100%;
+  min-height:40px;
+  position:fixed;
+  top:0;
+  padding-top:20px;
+  padding-left:50px;
+  line-height:60px;
+  z-index:999;
+  background-color: white;
+  border-color:#666666;
+  border-radius: 10px;
+  
+}
+
+#headerContainer{
+  display:flex;
+  overflow: nowrap;
+  white-space:wrap;
+  overflow-x:auto;
+  scrollbar-width: none;
+}
+
+#interestsForm{
+  align-items:unset;
 }
 
 .interestsLi{
@@ -28,6 +189,10 @@ body {
 
 .interests-form-container {
   max-width: 750px;
+}
+
+.inlineText{
+  display:inline-block;
 }
 
 #container-profile{
@@ -98,12 +263,17 @@ button {
     margin: 10px 0 0;
 }
 
+
 button.login-register-button {
     padding: 12px 20px;
     width: 100%;
     max-width: 300px;
     margin: 14px 0 4px;
     font-weight: bold
+}
+
+button:disabled {
+    background-color: gray;
 }
 
 a {
@@ -151,6 +321,56 @@ a {
   flex-basis: 20px;
 }
 
+#userProfileLogo{
+  flex:4;
+  float:center;
+}
+
+#userProfileInterests{
+  display:inline-block;
+}
+
+#userProfileUsername{
+  flex:4;
+  text-align:right;
+}
+
+#userProfileMastodonAccount{
+  flex:4;
+  text-align:right;
+}
+
+#userProfileImage{
+  flex:4;
+  text-align:center;
+}
+
+#openProfileButton{
+  flex:1;
+  font-size:12px;
+  width:fit-content;
+  word-wrap: unset;
+  padding:0 10px 0 10px;
+  margin: 0px 0px 0px 10px;
+
+}
+
+#logOutButton{
+  flex:1;
+  font-size:12px;
+  height:fit-content;
+  padding:0 10px 0 10px;
+  margin: 0px 0px 0px 10px;
+}
+
+.header-col-1{
+  flex:1;
+}
+
+.header-col-4{
+  flex:4;
+  
+}
 #formDiv {
   flex-grow: 5;
   flex-basis: 20px;
@@ -161,13 +381,16 @@ a {
   justify-content: center;
 }
 
+
+
 #interests{
   display: flex;
   justify-content: center;
   margin: 10px;
+  flex-direction:column;
 }
 
-#interestsDiv{
+#form-interests{
   width: 95%;
   /* height:200px; */
   display: flex;
@@ -207,16 +430,23 @@ i {
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-  flex-wrap: wrap;
-  width: 95%;
+  flex-wrap: nowrap;
   justify-content: left;
   font-size: 15px;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 
 #container-profile #interestsButtons {
     max-width: 60%;
 }
 
+#form-interests-textinput{
+  display:flex;
+  flex-direction:row;
+  justify-content: center;
+  text-align: center;
+}
 
 .interestsRadio{
     padding:5px;
@@ -239,7 +469,7 @@ i {
 .container .interestsContainer{
     /* border: 3px solid #000; */
     border-radius: 5px;
-    display:inline-block;
+    display:none;
     /* padding-left: 5px; */
     /* padding-right: 5px; */
     margin-left: 5px;
@@ -259,7 +489,6 @@ i {
   white-space:wrap;
   overflow-y:auto;
   scrollbar-width: none;
-  max-width: 95%;
   font-size: 12px;
 }
 
@@ -267,7 +496,6 @@ i {
     white-space:nowrap;
     overflow-y:auto;
     scrollbar-width: none;
-    max-width: 95%;
     font-size: 12px;
 }
 
@@ -301,14 +529,81 @@ i {
 
 #nextPageButton {
   font-size: 20px;
-  border-radius: 5px;
+  /* border-radius: 5px; */
+}
+
+
+#previousPageButton {
+  float:left;
+  font-size: 20px;
+  /* border-radius: 5px; */
+}
+
+
+
+.containerLabelButton{   
+  font-size:10px;
+  
+}
+
+
+.button-wrapper{
+  text-align: center;
+}
+
+.centerDiv{
+  text-align:center;
+  float:center;
 }
 
 #expandButton{
-  display:block;
+  display:inline-block;
+  width:fit-content;
 }
 
 #closeButton {
   display:none;
+  width:fit-content;
 }
+
+.disabled-button {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.title-container {
+  margin-top: 6em;
+  background-color:#FFFFFF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.waviy {
+  position: relative;
+  -webkit-box-reflect: below -20px linear-gradient(transparent, rgba(0,0,0,.2));
+  font-size: 60px;
+}
+
+.waviy span {
+  font-family: 'Alfa Slab One', cursive;
+  position: relative;
+  display: inline-block;
+  color: #000;
+  text-transform: uppercase;
+  animation: waviy 1s infinite;
+  animation-delay: calc(.1s * var(--i));
+  
+}
+
+@keyframes waviy {
+  0%,40%,100% {
+    transform: translateY(0)
+  }
+  20% {
+    transform: translateY(-20px)
+  }
+}
+
 /* Add media queries for responsiveness if needed */
+

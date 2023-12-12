@@ -35,7 +35,6 @@ def client_auth_url(userMastodonID):
     userMastodonID_to_ClientMap[userMastodonID] = userClient
 
     return userClient.auth_request_url(client_id = m_id, redirect_uris = "http://127.0.0.1:5000/get_Auth_Code", state = generate_state, force_login=True)
-    
 
 """
     Get recommendations from recommendations.json.
@@ -77,21 +76,34 @@ def get_Auth_URL():
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
     return client_auth_url(userMastodonID)
 
+# """
+#     Handle authentication code for the user's Mastodon URL.
 
-"""
-    Handle authentication code for the user's Mastodon URL.
-
-    Returns:
-        Response: Message indicating successful authentication.
-"""
+#     Returns:
+#         Response: Message indicating successful authentication.
+# """
 @app.route('/get_Auth_Code', methods=['GET'])
 def get_Auth_Code():
     authCode = request.args.get('code')
     state = request.args.get('state')
-    userClient = state_to_ClientMap[state]
-    userClient.log_in(code = authCode, redirect_uri = "http://127.0.0.1:5000/get_Auth_Code")
-    return Response("Success. Please close this window")
 
+    # Error handling
+    if 'error' in request.args:
+        error_description = request.args.get('error_description', 'Unknown error')
+        # return Response(f"Error during authorization: {error_description}")
+        return Response("<script>window.close();</script>")
+
+    if authCode and state:
+        try:
+            userClient = state_to_ClientMap[state]
+            # Exchange the authorization code for a token
+            userClient.log_in(code=authCode, redirect_uri="http://127.0.0.1:5000/get_Auth_Code")
+            # return Response("Success. You can now close this window.")
+            return Response("<script>window.close();</script>")
+        except Exception as e:
+            return Response(f"An error occurred: {str(e)}")
+    else:
+        return Response("Invalid request")
 
 """
     Follow people on Mastodon.
@@ -102,11 +114,27 @@ def get_Auth_Code():
 @app.route('/follow_People', methods=['GET'])
 def follow_People():
     userMastodonURL = request.args.get('userMastodonURL')
-    followList = request.args.get('followList')
+    followUserURL = request.args.get('followUserURL')
     userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    followID = mainClient.account_lookup(followUserURL)['id']
     userClient = userMastodonID_to_ClientMap[userMastodonID]
-    for followId in followList:
-        userClient.account_follow(followId)
+    userClient.account_follow(followID)
+    return Response("Success")
+
+"""
+    Unfollow people on Mastodon.
+
+    Returns:
+        Response: Message indicating successful unfollow operation.
+"""
+@app.route('/unfollow_People', methods=['GET'])
+def unfollow_People():
+    userMastodonURL = request.args.get('userMastodonURL')
+    unfollowUserURL = request.args.get('unfollowUserURL')
+    userMastodonID = mainClient.account_lookup(userMastodonURL)['id']
+    unfollowID = mainClient.account_lookup(unfollowUserURL)['id']
+    userClient = userMastodonID_to_ClientMap[userMastodonID]
+    userClient.account_unfollow(unfollowID)
     return Response("Success")
 
 

@@ -1,25 +1,64 @@
-@import url('styles.css');
+@import url("styles.css");
 
 .header-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .recommendation-section {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 .recommendation-section div {
-    border: 1px solid var(--clr-black);
-    border-radius: .25rem;
-    padding: 10px;
-    margin: 10px;
-} 
+  border: 1px solid var(--clr-black);
+  border-radius: 0.25rem;
+  padding: 10px;
+  margin: 10px;
+}
 
 .profile-image {
-    width: 100px;
-    height: 100px;
-    border-radius: 20%;
+  width: 60px;
+  /* height: 100px; */
+  border-radius: 20%;
+}
+
+#backToTopButton {
+  position: fixed;
+  bottom: 10px;
+  right: 30px;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  z-index: 1000;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#backToTopButton:hover {
+  padding:15px 15px 15px 15px;
+}
+
+#logo {
+  width: 15em;
+  max-width: 20em;
+  height: auto;
+}
+
+#get-credential-btn {
+  padding: 5px;
+  margin: 0;
+}
+
+.unselectable {
+  cursor: default;
+  opacity: 0.5;
+}
+
+.loading-image {
+  margin-top: -20px;
 }

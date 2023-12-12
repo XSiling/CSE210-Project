@@ -1,23 +1,19 @@
 // Express.js Initializations
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
+const fetch = require('node-fetch');
 const app = express();
 const PORT = 3000;
-const session = require('express-session');
 
 // Middleware setup
-app.use(bodyParser.json());
-app.use(cors());
+app.use(express.json());
+const corsOptions = {
+  origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:3001'],
+  credentials: true,
+};
 
-// Session setup
-app.use(session({
-    secret: 'negative_10x_developers',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }
-}));
+app.use(cors(corsOptions));
 
 /**
  * User data structure.
@@ -27,10 +23,27 @@ app.use(session({
  * @property {string[]} interests - Array of user interests.
  * @property {string} mastodonAccount - User's Mastodon account.
  * @property {string} profile_img - User's profile image.
+ * @property {string[]} following - Array of user followings
  */
 
-/** @type {User[]} */
+/** @type {User[]}*/
+
 let users = [];
+let active_user = null;
+
+app.get('/proxy', async (req, res) => {
+  const url = req.query.url;
+  try {
+      const response = await fetch(url);
+      const data = await response.buffer();
+      res.set('Access-Control-Allow-Origin', '*');
+      res.set('Content-Type', response.headers.get('content-type'));
+      res.send(data);
+  } catch (error) {
+      console.error('Error during fetch:', error);
+      res.status(500).send('Error fetching resource');
+  }
+});
 
 /**
  * Registration endpoint.
@@ -62,19 +75,21 @@ app.post("/register", async (req, res) => {
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
-
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Add the new user
-  users.push({ username, hashedPassword, interests: [], mastodonAccount: "" });
+  users.push({ username, hashedPassword, interests: [], mastodonAccount: "", following:[] });
 
+  active_user = username;
+  const user = users.find((u) => u.username === username);
   res.json({
     success: true,
     message: "Registration successful",
     userName: username,
   });
 });
+
 
 /**
  * Login endpoint.
@@ -84,6 +99,7 @@ app.post("/register", async (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.post("/login", async (req, res) => {
+    console.log("In login");
   try {
     const { username, password } = req.body;
     const user = users.find((u) => u.username === username);
@@ -91,19 +107,18 @@ app.post("/login", async (req, res) => {
     if (user) {
       // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
-
-      if (match) {
-        req.session.user = { username: username, interests: user.interests, mastodonAccount: user.mastodonAccount };
-        res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
-      } else {
-        res.status(401).json({ success: false, message: 'Invalid credentials' });
-      }
-    } else {
-      res.status(401).json({ success: false, message: 'Invalid credentials' });
+            if (match) {
+                active_user = username
+                res.json({ success: true, message: 'Login successful', userName: username, interests: user.interests, mastodonAccount: user.mastodonAccount });
+            } else {
+                res.status(401).json({ success: false, message: 'Invalid credentials' });
+            }
+        } else {
+            res.status(401).json({ success: false, message: 'Invalid credentials' });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Internal Server Error' });
     }
-  } catch (error) {
-    res.status(500).json({ success: false, message: 'Internal Server Error' });
-  }
 });
 
 /**
@@ -114,22 +129,22 @@ app.post("/login", async (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get('/check-login', (req, res) => {
-    if (req.session.user) {
-        res.json({ loggedIn: true, user: req.session.user });
-    } else {
-        res.json({ loggedIn: false });
-    }
+  if (active_user) {
+    return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_user});
+  } else{
+    res.json({ loggedIn: false, redirectUrl: "" })
+  }
 });
 
 /**
  * Logout endpoint.
  * @function
- * @name GET/logout
+ * @name POST/logout
  * @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
-app.get('/logout', (req, res) => {
-    req.session.destroy();
+app.post('/logout', (req, res) => {
+    active_user = null;
     res.json({ success: true, message: 'Logged out successfully' });
 });
 
@@ -148,11 +163,60 @@ app.get('/users', (req, res) => {
       interests: user.interests,
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
+      following: user.following
+      // followers: user.followers,
     };
   });
 
   res.json({ success: true, users: safeUserData });
 });
+
+/**
+ * Update user following
+ */
+app.post("/follow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      users[userIndex].following.push(account);
+      res.json({ success: true, message: "Has updated the following."});
+    }else{
+      res.json({ success: false, message: "The user has already followed, check the code."});
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code."});
+  }
+})
+
+/**
+ * Update user following by unfollow
+ */
+app.post("/unfollow", (req, res)=>{
+  const username = req.body.username;
+  const account = req.body.following;
+  const userIndex = users.findIndex((u)=> u.username === username);
+
+  // update the user following...
+  if (userIndex !== -1){
+    // check whether have followed first
+    const followIndex = users[userIndex].following.findIndex((f) => f === account);
+    if (followIndex === -1){
+      res.json({ success: false, message: "The user has not already followed, check the code." });
+    }else{
+      users[userIndex].following.splice(followIndex, 1);
+      res.json({ success: true, message: "Has updated the following." });
+    }
+  }else{
+    res.json({ success: false, message: "No such user, check the code." });
+  }
+
+})
+
 
 /**
  * Update user interests endpoint.
@@ -192,6 +256,7 @@ app.get("/recommendations/:username", (req, res) => {
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
 
+  console.log("happen");
   if (user) {
     // Dummy recommendations
     const recommendations = ["User 3", "User 4", "Group B"];

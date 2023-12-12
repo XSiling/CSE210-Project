@@ -1,128 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style/styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../components/interest.css" />
-    <title>Interests</title>
-  </head>
-  <body>
-    <div class="container interests-form-container">
-      <div id="main">
-        <form id="interestsForm">
-          <div>
-            <h2>CHOOSE YOUR PROFILE IMAGE</h2>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/*" href="../images/logo.png" sizes="32x32">
+  <link rel="stylesheet" href="../style/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../components/interest.css" />
+  <title>Setup Interests</title>
+</head>
+
+<body>
+  <div class="container interests-form-container">
+    <div id="main">
+      <form id="interestsForm">
+
+
+        <div id="formDiv">
+          <div id="form-profile-img" style="display:none">
+            <h1>CHOOSE YOUR PROFILE IMAGE</h1>
             <section class="profile-predefined-img-section">
-              <img
-                src="../images/user-image/profile-predefined-img-1.png"
-                alt="User Image"
-                class="profile-predefined-img selected-img"
-                id="profile-predefined-img-1"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-2.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-2"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-3.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-3"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-4.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-4"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-5.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-5"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-6.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-6"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-7.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-7"
-              />
-              <img
-                src="../images/user-image/profile-predefined-img-8.png"
-                alt="User Image"
-                class="profile-predefined-img"
-                id="profile-predefined-img-8"
-              />
+              <div class="profile-image-container selected non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-1.png" alt="User Image"
+                  class="profile-predefined-img selected-img clickable-image" id="profile-predefined-img-1" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-2.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-2" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-3.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-3" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-4.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-4" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-5.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-5" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-6.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-6" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-7.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-7" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-8.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-8" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-9.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-9" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-10.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-10" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-11.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-11" />
+              </div>
+              <div class="profile-image-container non-clickable-div">
+                <img src="../images/user-image/profile-predefined-img-12.png" alt="User Image"
+                  class="profile-predefined-img clickable-image" id="profile-predefined-img-12" />
+              </div>
             </section>
           </div>
-          <div id="headChoosePage">
-            <h2>CHOOSE YOUR INTERESTS</h2>
+
+          <div id="form-interests">
+            <div>
+              <div id="headChoosePage">
+                <h2>EXPLORE YOUR INTERESTS</h2>
+              </div>
+
+
+              <div class="centerDiv">
+                <h3>Try to input some keyword here:</h3>
+              </div>
+
+              <div id="form-interests-textinput">
+                <input type="text" list="interestsTextList" name="interestsText" id="interestsText" />
+                <button id="interestsTextButton" type="button">
+                  SELECT
+                </button>
+                <datalist id="interestsTextList">
+
+                </datalist>
+
+                <input type="hidden" id="username" name="username" value="user1" />
+              </div>
+              <div id="interests">
+                <div class="centerDiv">
+                  <h3>Or select from below:</h3>
+                </div>
+
+                <div id="interestsButtons"></div>
+                <div class="button-wrapper">
+                  <button type="button" id="expandButton">Discover More</button>
+                </div>
+                <div class="button-wrapper">
+                  <button type="button" id="closeButton">Collapse</button>
+                </div>
+              </div>
+
+
+
+            </div>
           </div>
-          <div id="formDiv">
-            <div id="interestsDiv">
-              <input type="text" id="interestsText" />
-              <button
-                id="interestsTextButton"
-                type="button"
-                onclick="addInterest()"
-              >
-                SELECT
-              </button>
-            </div>
-            <input type="hidden" id="username" name="username" value="user1" />
-            <div id="interests">
-              <div id="interestsButtons"></div>
-            </div>
 
-            <br />
-
+          <div id="form-account" style="display:none">
             <div id="account">
-              <h2>(Optional) Link with your ActivityPub account:</h2>
-              <input
-                type="email"
-                placeholder="xxx@mastodon.social"
-                id="mastodonInput"
-              />
+
+              <h1>Link with your ActivityPub account:</h1>
+              <input type="email" placeholder="xxx@mastodon.social" id="mastodonInput" />
             </div>
           </div>
+
 
           <div id="nextPage">
-            <button id="nextPageButton" onclick="updateInterests()">
+            <button type="button" id="previousPageButton">
+              PREVIOUS
+            </button>
+
+            <button type="button" id="nextPageButton">
               NEXT
             </button>
           </div>
-        </form>
-      </div>
+      </form>
     </div>
+  </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", (event) => {
-        let images = document.querySelectorAll(".profile-predefined-img");
-        images.forEach((img) => {
-          img.addEventListener("click", function () {
-            images.forEach((i) => i.classList.remove("selected-img"));
-            this.classList.add("selected-img");
-          });
+  <script>
+    document.addEventListener("DOMContentLoaded", (event) => {
+      const images = document.querySelectorAll(".profile-predefined-img");
+      images.forEach((img) => {
+        img.addEventListener("click", function () {
+          images.forEach((i) => i.classList.remove("selected-img"));
+          this.classList.add("selected-img");
         });
       });
-    </script>
+      const imgContainers = document.querySelectorAll('.profile-image-container');
+      imgContainers.forEach(container => {
+        container.addEventListener('click', function () {
+          imgContainers.forEach(c => c.classList.remove('selected'));
+          container.classList.add('selected');
+        });
+      });
+    });
+  </script>
 
-    <script src="../script.js"></script>
-    <script type="module" src="../components/interests.js"></script>
-  </body>
+  <script src="../script.js"></script>
+  <script type="module" src="../components/interests.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
 </html>

@@ -36,6 +36,42 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Copy Configs to Home
+        run: cp configs/.babelrc configs/jest.config.js .
+
       # Run tests
       - name: Run tests
         run: npm test
+      
+      - name: Remove Configs
+        run: rm .babelrc jest.config.js
+
+
+  python-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r configs/requirements.txt
+        
+      - name: Create env.py from template
+        run: |
+          echo "import os" > src/mastodonApi/env.py
+          echo "os.environ['Mastodon_username'] = 'cse210team1@gmail.com'" >> src/mastodonApi/env.py
+          echo "os.environ['Mastodon_password'] = 'negative10xdevelopers'" >> src/mastodonApi/env.py
+
+      - name: Run Python tests
+        run: python tests/test_recs.py
+      
+      - name: Delete env.py
+        run: rm src/mastodonApi/env.py

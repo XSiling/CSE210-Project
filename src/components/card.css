@@ -17,6 +17,10 @@
   transform: scale(1.03);
 }
 
+.people-card-name {
+  font-weight: bold;
+}
+
 .people-card-upper-section {
   display: flex;
   flex-direction: row;
@@ -64,6 +68,7 @@
   width: 100%;
 }
 
+.people-card-unfollow-button,
 .people-card-follow-button {
   margin-left: auto;
   cursor: pointer;
@@ -71,7 +76,8 @@
 }
 
 .people-card-profile-link:hover,
-.people-card-follow-button:hover {
+.people-card-follow-button:hover,
+.people-card-unfollow-button:hover {
   color: #01796f;
   transform: scale(1.1);
 }

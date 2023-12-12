@@ -24,6 +24,10 @@
   margin: 0;
 }
 
+.follower-card-name {
+  font-weight: bold;
+}
+
 .follower-card-info-section {
   display: flex;
   flex-direction: column;
@@ -64,6 +68,7 @@
   width: 100%;
 }
 
+.follower-card-unfollow-button,
 .follower-card-follow-button {
   margin-left: auto;
   cursor: pointer;
@@ -71,7 +76,8 @@
 }
 
 .follower-card-profile-link:hover,
-.follower-card-follow-button:hover {
+.follower-card-follow-button:hover,
+.follower-card-unfollow-button:hover {
   color: #01796f;
   transform: scale(1.1);
 }
