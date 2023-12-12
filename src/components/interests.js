@@ -107,7 +107,6 @@ export function expand(){
  * @exports
  */
 export function close(){
-    console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
     for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
@@ -115,13 +114,11 @@ export function close(){
 
     document.getElementById("expandButton").style.display = 'inline-block';
     document.getElementById("closeButton").style.display = 'none';
-    console.log("close!");
     fetchUserData();
 }
 
 function expandLine(element){
     const line = element.parentNode.parentNode;
-    console.log(line);
 
     if (element.name =="expand"){
         element.className = 'triangle-left';
@@ -199,7 +196,6 @@ export function createInterestsButtons(){
     expandLine(container.childNodes[0].childNodes[0].childNodes[1]);
 
     // close button
-    console.log("here");
     close();
 
 
@@ -221,7 +217,6 @@ export function createInterestsButtons(){
         }
 
         if (el.className == "interestsRadio"){
-            console.log(el.value, "clicked");
             checkRadio(el);
         }
     };

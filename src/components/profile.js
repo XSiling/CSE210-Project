@@ -62,7 +62,6 @@ export function createInterestsButtons(){
     }
 
     // close button
-    console.log("here");
     close();
 
 
@@ -78,7 +77,6 @@ export function createInterestsButtons(){
         }
 
         if (el.className == "interestsRadio"){
-            console.log(el.value, "clicked");
             checkRadio(el);
         }
     };
@@ -109,7 +107,6 @@ function addInterest(){
  * @async
  */
 async function updateCurrentInterests(){
-    console.log(parent.window.location.href);
     const url = parent.window.location.href;
     const username = url.split('=')[1].split('&')[0];
 
