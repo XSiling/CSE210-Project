@@ -4,7 +4,7 @@ const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
     ["Beauty", "Food", "Fashion", "Travel", "Art", "Dance", "Wellness", "Recreation"],
     ["Customs", "International", "History", "Law", "Tradition", "Culture", "Community", "Heritage"],
-    ["Digital", "Data", "Innovation", "Gadgets", "Software", "Internet", "Cybersecurity", "Programming"],
+    ["Digital","Data", "Innovation","Gadgets","Software", "Internet", "Cybersecurity", "Programming"],
     ["Finance", "Business", "Investment", "Banking", "Markets", "Stocks", "Wealth", "Budgeting"],
     ["Home", "Pet", "Family", "Domestic", "Decor", "Garden", "Housing", "Comfort"],
     ["Book", "School", "Library", "Learning", "Knowledge", "Study", "Research", "Literature"],
@@ -31,7 +31,7 @@ const category = 9;
 /**
  * Select the interest button according to text input;
  */
-function addInterest() {
+function addInterest(){
     /**
      * The interest input content;
      * @type {string}
@@ -43,7 +43,7 @@ function addInterest() {
      * @type {list[string]}
      */
     let radiosData = [];
-    for (let i = 0; i < interestsData.length; ++i) {
+    for (let i=0; i< interestsData.length; ++i){
         radiosData = radiosData.concat(interestsData[i]);
     }
 
@@ -52,19 +52,13 @@ function addInterest() {
      * @type {int}
      */
     const idx = radiosData.indexOf(interest);
-
-    if (idx === -1) {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Enter one of the available interests',
-        });
-    } else {
+    if (idx==-1){
+        alert("Enter one of the available interests");
+    }else{
         const checkboxItem = document.getElementById(interest);
-        checkboxItem.checked = true;
+        checkboxItem.checked=true;
         checkRadio(checkboxItem);
     }
-
 }
 
 /**
@@ -72,22 +66,22 @@ function addInterest() {
  * @returns the user name string
  */
 
-function fetchUsername() {
+function fetchUsername(){
     /**
      * The username
      * @type {string}
      */
     const url = window.location.href;
     let username;
-    if (url.indexOf('=') != -1) {
+    if (url.indexOf('=')!=-1){
         username = window.location.href.split('=')[1].split('&')[0];
     }
-    else {
+    else{
         username = parent.window.location.href.split('=')[1].split('&')[0];
     }
 
     document.getElementById("username").setAttribute("value", username);
-    if (document.getElementById("userProfileUsername")) {
+    if (document.getElementById("userProfileUsername")){
         document.getElementById("userProfileUsername").innerHTML = username;
     }
     return username;
@@ -98,9 +92,9 @@ function fetchUsername() {
  * Expand the compressed section of interests buttons
  * @exports
  */
-export function expand() {
+export function expand(){
     var elements = document.getElementsByClassName("interestsContainerLine");
-    for (var i = 5; i < category; ++i) {
+    for(var i=5; i<category;++i){
         elements[i].style.display = 'block';
     }
     document.getElementById("expandButton").style.display = 'none';
@@ -112,10 +106,10 @@ export function expand() {
  * Close the expanded section of interests buttons
  * @exports
  */
-export function close() {
+export function close(){
     console.log("close");
     var elements = document.getElementsByClassName("interestsContainerLine");
-    for (var i = 5; i < category; ++i) {
+    for(var i=5;i<category;++i){
         elements[i].style.display = 'none';
     }
 
@@ -125,30 +119,30 @@ export function close() {
     fetchUserData();
 }
 
-function expandLine(element) {
+function expandLine(element){
     const line = element.parentNode.parentNode;
     console.log(line);
 
-    if (element.name == "expand") {
+    if (element.name =="expand"){
         element.className = 'triangle-left';
         line.style.display = 'block';
-        line.childNodes.forEach((node) => {
+        line.childNodes.forEach((node)=>{
             //debugger;
-            if (node.className == "interestsContainerLabel") {
+            if (node.className == "interestsContainerLabel"){
                 element.name = "close"
             }
-            if (node.className == "interestsContainer") {
+            if (node.className == "interestsContainer"){
                 node.style.display = "inline-block";
             }
         })
-    } else {
+    }else{
         element.className = 'triangle-right';
         line.style.display = 'inline-block';
-        line.childNodes.forEach((node) => {
-            if (node.className == "interestsContainerLabel") {
-                element.name = "expand";
+        line.childNodes.forEach((node)=>{
+            if (node.className == "interestsContainerLabel"){
+                element.name="expand";
             }
-            if (node.className == "interestsContainer") {
+            if (node.className == "interestsContainer"){
                 node.style.display = "none";
             }
         })
@@ -160,14 +154,14 @@ function expandLine(element) {
  * Create the interests buttons according to predefined interests lists;
  * @exports
  */
-export function createInterestsButtons() {
+export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
     const datalistContainer = document.getElementById("interestsTextList");
     // fetch from the database
     // if not, predefined.
-    let line = 0;
+    let line=0;
 
-    for (line; line < category; ++line) {
+    for(line; line<category; ++line){
         //expand button
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
@@ -178,7 +172,7 @@ export function createInterestsButtons() {
         containerLabel.innerHTML = '<h3 class="inlineText">' + interestsCategory[line] + ': ' + interestsCategoryDescriptions[line] + '</h3><button type="button" class="triangle-right" name="expand"></button>';
         container1.appendChild(containerLabel);
 
-        interestsData[line].forEach(radioText => {
+        interestsData[line].forEach(radioText=>{
             let container2 = document.createElement("div");
             container2.setAttribute("class", "interestsContainer");
 
@@ -186,7 +180,7 @@ export function createInterestsButtons() {
             radioLabel.setAttribute("for", radioText);
             radioLabel.setAttribute("class", "interestsLabel");
             radioLabel.innerHTML = "<input id=" + radioText + ' type="checkbox" value="' + radioText +
-                '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
+            '" name="interests" class="interestsRadio"><i>' + radioText + '</i>';
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
 
@@ -211,22 +205,22 @@ export function createInterestsButtons() {
 
 
 
-    document.onclick = function (event) {
+    document.onclick = function(event) {
         let el = event.target;
 
         if (el.id == "expandButton") {
             expand();
         }
 
-        if (el.id == "closeButton") {
+        if (el.id == "closeButton"){
             close();
         }
 
-        if (el.className == "triangle-right" || el.className == 'triangle-left') {
+        if (el.className == "triangle-right" || el.className=='triangle-left'){
             expandLine(el);
         }
 
-        if (el.className == "interestsRadio") {
+        if (el.className == "interestsRadio"){
             console.log(el.value, "clicked");
             checkRadio(el);
         }
@@ -239,17 +233,17 @@ export function createInterestsButtons() {
  * @param {element} Theclickedtarget
  * @exports
  */
-export function checkRadio(el) {
+export function checkRadio(el){
     const maxRadio = 5;
     let radioNumber = 0;
     let radios = document.getElementsByClassName("interestsRadio");
-    Array.from(radios).forEach((element) => {
-        if (element.checked) {
+    Array.from(radios).forEach((element)=>{
+        if (element.checked){
             radioNumber += 1;
         }
     })
 
-    if (radioNumber > maxRadio) {
+    if (radioNumber > maxRadio){
         alert("You can only choose up to 5 interests!");
         el.checked = false;
     }
@@ -271,8 +265,8 @@ async function fetchUserData() {
         const data = await response.json();
         const username = fetchUsername();
         let index = -1;
-        for (let i = 0; i < data.users.length; ++i) {
-            if (data.users[i].username === username) {
+        for(let i=0; i<data.users.length;++i){
+            if(data.users[i].username === username){
                 index = i;
             }
         }
@@ -288,7 +282,7 @@ async function fetchUserData() {
 /**
  * configuration step 1 - let the users select interests by datalist or checkboxes.
  */
-function loadStepInterests() {
+function loadStepInterests(){
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
     const accountStep = document.getElementById("form-account");
@@ -302,7 +296,7 @@ function loadStepInterests() {
 /**
  * configuration step 2 - let the users choose the profile img.
  */
-function loadStepProfileImg() {
+function loadStepProfileImg(){
     //debugger;
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
@@ -311,14 +305,14 @@ function loadStepProfileImg() {
     profileimgStep.style.display = 'block';
     accountStep.style.display = 'none';
     document.getElementById("previousPageButton").style.display = 'block';
-    document.getElementById("previousPageButton").onclick = loadStepInterests;
+    document.getElementById("previousPageButton").onclick=loadStepInterests;
     document.getElementById("nextPageButton").onclick = loadStepMastodonAccount;
 }
 
 /**
  * configuration step 3 - let the users input the mastodon account
  */
-function loadStepMastodonAccount() {
+function loadStepMastodonAccount(){
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
     const accountStep = document.getElementById("form-account");
@@ -333,7 +327,7 @@ function loadStepMastodonAccount() {
  * initialize the interests page structure and functions
  * Call when the interests page is loaded
  */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", ()=>{
     if (window.location.href.includes('interests.html')) {
         createInterestsButtons();
         fetchUsername();
@@ -350,22 +344,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
 window.onload = function () {
     if (sessionStorage.getItem('registerSuccess') === 'true') {
-        sessionStorage.removeItem('registerSuccess');
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            showConfirmButton: false,
-            timer: 3000,
-            timerProgressBar: true,
-            didOpen: (toast) => {
-                toast.addEventListener('mouseenter', Swal.stopTimer);
-                toast.addEventListener('mouseleave', Swal.resumeTimer);
-            }
-        });
-
-        Toast.fire({
-            icon: 'success',
-            title: 'Register successfully'
-        });
+      sessionStorage.removeItem('registerSuccess');
+      const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+          toast.addEventListener('mouseenter', Swal.stopTimer);
+          toast.addEventListener('mouseleave', Swal.resumeTimer);
+        }
+      });
+  
+      Toast.fire({
+        icon: 'success',
+        title: 'Register successfully'
+      });
     }
-}
+  }
