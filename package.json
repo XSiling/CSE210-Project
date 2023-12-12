@@ -2,12 +2,12 @@
   "name": "cse210-project",
   "version": "1.0.0",
   "description": "CSE-210 Project",
-  "source": "/src/login.html",
+  "source": "/src/view/login.html",
   "scripts": {
     "server1": "node src/server.js",
     "server2": "python src/mastodonApi/mastodonApi.py",
     "test": "jest --maxWorkers==1",
-    "mytest": "jest --maxWorkers==1 recommend.test.js",
+    "mytest": "jest --detectOpenHandles --maxWorkers==1 server.test.js",
     "lint": "eslint --ext .js,.jsx",
     "fix": "npm run lint:fix",
     "lint:fix": "eslint --fix --ext .js,.jsx .",
@@ -25,10 +25,10 @@
   "homepage": "https://github.com/XSiling/CSE210-Project#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "body-parser": "^1.20.2",
     "bootstrap": "^5.3.2",
     "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.5",
