@@ -9,51 +9,68 @@
     <link rel="stylesheet" href="../style/styles.css">
     <title>Register</title>
 </head>
-
 <body>
-    <div class="container account-entry-form-container">
-        <form id="registerForm">
-            <h2>Create an Account</h2>
-            <div class="form-container">
-                <label class="label-username" for="newUsername">Username</label>
-                <input type="text" id="newUsername" name="username" placeholder="Username" required>
+    <div class="wrapper">
+        <div class="login-panel">
+            <div class="logo">
+                <img src="../images/logo-name.png" alt="Logo" class="logo">
             </div>
-            <div class="form-container">
-                <label class="label-password" for="newPassword">Password</label>
-                <input type="password" id="newPassword" name="password" placeholder="Password"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+            <div class="container account-entry-form-container">
+                <form id="registerForm">
+                    <h2>Create an Account</h2>
+                    <div class="form-container">
+                        <label class="label-username" for="newUsername">Username</label>
+                        <input type="text" id="newUsername" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-container">
+                        <label class="label-password" for="newPassword">Password</label>
+                        <input type="password" id="newPassword" name="password" placeholder="Password"
+                            pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+        
+                        <div id="password-message">
+                            <h3 id="password-must-contain">Password must contain:</h3>
+                            <p id="password-lowercase" class="password-condition invalid">At least
+                                <b>one lowercase letter (a-z)</b>
+                            </p>
+                            <p id="password-uppercase" class="password-condition invalid">At least
+                                <b>one uppercase letter (A-Z)</b>
+                            </p>
+                            <p id="password-number" class="password-condition invalid">At least
+                                <b>one number (0-9)</b>
+                            </p>
+                            <p id="password-min-length" class="password-condition invalid">At least
+                                <b>8 characters</b>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="form-container">
+                        <label class="label-comfirm-password" for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
+                            required>
+                    </div>
+                    <div class="form-container">
+                        <label class="label-email" for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="Email" required>
+                    </div>
+                    <button type="button" id="register-submit" class="login-register-button"
+                        onclick="register()">Register</button>
+                    <p>Already have an account? <a href="login.html">Login here</a></p>
+                </form>
+            </div>
+        </div>
 
-                <div id="password-message">
-                    <h3 id="password-must-contain">Password must contain:</h3>
-                    <p id="password-lowercase" class="password-condition invalid">At least
-                        <b>one lowercase letter (a-z)</b>
-                    </p>
-                    <p id="password-uppercase" class="password-condition invalid">At least
-                        <b>one uppercase letter (A-Z)</b>
-                    </p>
-                    <p id="password-number" class="password-condition invalid">At least
-                        <b>one number (0-9)</b>
-                    </p>
-                    <p id="password-min-length" class="password-condition invalid">At least
-                        <b>8 characters</b>
-                    </p>
-                </div>
+
+        <div class="info-panel">
+            <div class="info-panel-content">
+                <h1>Welcome to MastoMatch</h1>
+                <p>A recommendation website to mastodon contents.</p>
             </div>
-            <div class="form-container">
-                <label class="label-comfirm-password" for="confirmPassword">Confirm Password</label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
-                    required>
-            </div>
-            <div class="form-container">
-                <label class="label-email" for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="Email" required>
-            </div>
-            <button type="button" id="register-submit" class="login-register-button"
-                onclick="register()">Register</button>
-            <p>Already have an account? <a href="login.html">Login here</a></p>
-        </form>
+        </div>
     </div>
 
+    <footer>
+        <p>&copy; 2023 10xDevps Group. All Rights Reserved.</p>
+    </footer>
     <script src="../script.js"></script>
     <script type="module" src="../components/register.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
