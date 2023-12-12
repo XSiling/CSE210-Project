@@ -162,6 +162,10 @@ app.get('/users', (req, res) => {
 
 /**
  * Update user following
+ * @function
+ * @name POST/follow
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
  */
 app.post("/follow", (req, res)=>{
   const username = req.body.username;
@@ -182,6 +186,10 @@ app.post("/follow", (req, res)=>{
 
 /**
  * Update user following by unfollow
+ * @function
+ * @name POST/unfollow
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
  */
 app.post("/unfollow", (req, res)=>{
   const username = req.body.username;

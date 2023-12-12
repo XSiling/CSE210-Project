@@ -1,5 +1,10 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Render the recommendations account data to the website page.
+ * @param {dict} recommendationData 
+ * @returns 
+ */
 export function renderPeopleRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'people-card';

@@ -2,7 +2,7 @@ import { flaskApikey, nodeApikey } from "../api/api.js";
 
 /**
  * Render the recommendations account data to the website page.
- * @param {list} recommendationData 
+ * @param {dict} recommendationData 
  * @returns 
  */
 export function renderFollowerRecommendation(recommendationData) {

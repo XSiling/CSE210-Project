@@ -163,10 +163,6 @@ async function login() {
   }
 }
 
-/**
- * Checks the login status and performs actions based on it.
- * @function
- */
 
 /**
  * Automatically focus user to the "username" input field if exists
@@ -184,6 +180,12 @@ window.onload = function () {
   checkLoginStatus();
 };
 
+
+/**
+ * Check whether the email is valid or not.
+ * @param {string} email 
+ * @returns 
+ */
 function isValidEmail(email) {
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
   return regex.test(email);
@@ -304,6 +306,9 @@ async function register() {
   }
 }
 
+/**
+ * Log out and redirect to the log in.
+ */
 async function logout() {
   fetch(`${nodeApikey}/logout`, {
     method: "POST",
@@ -511,9 +516,8 @@ async function updateInterestsRecommendations() {
 
 /**
  * Checks the login status and performs actions based on it.
- * @function
+ * @async
  */
-
 async function checkLoginStatus() {
   return fetch("http://localhost:3000/check-login", { credentials: "include" })
     .then((response) => response.json())

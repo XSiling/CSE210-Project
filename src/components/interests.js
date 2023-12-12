@@ -117,6 +117,10 @@ export function close(){
     fetchUserData();
 }
 
+/**
+ * Expand or collapse a single line of interests.
+ * @param {button} element 
+ */
 function expandLine(element){
     const line = element.parentNode.parentNode;
     if (element.name =="expand"){
@@ -322,6 +326,9 @@ document.addEventListener("DOMContentLoaded", ()=>{
     }
 })
 
+/**
+ * Check sessions
+ */
 window.onload = function () {
     if (sessionStorage.getItem('registerSuccess') === 'true') {
       sessionStorage.removeItem('registerSuccess');

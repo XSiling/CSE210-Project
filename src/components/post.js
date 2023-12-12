@@ -1,5 +1,10 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Render the recommendations post data to the website page.
+ * @param {list} recommendAccount
+ * @returns 
+ */
 export function renderRecommendationPost(recommendAccount) {
   const card = document.createElement("article");
   card.className = "post-card";

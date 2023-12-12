@@ -19,7 +19,7 @@ const category = 9;
 
 
 /**
- * Select the interest button according to text input;
+ * Create the interests buttons based on predefined data above.
  */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
@@ -77,7 +77,9 @@ export function createInterestsButtons(){
 }
 
 
-
+/**
+ * Select the interest button according to text input;
+ */
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
 
@@ -203,6 +205,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
       });
     });
 });
+
 
 
 document.addEventListener("DOMContentLoaded", (event)=>{
