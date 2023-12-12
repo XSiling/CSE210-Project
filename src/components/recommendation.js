@@ -43,17 +43,14 @@ export async function fetchBasicInformation(user) {
   const following = user.following;
   let html = "<br/><h4> Get the recommendations for: ";
 
-  // set username
   document.getElementById("username").setAttribute("value", username);
   if (document.getElementById("userProfileUsername")) {
     document.getElementById("userProfileUsername").innerHTML = username;
   }
 
-  // set mastodon Account
   document.getElementById("userProfileMastodonAccount").innerHTML =
     "<div>" + mastodonAccount + "</div>";
 
-  // set interests text
   Array.from(interests).forEach((interest) => {
     html += interest + " ";
   });
@@ -67,7 +64,6 @@ export async function fetchBasicInformation(user) {
 
   document.getElementById("userProfileInterests").innerHTML = html;
 
-  // set image
   const container = document.getElementById("userProfileImage");
   let profile_image = document.createElement("img");
   profile_image.src = profile_img;
@@ -78,20 +74,17 @@ export async function fetchBasicInformation(user) {
   profile_image.className = "profile-image";
   container.appendChild(profile_image);
 
-  // set following
 
   const followingContainer = document.getElementById("followingSectionContent");
 
-  if(following === undefined){
-    console.log("undefined following, some errors have happended.");
-  }else{
-  Array.from(following).forEach((account) => {
-    let followAccount = document.createElement("div");
-    followAccount.innerHTML = account;
-    followAccount.innerText = account;
-    followingContainer.appendChild(followAccount);
-  })
-}
+  if(following !== undefined){
+    Array.from(following).forEach((account) => {
+      let followAccount = document.createElement("div");
+      followAccount.innerHTML = account;
+      followAccount.innerText = account;
+      followingContainer.appendChild(followAccount);
+    })
+  }
 
 }
 
@@ -106,7 +99,7 @@ async function fetchFollowerRecommendations(interests) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Parses the JSON from the response
+      return response.json(); 
     })
     .then((data) => {
       const container = document.getElementById("accountContainer");
@@ -124,7 +117,7 @@ async function fetchFollowerRecommendations(interests) {
               container.appendChild(return_account);
             });
           } else {
-            console.log("No data found for:", interest);
+            console.error("No data found for:", interest);
           }
         });
       } else {
@@ -168,7 +161,7 @@ async function fetchPostRecommendations(interests) {
               container.appendChild(return_post);
             });
           } else {
-            console.log("No data found for:", interest);
+            console.error("No data found for:", interest);
           }
         });
       } else {
@@ -183,7 +176,6 @@ async function fetchPostRecommendations(interests) {
     });
 }
 
-// Fetch recommendation list (5) from flask backend
 /**
  * Description
  * @param {any} userMastodonURL
@@ -221,19 +213,16 @@ async function fetchPeopleRecommended(userMastodonURL) {
  * Open the following small section on the screen or close it
  */
 function openFollowing(){
-  //fetch user data first
   const container = document.getElementById("followingSectionContent");
   container.style.display = container.style.display === 'flex'? 'none':'flex';
 
 }
 
-// Fetch interest and user account infos
 /**
  * Description
  * @returns {any}
  */
 async function fetchUserData() {
-  // Show loading GIFs
   showLoadingGif("accountContainer");
   showLoadingGif("postContainer");
   showLoadingGif("recommendationContainer");
@@ -253,9 +242,7 @@ async function fetchUserData() {
       }
     }
 
-    // set the basic information on the page
     await fetchBasicInformation(data.users[i]);
-    console.log(data.users[i]);
     if (
       data.users[i].interests &&
       Array.isArray(data.users[i].interests) &&
@@ -272,7 +259,6 @@ async function fetchUserData() {
       await fetchPeopleRecommended(userMastodonURL);
       hideLoadingGif("recommendationContainer");
     }
-    console.log("render finish");
   } catch (error) {
     console.error("Error fetching user data:", error);
   }
@@ -289,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          window.location.href = "register.html"; // Reload the page after logout
+          window.location.href = "register.html"; 
         }
       });
   });
@@ -324,7 +310,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const url = window.location.href;
   const username = url.split("=")[1].split("&")[0];
   openProfileButton.setAttribute("src", "profile.html?username=" + username);
-  console.log(openProfileButton);
   openProfileButton.addEventListener("click", () => {
     const profileWindow = document.getElementById("profileEdittion");
     profileWindow.style.display = "block";
@@ -358,7 +343,6 @@ function showMastodonToast() {
  * @returns {any}
  */
 async function getCredential() {
-  // fetch user data
   let mastodonAccount;
   try {
     const response = await fetch(`${nodeApikey}/users`);
@@ -375,7 +359,7 @@ async function getCredential() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  // check user is authorize to mastodon or not (refresh case)
+
   try {
     const response = await fetch(
       `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -387,7 +371,6 @@ async function getCredential() {
     }
     const data = await response.text();
     if (data === "True") {
-      // console.log("already");
       const btn = document.getElementById("get-credential-btn");
       btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-mastodon" viewBox="0 0 16 16">
       <path d="M11.19 12.195c2.016-.24 3.77-1.475 3.99-2.603.348-1.778.32-4.339.32-4.339 0-3.47-2.286-4.488-2.286-4.488C12.062.238 10.083.017 8.027 0h-.05C5.92.017 3.942.238 2.79.765c0 0-2.285 1.017-2.285 4.488l-.002.662c-.004.64-.007 1.35.011 2.091.083 3.394.626 6.74 3.78 7.57 1.454.383 2.703.463 3.709.408 1.823-.1 2.847-.647 2.847-.647l-.06-1.317s-1.303.41-2.767.36c-1.45-.05-2.98-.156-3.215-1.928a3.614 3.614 0 0 1-.033-.496s1.424.346 3.228.428c1.103.05 2.137-.064 3.188-.189zm1.613-2.47H11.13v-4.08c0-.859-.364-1.295-1.091-1.295-.804 0-1.207.517-1.207 1.541v2.233H7.168V5.89c0-1.024-.403-1.541-1.207-1.541-.727 0-1.091.436-1.091 1.296v4.079H3.197V5.522c0-.859.22-1.541.66-2.046.456-.505 1.052-.764 1.793-.764.856 0 1.504.328 1.933.983L8 4.39l.417-.695c.429-.655 1.077-.983 1.934-.983.74 0 1.336.259 1.791.764.442.505.661 1.187.661 2.046v4.203z"/>
@@ -413,7 +396,7 @@ async function getCredential() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  // get auth
+
   try {
     const response = await fetch(
       `${flaskApikey}/get_Auth_URL?userMastodonURL=${encodeURIComponent(

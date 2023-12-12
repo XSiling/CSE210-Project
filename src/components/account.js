@@ -1,5 +1,10 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Render the recommendations account data to the website page.
+ * @param {dict} recommendationData 
+ * @returns 
+ */
 export function renderFollowerRecommendation(recommendationData) {
   const card = document.createElement("section");
   card.className = "follower-card";
@@ -108,7 +113,6 @@ export function renderFollowerRecommendation(recommendationData) {
         alert(data.message);
         return;
       } else {
-        // add that to following!
         const followingContainer = document.getElementById(
           "followingSectionContent"
         );
@@ -125,7 +129,6 @@ export function renderFollowerRecommendation(recommendationData) {
       fetch(followURL)
         .then((response) => response.text())
         .then((result) => {
-          console.log("Follow action result:", result);
           follow_btn.textContent = "Follow";
           follow_btn.style.display = "none";
           unfollow_btn.style.display = "block";
@@ -190,7 +193,6 @@ export function renderFollowerRecommendation(recommendationData) {
         alert(data.message);
         return;
       } else {
-        // remove that from the followings!
         const followingContainer = document.getElementById(
           "followingSectionContent"
         );
@@ -208,7 +210,6 @@ export function renderFollowerRecommendation(recommendationData) {
       fetch(followURL)
         .then((response) => response.text())
         .then((result) => {
-          console.log("unFollow action result:", result);
           follow_btn.style.display = "block";
           unfollow_btn.style.display = "none";
           unfollow_btn.textContent = "Unfollow";

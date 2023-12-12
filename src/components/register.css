@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 .form-container {
-  width: 70%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -8,6 +10,7 @@
 input {
   width: 100%;
   box-sizing: border-box;
+  font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
 }
 
 .label-username,
@@ -20,3 +23,90 @@ input {
   overflow: hidden;
   transition: opacity 0.5s ease-in-out, max-height 0.5s ease-in-out;
 }
+/* Wrapper for the whole page */
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.logo {
+  height: 80px;
+
+}
+/* Left panel styles */
+.login-panel {
+  width: 50%; 
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-register-button{
+  width: 100%;
+  box-sizing: border-box;
+  font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
+}
+
+/* Right panel styles */
+.info-panel {
+  width: 50%; 
+  background-image: url('../images/ucsd-campus-shot.jpg'); 
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 0 50px; 
+  position: relative;
+  z-index: 0;
+  /* color: #000; */
+}
+
+.info-panel::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(165, 190, 255, 0.5); 
+  z-index: 1;
+}
+
+.info-panel-content{
+  position: relative;
+  z-index: 2;
+  text-shadow:black 0 0 10px;
+  color: white;
+}
+
+.whiteFont{
+  color:white;
+}
+
+
+footer {
+  position: fixed;
+  z-index: 2; 
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color: #333;
+  text-align: center;
+  padding: 10px 0;
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+      flex-direction: column;
+  }
+
+  .login-panel,
+  .info-panel {
+      width: 100%;
+  }
+}
+

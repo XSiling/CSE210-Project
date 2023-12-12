@@ -4,41 +4,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/*" href="../images/logo.png" sizes="32x32">
+    <link rel="icon" type="image/*" href="../images/logo.ico" sizes="32x32">
     <link rel="stylesheet" href="../components/login.css">
     <link rel="stylesheet" href="../style/styles.css">
     <title>Login</title>
 </head>
 
 <body>
-    <div class="title-container">
-        <div class="waviy">
-            <span style="--i:1">-</span>
-            <span style="--i:2">1</span>
-            <span style="--i:3">0</span>
-            <span style="--i:4">X</span>
-            <span style="--i:5">D</span>
-            <span style="--i:6">E</span>
-            <span style="--i:7">V</span>
-            <span style="--i:8">S</span>
+    <div class="wrapper">
+        <div class="login-panel">
+            <div class="logo">
+                <img src="../images/logo-name.png" alt="Logo" class="logo">
+            </div>
+
+            <div class="container account-entry-form-container">
+                <form id="loginForm">
+                    <h2>Welcome Back!</h2>
+                    <div class="form-container">
+                        <label class="label-username" for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Username" required>
+                    </div>
+                    <div class="form-container">
+                        <label class="label-password" for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Password" autocomplete="on" required>
+                    </div>
+                    <button type="button" id="login-submit" class="login-register-button" onclick="login()" disabled>Login</button>
+                    <p>Don't have an account? <a href="register.html">Create one here</a></p>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="info-panel">
+            <div class="info-panel-content">
+                <h1 class="whiteFont">Welcome to MastoMatch</h1>
+                <h2 class="whiteFont">A recommendation website to mastodon contents.</h2>
+            </div>
         </div>
     </div>
-    <div class="container account-entry-form-container">
-        <form id="loginForm">
-            <h2>Welcome Back!</h2>
-            <div class="form-container">
-                <label class="label-username" for="username">Username</label>
-                <input type="text" id="username" name="username" placeholder="Username" required>
-            </div>
-            <div class="form-container">
-                <label class="label-password" for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-            </div>
-            <button type="button" id="login-submit" class="login-register-button" onclick="login()" disabled>Login</button>
-            <p>Don't have an account? <a href="register.html">Create one here</a></p>
-        </form>
-    </div>
-    
+
+    <footer>
+        <p>&copy; 2023 -10xDevelopers Group. All Rights Reserved.</p>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="../components/login.js"></script>
     <script src="../script.js"></script>
