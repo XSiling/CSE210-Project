@@ -1,4 +1,3 @@
-// Express.js Initializations
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
@@ -6,7 +5,6 @@ const fetch = require('node-fetch');
 const app = express();
 const PORT = 3000;
 
-// Middleware setup
 app.use(express.json());
 const corsOptions = {
   origin: ['http://127.0.0.1:5500', 'http://127.0.0.1:3001'],
@@ -55,30 +53,25 @@ app.get('/proxy', async (req, res) => {
 app.post("/register", async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
-  // Check if either username, password, or confirmPassword is missing
   if (!username || !password || !confirmPassword) {
     return res
       .status(400)
       .json({ success: false, message: "Username and password are required" });
   }
 
-  // Check if the password and confirmPassword match
   if (password !== confirmPassword) {
     return res
       .status(400)
       .json({ success: false, message: "Passwords do not match" });
   }
 
-  // Check if the username is already taken
   if (users.some((u) => u.username === username)) {
     return res
       .status(400)
       .json({ success: false, message: "Username already exists" });
   }
-  // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Add the new user
   users.push({ username, hashedPassword, interests: [], mastodonAccount: "", following:[] });
 
   active_user = username;
@@ -104,7 +97,6 @@ app.post("/login", async (req, res) => {
     const user = users.find((u) => u.username === username);
 
     if (user) {
-      // Compare hashed password
       const match = await bcrypt.compare(password, user.hashedPassword);
             if (match) {
                 active_user = username
@@ -155,7 +147,6 @@ app.post('/logout', (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get('/users', (req, res) => {
-  // Create a new array that contains user information without hashed passwords
   const safeUserData = users.map((user) => {
     return {
       username: user.username,
@@ -163,7 +154,6 @@ app.get('/users', (req, res) => {
       mastodonAccount: user.mastodonAccount,
       profile_img: user.profile_img,
       following: user.following
-      // followers: user.followers,
     };
   });
 
@@ -172,14 +162,16 @@ app.get('/users', (req, res) => {
 
 /**
  * Update user following
+ * @function
+ * @name POST/follow
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
  */
 app.post("/follow", (req, res)=>{
   const username = req.body.username;
   const account = req.body.following;
   const userIndex = users.findIndex((u)=> u.username === username);
-  // update the user following...
   if (userIndex !== -1){
-    // check whether have followed first
     const followIndex = users[userIndex].following.findIndex((f) => f === account);
     if (followIndex === -1){
       users[userIndex].following.push(account);
@@ -194,15 +186,17 @@ app.post("/follow", (req, res)=>{
 
 /**
  * Update user following by unfollow
+ * @function
+ * @name POST/unfollow
+ * @param {Object} req - Express request object.
+ * @param {Object} res - Express response object.
  */
 app.post("/unfollow", (req, res)=>{
   const username = req.body.username;
   const account = req.body.following;
   const userIndex = users.findIndex((u)=> u.username === username);
 
-  // update the user following...
   if (userIndex !== -1){
-    // check whether have followed first
     const followIndex = users[userIndex].following.findIndex((f) => f === account);
     if (followIndex === -1){
       res.json({ success: false, message: "The user has not already followed, check the code." });
@@ -256,7 +250,6 @@ app.get("/recommendations/:username", (req, res) => {
   const user = users.find((u) => u.username === username);
 
   if (user) {
-    // Dummy recommendations
     const recommendations = ["User 3", "User 4", "Group B"];
     res.json({ success: true, recommendations });
   } else {

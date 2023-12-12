@@ -1,5 +1,10 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Render the recommendations account data to the website page.
+ * @param {dict} recommendationData 
+ * @returns 
+ */
 export function renderPeopleRecommendation(recommendationData) {
   const card = document.createElement('section');
   card.className = 'people-card';
@@ -107,7 +112,6 @@ export function renderPeopleRecommendation(recommendationData) {
         alert(data.message);
         return;
       } else {
-        // add that to following!
         const followingContainer = document.getElementById(
           "followingSectionContent"
         );
@@ -188,7 +192,6 @@ export function renderPeopleRecommendation(recommendationData) {
         alert(data.message);
         return;
       } else {
-        // remove that from the followings!
         const followingContainer = document.getElementById(
           "followingSectionContent"
         );

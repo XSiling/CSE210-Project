@@ -65,7 +65,6 @@ function addInterest(){
  * fetch the user name from the url.
  * @returns the user name string
  */
-
 function fetchUsername(){
     /**
      * The username
@@ -117,14 +116,16 @@ export function close(){
     fetchUserData();
 }
 
+/**
+ * Expand or collapse a single line of interests.
+ * @param {button} element 
+ */
 function expandLine(element){
     const line = element.parentNode.parentNode;
-
     if (element.name =="expand"){
         element.className = 'triangle-left';
         line.style.display = 'block';
         line.childNodes.forEach((node)=>{
-            //debugger;
             if (node.className == "interestsContainerLabel"){
                 element.name = "close"
             }
@@ -154,15 +155,11 @@ function expandLine(element){
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
     const datalistContainer = document.getElementById("interestsTextList");
-    // fetch from the database
-    // if not, predefined.
     let line=0;
 
     for(line; line<category; ++line){
-        //expand button
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
-        // container1.className = "interestsContainer";
 
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
@@ -181,7 +178,6 @@ export function createInterestsButtons(){
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
 
-            // append the datalist here
             let datalistOption = document.createElement("option");
             datalistOption.setAttribute("value", radioText);
             datalistOption.innerHTML = radioText;
@@ -192,10 +188,7 @@ export function createInterestsButtons(){
 
     }
 
-    // expand the first line
     expandLine(container.childNodes[0].childNodes[0].childNodes[1]);
-
-    // close button
     close();
 
 
@@ -292,7 +285,6 @@ function loadStepInterests(){
  * configuration step 2 - let the users choose the profile img.
  */
 function loadStepProfileImg(){
-    //debugger;
     const interestsStep = document.getElementById("form-interests");
     const profileimgStep = document.getElementById("form-profile-img");
     const accountStep = document.getElementById("form-account");
@@ -328,15 +320,13 @@ document.addEventListener("DOMContentLoaded", ()=>{
         fetchUsername();
 
         document.getElementById("interestsTextButton").onclick = addInterest;
-
-        // get the steps:
-        // 1 -- interests
-        // 2 -- profile-img
-        // 3 -- Mastodon account
         loadStepInterests();
     }
 })
 
+/**
+ * Check sessions
+ */
 window.onload = function () {
     if (sessionStorage.getItem('registerSuccess') === 'true') {
       sessionStorage.removeItem('registerSuccess');

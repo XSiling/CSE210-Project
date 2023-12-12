@@ -19,21 +19,16 @@ const category = 9;
 
 
 /**
- * Select the interest button according to text input;
+ * Create the interests buttons based on predefined data above.
  */
 export function createInterestsButtons(){
     const container = document.getElementById("interestsButtons");
     const datalistContainer = document.getElementById("interestsTextList");
-    // fetch from the database
-    // if not, predefined.
     let line=0;
 
     for(line; line<category; ++line){
-        //expand button
         let container1 = document.createElement("div");
         container1.setAttribute('class', 'interestsContainerLine')
-        // container1.className = "interestsContainer";
-
         let containerLabel = document.createElement("div");
         containerLabel.setAttribute("class", "interestsContainerLabel");
         containerLabel.innerHTML = interestsCategory[line] + '<hr>';
@@ -51,7 +46,6 @@ export function createInterestsButtons(){
             container2.appendChild(radioLabel);
             container1.appendChild(container2);
 
-            // append the datalist here
             let datalistOption = document.createElement("option");
             datalistOption.setAttribute("value", radioText);
             datalistOption.innerHTML = radioText;
@@ -61,7 +55,6 @@ export function createInterestsButtons(){
         container.appendChild(container1);
     }
 
-    // close button
     close();
 
 
@@ -84,7 +77,9 @@ export function createInterestsButtons(){
 }
 
 
-
+/**
+ * Select the interest button according to text input;
+ */
 function addInterest(){
     const interest = document.getElementById("interestsText").value;
 
@@ -120,7 +115,6 @@ async function updateCurrentInterests(){
         const data = await response.json();
 
         if (data.success){
-            // set the mastodon content into some UI
             var interests = [];
             var profile_img = '';
             for(var i=0; i<data.users.length; ++i){
@@ -175,7 +169,6 @@ async function saveInformation(save){
         }
 
         try {
-            // Send a POST request to local server containing user:interests info
             const response = await fetch('http://localhost:3000/interests', {
                 method: 'POST',
                 headers: {
@@ -187,7 +180,6 @@ async function saveInformation(save){
             const data = await response.json();
 
             if (data.success) {
-                //Redirect to recommendations page on successful interests update
                 let url = 'recommendations.html?username=' + username;
                 parent.window.location.href = url;
             } else {
@@ -215,6 +207,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
 });
 
 
+
 document.addEventListener("DOMContentLoaded", (event)=>{
     createInterestsButtons();
     updateCurrentInterests();
@@ -226,14 +219,9 @@ document.addEventListener("DOMContentLoaded", (event)=>{
  */
 document.addEventListener("DOMContentLoaded", (event)=>{
     const profileSaveButton = document.getElementById("profileSaveButton");
-    // const profileCloseButton = document.getElementById("profileCloseButton");
     profileSaveButton.addEventListener("click", function(){
         saveInformation(true);
     })
-
-    // profileCloseButton.addEventListener("click", function(){
-        // saveInformation(false);
-    // })
 
 })
 

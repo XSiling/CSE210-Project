@@ -1,5 +1,10 @@
 import { flaskApikey, nodeApikey } from "../api/api.js";
 
+/**
+ * Render the recommendations post data to the website page.
+ * @param {list} recommendAccount
+ * @returns 
+ */
 export function renderRecommendationPost(recommendAccount) {
   const card = document.createElement("article");
   card.className = "post-card";
@@ -102,9 +107,6 @@ export function renderRecommendationPost(recommendAccount) {
   content_info_section.appendChild(viewed_num);
   content_info_section.appendChild(visibility);
   content_section.appendChild(content_info_section);
-
-  // const url = document.createElement('p');
-  // url.textContent = recommendAccount.account.uri;
 
   const tagsContainer = document.createElement("div");
   tagsContainer.className = "post-card-tags-container";

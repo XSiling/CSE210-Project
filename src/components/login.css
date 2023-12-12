@@ -29,8 +29,8 @@ input {
 
 .logo {
   height: 80px;
-  margin-bottom: 30px;
 }
+
 /* Left panel styles */
 .login-panel {
   width: 50%; 
@@ -40,6 +40,7 @@ input {
   align-items: center;
   flex-direction: column;
 }
+
 .login-register-button{
   width: 100%;
   box-sizing: border-box;
@@ -69,15 +70,20 @@ input {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(165, 190, 255, 0.4); /* White with opacity */
+  background: rgba(165, 190, 255, 0.5); 
   z-index: 1;
 }
 
 .info-panel-content{
   position: relative;
-  z-index: 2; /* Higher z-index than the ::after pseudo-element */
+  z-index: 2; 
+  text-shadow:black 0 0 10px;
+  color: white;
 }
 
+.whiteFont{
+  color:white;
+}
 
 footer {
   position: fixed;

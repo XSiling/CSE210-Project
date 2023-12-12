@@ -43,17 +43,14 @@ export async function fetchBasicInformation(user) {
   const following = user.following;
   let html = "<br/><h4> Get the recommendations for: ";
 
-  // set username
   document.getElementById("username").setAttribute("value", username);
   if (document.getElementById("userProfileUsername")) {
     document.getElementById("userProfileUsername").innerHTML = username;
   }
 
-  // set mastodon Account
   document.getElementById("userProfileMastodonAccount").innerHTML =
     "<div>" + mastodonAccount + "</div>";
 
-  // set interests text
   Array.from(interests).forEach((interest) => {
     html += interest + " ";
   });
@@ -67,7 +64,6 @@ export async function fetchBasicInformation(user) {
 
   document.getElementById("userProfileInterests").innerHTML = html;
 
-  // set image
   const container = document.getElementById("userProfileImage");
   let profile_image = document.createElement("img");
   profile_image.src = profile_img;
@@ -78,20 +74,17 @@ export async function fetchBasicInformation(user) {
   profile_image.className = "profile-image";
   container.appendChild(profile_image);
 
-  // set following
 
   const followingContainer = document.getElementById("followingSectionContent");
 
-  if(following === undefined){
-    console.log("undefined following, some errors have happended.");
-  }else{
-  Array.from(following).forEach((account) => {
-    let followAccount = document.createElement("div");
-    followAccount.innerHTML = account;
-    followAccount.innerText = account;
-    followingContainer.appendChild(followAccount);
-  })
-}
+  if(following !== undefined){
+    Array.from(following).forEach((account) => {
+      let followAccount = document.createElement("div");
+      followAccount.innerHTML = account;
+      followAccount.innerText = account;
+      followingContainer.appendChild(followAccount);
+    })
+  }
 
 }
 
@@ -106,7 +99,7 @@ async function fetchFollowerRecommendations(interests) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Parses the JSON from the response
+      return response.json(); 
     })
     .then((data) => {
       const container = document.getElementById("accountContainer");
@@ -124,7 +117,7 @@ async function fetchFollowerRecommendations(interests) {
               container.appendChild(return_account);
             });
           } else {
-            console.log("No data found for:", interest);
+            console.error("No data found for:", interest);
           }
         });
       } else {
@@ -168,7 +161,7 @@ async function fetchPostRecommendations(interests) {
               container.appendChild(return_post);
             });
           } else {
-            console.log("No data found for:", interest);
+            console.error("No data found for:", interest);
           }
         });
       } else {
@@ -183,7 +176,6 @@ async function fetchPostRecommendations(interests) {
     });
 }
 
-// Fetch recommendation list (5) from flask backend
 /**
  * Description
  * @param {any} userMastodonURL
@@ -221,19 +213,16 @@ async function fetchPeopleRecommended(userMastodonURL) {
  * Open the following small section on the screen or close it
  */
 function openFollowing(){
-  //fetch user data first
   const container = document.getElementById("followingSectionContent");
   container.style.display = container.style.display === 'flex'? 'none':'flex';
 
 }
 
-// Fetch interest and user account infos
 /**
  * Description
  * @returns {any}
  */
 async function fetchUserData() {
-  // Show loading GIFs
   showLoadingGif("accountContainer");
   showLoadingGif("postContainer");
   showLoadingGif("recommendationContainer");
@@ -253,7 +242,6 @@ async function fetchUserData() {
       }
     }
 
-    // set the basic information on the page
     await fetchBasicInformation(data.users[i]);
     if (
       data.users[i].interests &&
@@ -287,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          window.location.href = "register.html"; // Reload the page after logout
+          window.location.href = "register.html"; 
         }
       });
   });
@@ -355,7 +343,6 @@ function showMastodonToast() {
  * @returns {any}
  */
 async function getCredential() {
-  // fetch user data
   let mastodonAccount;
   try {
     const response = await fetch(`${nodeApikey}/users`);
@@ -372,7 +359,7 @@ async function getCredential() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  // check user is authorize to mastodon or not (refresh case)
+
   try {
     const response = await fetch(
       `${flaskApikey}/check_User_Isloggedin?userMastodonURL=${encodeURIComponent(
@@ -409,7 +396,7 @@ async function getCredential() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  // get auth
+
   try {
     const response = await fetch(
       `${flaskApikey}/get_Auth_URL?userMastodonURL=${encodeURIComponent(
