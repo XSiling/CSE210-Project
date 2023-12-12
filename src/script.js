@@ -1,4 +1,3 @@
-// script.js
 const flaskApikey = "http://localhost:5000";
 const nodeApikey = "http://localhost:3000";
 
@@ -136,10 +135,8 @@ async function login() {
     const data = await response.json();
 
     if (data.success) {
-      // Redirect to recommendations page on successful login
       sessionStorage.setItem("loginSuccess", "true");
 
-      // After the toast, redirect to the recommendations page
       let url =
         "recommendations.html?username=" + encodeURIComponent(data.userName);
       window.location.href = url;
@@ -241,7 +238,6 @@ async function register() {
     return;
   }
 
-  // make sure the password matches
   if (password !== confirmPassword) {
     const Toast = Swal.mixin({
       toast: true,
@@ -308,7 +304,6 @@ async function register() {
   }
 }
 
-//Handling Logout
 async function logout() {
   fetch(`${nodeApikey}/logout`, {
     method: "POST",
@@ -318,7 +313,6 @@ async function logout() {
   })
     .then((response) => response.json())
     .then(async (data) => {
-      console.log(data);
       if (data.success) {
         await checkLoginStatus();
         window.location.href = 'login.html';
@@ -329,7 +323,6 @@ async function logout() {
     });
 }
 
-// Function to update user interests
 /**
  * Updates user interests.
  * @async
@@ -394,7 +387,6 @@ async function updateInterests() {
       });
       return;
     }
-    // console.log("User exists.");
   } catch (error) {
     console.error("Error checking user:", error);
     return;
@@ -424,18 +416,15 @@ async function updateInterests() {
    */
   let radiosData = [];
 
-  // Combine interestsData1 arrays
   for (let i = 0; i < interestsData1.length; ++i) {
     radiosData = radiosData.concat(interestsData1[i]);
   }
 
-  // Check selected interests
   for (let i = 0; i < interestsList.length; ++i) {
     if (interestsList[i].checked) {
       interests.push(radiosData[i]);
     }
   }
-  console.log("!");
 
   try {
     /**
@@ -462,7 +451,6 @@ async function updateInterests() {
     const data = await response.json();
 
     if (data.success) {
-      // Redirect to recommendations page on successful interests update
       let url = "recommendations.html?username=" + username;
       window.location.href = url;
     } else {
@@ -479,11 +467,8 @@ async function updateInterests() {
  */
 async function updateInterestsRecommendations() {
   const username = document.getElementById("username").value.split("&")[0];
-  // const mastodonAccount = document.getElementById('mastodonInput').value;
-  // const profile_img = document.getElementsByClassName('selected-img')[0].id;
   const mastodonAccount = undefined;
   const profile_img = undefined;
-  // need to modify here
   const interestsList = document.getElementsByClassName("interestsRadio");
   const interests = [];
   let radiosData = [];
@@ -497,10 +482,7 @@ async function updateInterestsRecommendations() {
       interests.push(radiosData[i]);
     }
   }
-  console.log("!");
-
   try {
-    // Send a POST request to local server containing user:interests info
     const response = await fetch("http://localhost:3000/interests", {
       method: "POST",
       headers: {
@@ -517,7 +499,6 @@ async function updateInterestsRecommendations() {
     const data = await response.json();
 
     if (data.success) {
-      //Redirect to recommendations page on successful interests update
       let url = "recommendations.html?username=" + username;
       window.location.href = url;
     } else {
@@ -534,11 +515,9 @@ async function updateInterestsRecommendations() {
  */
 
 async function checkLoginStatus() {
-  console.log("check login status");
-  return fetch("http://localhost:3000/check-login", { credentials: "include" }) // Ensure credentials are included for session cookies
+  return fetch("http://localhost:3000/check-login", { credentials: "include" })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       if (data.loggedIn) {
         window.location.href = data.redirectUrl;
       }
@@ -547,14 +526,6 @@ async function checkLoginStatus() {
       console.error("Error:", error);
     });
 }
-
-// Call this function when the login page is loaded
-// if (
-//   window.location.href.includes("login") ||
-//   window.location.href.includes("register")
-// ) {
-//   window.onload = checkLoginStatus;
-// }
 
 /**
  * Scrolls to the top of the window smoothly.
@@ -580,7 +551,7 @@ function initializeFormValidation(
     return;
   }
 
-  // Require password to be valid for registration button to be active
+
   function updateButtonState() {
     if (isLogin) {
       submitBtn.disabled = inputFields.some((field) => !field.value);
@@ -602,7 +573,6 @@ function initializeFormValidation(
     field.addEventListener("input", updateButtonState)
   );
 
-  // Initial check in case the browser autocompletes fields
   updateButtonState();
 }
 
@@ -624,7 +594,6 @@ document.addEventListener("DOMContentLoaded", function () {
   );
   initializePasswordValidation();
 
-  // Auto-bind 'enter' key to login/register button
   document.addEventListener("keypress", function (e) {
     if (e.key === "Enter") {
       document.querySelector(".login-register-button").click();
@@ -642,7 +611,6 @@ function initializePasswordValidation() {
   let password_number = document.getElementById("password-number");
   let password_min_length = document.getElementById("password-min-length");
 
-  // Only work if form is register and not login
   if (
     new_password &&
     password_lowercase &&
@@ -650,19 +618,15 @@ function initializePasswordValidation() {
     password_number &&
     password_min_length
   ) {
-    // Show password hint if user clicks into password box
     new_password.onfocus = function () {
       document.getElementById("password-message").style.display = "block";
     };
 
-    // Hide password hint if user clicks out of input box
     new_password.onblur = function () {
       document.getElementById("password-message").style.display = "none";
     };
 
-    // When the user starts to type something inside the password field
     new_password.onkeyup = function () {
-      // Validate lowercase letters
       let lowerCaseLetters = /[a-z]/g;
       if (new_password.value.match(lowerCaseLetters)) {
         password_lowercase.classList.remove("invalid");
@@ -672,7 +636,6 @@ function initializePasswordValidation() {
         password_lowercase.classList.add("invalid");
       }
 
-      // Validate capital letters
       let upperCaseLetters = /[A-Z]/g;
       if (new_password.value.match(upperCaseLetters)) {
         password_uppercase.classList.remove("invalid");
@@ -682,7 +645,6 @@ function initializePasswordValidation() {
         password_uppercase.classList.add("invalid");
       }
 
-      // Validate numbers
       let numbers = /[0-9]/g;
       if (new_password.value.match(numbers)) {
         password_number.classList.remove("invalid");
@@ -692,7 +654,6 @@ function initializePasswordValidation() {
         password_number.classList.add("invalid");
       }
 
-      // Validate length
       if (new_password.value.length >= 8) {
         password_min_length.classList.remove("invalid");
         password_min_length.classList.add("valid");

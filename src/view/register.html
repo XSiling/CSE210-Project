@@ -21,7 +21,7 @@
             <div class="form-container">
                 <label class="label-password" for="newPassword">Password</label>
                 <input type="password" id="newPassword" name="password" placeholder="Password"
-                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                    pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" autocomplete="on" required>
 
                 <div id="password-message">
                     <h3 id="password-must-contain">Password must contain:</h3>
@@ -42,7 +42,7 @@
             <div class="form-container">
                 <label class="label-comfirm-password" for="confirmPassword">Confirm Password</label>
                 <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password"
-                    required>
+                autocomplete="on" required>
             </div>
             <div class="form-container">
                 <label class="label-email" for="email">Email Address</label>

@@ -103,9 +103,6 @@ export function renderRecommendationPost(recommendAccount) {
   content_info_section.appendChild(visibility);
   content_section.appendChild(content_info_section);
 
-  // const url = document.createElement('p');
-  // url.textContent = recommendAccount.account.uri;
-
   const tagsContainer = document.createElement("div");
   tagsContainer.className = "post-card-tags-container";
 
