@@ -253,16 +253,27 @@ input {
 }
 
 button {
-  padding: 12px 20px;
-  background-color: #6699cc;
-  color: #fff;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  width: 100%; /* Set a consistent width */
-  max-width: 300px; /* Set a consistent max-width */
-  margin: 14px 0 4px; /* Set a consistent margin */
-  font-weight: bold;
+    padding: 10px 15px;
+    background-color: #6699cc;
+    max-width: 90%;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin: 10px 0 0;
+}
+
+
+button.login-register-button {
+    padding: 12px 20px;
+    width: 100%;
+    max-width: 300px;
+    margin: 14px 0 4px;
+    font-weight: bold
+}
+
+button:disabled {
+    background-color: gray;
 }
 
 a {
@@ -297,6 +308,10 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  /* margin-top: 50px; */
+  /* margin-bottom: 50px; */
+  /* margin-left: 50px; */
+  /* margin-right: 50px; */
   gap: 40px;
 }
 
@@ -590,84 +605,5 @@ i {
   }
 }
 
+/* Add media queries for responsiveness if needed */
 
-/* Wrapper for the whole page */
-.wrapper {
-  display: flex;
-  min-height: 100vh;
-}
-
-.logo {
-  height: 80px;
-  margin-bottom: 30px;
-}
-
-/* Left panel styles */
-.login-panel {
-  width: 50%; 
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-.login-register-button{
-  font-family: 'Space Grotesk', 'Helvetica Neue', sans-serif;
-}
-
-
-
-/* Right panel styles */
-.info-panel {
-  width: 50%; 
-  background-image: url('../images/ucsd-campus-shot.jpg'); 
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  padding: 0 50px; 
-  position: relative;
-  z-index: 0;
-  /* color: #000; */
-}
-
-.info-panel::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(165, 190, 255, 0.4); /* White with opacity */
-  z-index: 1;
-}
-
-.info-panel-content{
-  position: relative;
-  z-index: 2; /* Higher z-index than the ::after pseudo-element */
-}
-
-
-footer {
-  position: fixed;
-  z-index: 2; 
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  color: #333;
-  text-align: center;
-  padding: 10px 0;
-}
-
-@media (max-width: 768px) {
-  .wrapper {
-      flex-direction: column;
-  }
-
-  .login-panel,
-  .info-panel {
-      width: 100%;
-  }
-}
