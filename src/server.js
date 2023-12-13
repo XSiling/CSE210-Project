@@ -38,7 +38,6 @@ app.get('/proxy', async (req, res) => {
       res.set('Content-Type', response.headers.get('content-type'));
       res.send(data);
   } catch (error) {
-      console.error('Error during fetch:', error);
       res.status(500).send('Error fetching resource');
   }
 });
