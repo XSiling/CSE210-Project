@@ -75,10 +75,10 @@ describe('Homepage functionalities', () => {
 }); 
 
 // Helper function to reset mocks
-// function resetMocks() {
-//   fetch.mockClear();
-//   fetch.mockReset();
-// }
+function resetMocks() {
+  fetch.mockClear();
+  fetch.mockReset();
+}
 
 // // Mocking relevant DOM elements
 // function setupDOMMocks() {
