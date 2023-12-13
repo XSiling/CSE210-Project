@@ -47,7 +47,7 @@ describe('GET /check-login', () => {
 
         expect(response.status).toBe(200);
         expect(response.body.loggedIn).toBe(false);
-        expect(response.body.redirectUrl).toBe('');
+        expect(response.body.redirectUrl).toBe('login.html');
     });
 });
 
