@@ -472,3 +472,4 @@ async function getCredential() {
     console.error("Error fetching data:", error);
   }
 }
+module.exports = { getCredential };
