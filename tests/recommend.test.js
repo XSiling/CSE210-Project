@@ -44,7 +44,8 @@ describe('fetchBasicInformation', () => {
       username: 'testUser',
       interests: ['coding', 'music'],
       mastodonAccount: 'test@mastodon',
-      profile_img: 'path/to/image'
+      profile_img: 'path/to/image',
+      following: []
     };
 
     const fakeElement = { innerHTML: '', setAttribute: jest.fn(), appendChild: jest.fn() };

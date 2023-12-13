@@ -1,4 +1,5 @@
-import { nodeApikey } from '../api/api.js';
+
+import { nodeApikey } from "../api/api.js";
 
 const interestsData = [
     ["Star", "Fun", "Movie", "TV", "Photography", "Music", "Pop", "Comic"],
