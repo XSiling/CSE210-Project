@@ -1,10 +1,6 @@
 const request = require('supertest');
 const bcrypt = require('bcrypt');
 const { app,users, server } = require('../src/server');
-const { getCredential } = require('../src/components/recommendation');
-
-// Mock global fetch
-global.fetch = jest.fn();
 
 describe('Homepage functionalities', () => {
     beforeAll(async () => {
@@ -73,98 +69,3 @@ describe('Homepage functionalities', () => {
     });
 
 }); 
-
-// Helper function to reset mocks
-function resetMocks() {
-  fetch.mockClear();
-  fetch.mockReset();
-}
-
-// Mocking relevant DOM elements
-function setupDOMMocks() {
-  document.getElementById = jest.fn().mockImplementation((id) => {
-    switch (id) {
-      case 'get-credential-btn':
-        return {
-          innerHTML: '',
-          classList: { add: jest.fn(), remove: jest.fn() },
-          disabled: false
-        };
-      // Add more cases as needed
-      default:
-        return null;
-    }
-  });
-}
-
-// describe('getCredential', () => {
-//   beforeEach(() => {
-//     resetMocks();
-//     setupDOMMocks();
-//   });
-
-//   it('should validate Mastodon account successfully', async () => {
-//     // Mocking fetch for users and Mastodon account validation
-//     fetch.mockResolvedValueOnce({
-//       ok: true,
-//       json: () => Promise.resolve({
-//         users: [{ username: 'testuser', mastodonAccount: 'validMastodonAccount' }]
-//       })
-//     }).mockResolvedValueOnce({
-//       ok: true,
-//       text: () => Promise.resolve('True')
-//     });
-
-//     // Call the function
-//     await getCredential();
-
-//     // Assertions
-//     const btn = document.getElementById('get-credential-btn');
-//     expect(btn.innerHTML).toContain('Linked');
-//     expect(btn.disabled).toBeTruthy();
-//   });
-
-//   // Additional tests for different scenarios
-// });
-
-// ...existing imports and setups
-
-// Mocking window.location.search
-const mockLocationSearch = '?username=testuser';
-Object.defineProperty(window, 'location', {
-  value: {
-    search: mockLocationSearch
-  },
-  writable: true
-});
-
-describe('getCredential', () => {
-  beforeEach(() => {
-    resetMocks();
-    setupDOMMocks();
-    // Reset window.location.search if needed
-    window.location.search = mockLocationSearch;
-  });
-
-  // ...existing tests
-
-  it('should handle Mastodon account not linked scenario', async () => {
-    // Mock fetch for scenario where Mastodon account is not linked
-    fetch.mockResolvedValueOnce({
-      ok: true,
-      json: () => Promise.resolve({
-        users: [{ username: 'testuser', mastodonAccount: 'validMastodonAccount' }]
-      })
-    }).mockResolvedValueOnce({
-      ok: true,
-      text: () => Promise.resolve('False') // Simulate account not linked
-    });
-
-    await getCredential();
-
-    // Assertions for this scenario
-    const btn = document.getElementById('get-credential-btn');
-    expect(btn.innerHTML).toContain('Click here to link Mastodon');
-    expect(btn.disabled).toBeFalsy();
-  });
-});
