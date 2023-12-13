@@ -80,22 +80,22 @@ function resetMocks() {
   fetch.mockReset();
 }
 
-// // Mocking relevant DOM elements
-// function setupDOMMocks() {
-//   document.getElementById = jest.fn().mockImplementation((id) => {
-//     switch (id) {
-//       case 'get-credential-btn':
-//         return {
-//           innerHTML: '',
-//           classList: { add: jest.fn(), remove: jest.fn() },
-//           disabled: false
-//         };
-//       // Add more cases as needed
-//       default:
-//         return null;
-//     }
-//   });
-// }
+// Mocking relevant DOM elements
+function setupDOMMocks() {
+  document.getElementById = jest.fn().mockImplementation((id) => {
+    switch (id) {
+      case 'get-credential-btn':
+        return {
+          innerHTML: '',
+          classList: { add: jest.fn(), remove: jest.fn() },
+          disabled: false
+        };
+      // Add more cases as needed
+      default:
+        return null;
+    }
+  });
+}
 
 // describe('getCredential', () => {
 //   beforeEach(() => {
