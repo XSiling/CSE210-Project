@@ -184,8 +184,8 @@ window.onload = function () {
 
 /**
  * Check whether the email is valid or not.
- * @param {string} email 
- * @returns 
+ * @param {string} email
+ * @returns
  */
 function isValidEmail(email) {
   const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -532,7 +532,7 @@ async function checkLoginStatus() {
       //   if (window.location.href.indexOf("recommendation") > -1) {
       //     window.location.href = data.redirectUrl;
       //   }
-        
+
       // }
     })
     .catch((error) => {
@@ -542,6 +542,7 @@ async function checkLoginStatus() {
 
 /**
  * Scrolls to the top of the window smoothly.
+ * @function
  */
 function scrollToTop() {
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -549,6 +550,7 @@ function scrollToTop() {
 
 /**
  * Restrict user from login/register until all fields are filled
+ * @function
  */
 function initializeFormValidation(
   formId,
@@ -564,7 +566,10 @@ function initializeFormValidation(
     return;
   }
 
-
+  /**
+   * Turns on the button only if all fields are filled and new password is valid
+   * @function
+   */
   function updateButtonState() {
     if (isLogin) {
       submitBtn.disabled = inputFields.some((field) => !field.value);
@@ -616,6 +621,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 /**
  * Display reactive guidelines for password validation
+ * @function
  */
 function initializePasswordValidation() {
   let new_password = document.getElementById("newPassword");
@@ -639,6 +645,10 @@ function initializePasswordValidation() {
       document.getElementById("password-message").style.display = "none";
     };
 
+
+    /*
+     * Update display based on which conditions are satisfied
+     */
     new_password.onkeyup = function () {
       let lowerCaseLetters = /[a-z]/g;
       if (new_password.value.match(lowerCaseLetters)) {
