@@ -23,6 +23,12 @@
     "url": "https://github.com/XSiling/CSE210-Project/issues"
   },
   "homepage": "https://github.com/XSiling/CSE210-Project#readme",
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    },
+    "testEnvironment": "jsdom"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
@@ -31,7 +37,8 @@
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.23.5",
+    "@babel/core": "^7.23.6",
+    "@babel/preset-env": "^7.23.6",
     "babel-jest": "^29.7.0",
     "eslint": "^8.55.0",
     "jest": "^29.7.0",
