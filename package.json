@@ -23,12 +23,6 @@
     "url": "https://github.com/XSiling/CSE210-Project/issues"
   },
   "homepage": "https://github.com/XSiling/CSE210-Project#readme",
-  "jest": {
-    "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
-    },
-    "testEnvironment": "jsdom"
-  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.2",
