@@ -80,7 +80,7 @@ describe('Configuration Step Change', ()=>{
         expect(document.mockGetElementById("form-account").style.display).toBe("none");
     });
 
-    if("Load Account", ()=>{
+    it("Load Account", ()=>{
         loadStepMastodonAccount();
         expect(document.mockGetElementById("form-interests").style.display).toBe("none");
         expect(document.mockGetElementById("form-profile-img").style.display).toBe("none");
