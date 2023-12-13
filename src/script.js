@@ -524,9 +524,16 @@ async function checkLoginStatus() {
   return fetch("http://localhost:3000/check-login", { credentials: "include" })
     .then((response) => response.json())
     .then((data) => {
+      // console.log(data)
       if (data.loggedIn) {
         window.location.href = data.redirectUrl;
       }
+      // else{
+      //   if (window.location.href.indexOf("recommendation") > -1) {
+      //     window.location.href = data.redirectUrl;
+      //   }
+        
+      // }
     })
     .catch((error) => {
       console.error("Error:", error);

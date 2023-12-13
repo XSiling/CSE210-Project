@@ -123,7 +123,7 @@ app.get('/check-login', (req, res) => {
   if (active_user) {
     return res.json({ loggedIn: true, redirectUrl: 'recommendations.html?username=' + active_user});
   } else{
-    res.json({ loggedIn: false, redirectUrl: "" })
+    res.json({ loggedIn: false, redirectUrl: "login.html" })
   }
 });
 
@@ -207,7 +207,6 @@ app.post("/unfollow", (req, res)=>{
   }else{
     res.json({ success: false, message: "No such user, check the code." });
   }
-
 })
 
 
@@ -246,6 +245,9 @@ app.post("/interests", (req, res) => {
  * @param {Object} res - Express response object.
  */
 app.get("/recommendations/:username", (req, res) => {
+  // if (active_user == null){
+  //   return res.redirect('login.html');
+  // }
   const { username } = req.params;
   const user = users.find((u) => u.username === username);
 
